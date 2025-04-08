@@ -60,7 +60,7 @@ function Lib:Init(Theme, Assets)
     Tabs.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Tabs.BorderSizePixel = 0
     Tabs.Position = UDim2.new(0, 0, 0.0561122261, 0)
-    Tabs.Size = UDim2.new(0.200501248, 0, 0.937875748, 0)
+    Tabs.Size = UDim2.new(0.200501248, 0, 0.943887711, 0)
     Tabs.ScrollBarThickness = 4
 
     UIListLayout.Parent = Tabs

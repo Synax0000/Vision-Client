@@ -202,7 +202,7 @@ function Lib:InitTab(UIData, Theme, TabData)
     local UIListLayout = Instance.new("UIListLayout")
 
     TabPage.Name = "TabPage"
-    TabPage.Parent = game.StarterGui.VisionClient.MainFrame
+    TabPage.Parent = UIData.UI
     TabPage.Active = true
     TabPage.BackgroundColor3 = Color3.fromRGB(38, 32, 42)
     TabPage.BorderColor3 = Color3.fromRGB(0, 0, 0)

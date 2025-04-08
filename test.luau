@@ -3,3 +3,6 @@ local Assets = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0
 local Theme = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/refs/heads/main/Themes/default.luau"))()
 
 local Ui = Lib:Init(Theme, Assets)
+local TestTab = Lib:InitTab(Ui, Theme, {
+    ["Title"] = "Test Tab",
+})

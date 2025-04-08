@@ -1,31 +1,9 @@
 local Lib = {}
 
---[[
-local Tab = Instance.new("TextButton")
-local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
-
-Tab.Name = "Tab"
-Tab.Parent = Tabs
-Tab.BackgroundColor3 = Color3.fromRGB(26, 23, 29)
-Tab.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Tab.BorderSizePixel = 0
-Tab.Size = UDim2.new(1, 0, 0.0811965838, 0)
-Tab.AutoButtonColor = false
-Tab.Font = Enum.Font.ArialBold
-Tab.Text = "N/A"
-Tab.TextColor3 = Color3.fromRGB(240, 222, 255)
-Tab.TextScaled = true
-Tab.TextSize = 14.000
-Tab.TextStrokeTransparency = 0.000
-Tab.TextWrapped = true
-
-UITextSizeConstraint.Parent = Tab
-
-]]
-
 function Lib:Init(Theme, Assets)
     Lib.Data = {
-        ["Keybind"] = Enum.KeyCode.Insert
+        ["Keybind"] = Enum.KeyCode.Insert,
+        ["Tabs"] = {},
     }
     
     local VisionClient = Instance.new("ScreenGui")
@@ -37,8 +15,9 @@ function Lib:Init(Theme, Assets)
     local Logo = Instance.new("ImageLabel")
     local Minimize = Instance.new("ImageButton")
     local Exit = Instance.new("ImageButton")
+    local UiStroke = Instance.new("UIStroke")
 
-    Lib.UI = VisionClient
+    Lib.Data.UI = VisionClient
 
     VisionClient.Name = "VisionClient"
     VisionClient.Parent = game:WaitForChild("CoreGui")
@@ -52,6 +31,11 @@ function Lib:Init(Theme, Assets)
     MainFrame.ClipsDescendants = true
     MainFrame.Position = UDim2.new(0.246803075, 0, 0.0928338766, 0)
     MainFrame.Size = UDim2.new(0.510230184, 0, 0.812703609, 0)
+
+    UiStroke.Parent = MainFrame
+    UiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    UiStroke.Thickness = 1
+    UiStroke.Color = Theme.StrokeColor
 
     Tabs.Name = "Tabs"
     Tabs.Parent = MainFrame
@@ -178,7 +162,6 @@ function Lib:Init(Theme, Assets)
             if _G.VisionClient.CloseAllThreads then
                 ConnectionInputBegan:Disconnect()
                 ConnectionInputChanged:Disconnect()
-                
                 return
             end
         end
@@ -188,5 +171,76 @@ function Lib:Init(Theme, Assets)
 
     return Lib
 end
+
+function Lib:InitTab(UIData, Theme, TabData)
+    local TabObject = {}
+    TabObject.Data = {
+        ["Selected"] = false
+    }
+
+    local Tab = Instance.new("TextButton")
+    local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+
+    Tab.Name = TabData.Title
+    Tab.Parent = UIData.UI
+    Tab.BackgroundColor3 = Color3.fromRGB(26, 23, 29)
+    Tab.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Tab.BorderSizePixel = 0
+    Tab.Size = UDim2.new(1, 0, 0.0811965838, 0)
+    Tab.AutoButtonColor = false
+    Tab.Font = Enum.Font.ArialBold
+    Tab.Text = TabData.Title
+    Tab.TextColor3 = Theme.TextColor3
+    Tab.TextScaled = true
+    Tab.TextSize = 14.000
+    Tab.TextTransparency = 0.5
+    Tab.TextWrapped = true
+
+    UITextSizeConstraint.Parent = Tab
+
+    local TabPage = Instance.new("ScrollingFrame")
+    local UIListLayout = Instance.new("UIListLayout")
+
+    TabPage.Name = "TabPage"
+    TabPage.Parent = game.StarterGui.VisionClient.MainFrame
+    TabPage.Active = true
+    TabPage.BackgroundColor3 = Color3.fromRGB(38, 32, 42)
+    TabPage.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    TabPage.BorderSizePixel = 0
+    TabPage.Position = UDim2.new(0, 159, 0, 28)
+    TabPage.Size = UDim2.new(0, 638, 0, 471)
+    TabPage.ScrollBarThickness = 3
+    TabPage.Visible = false
+
+    UIListLayout.Parent = TabPage
+    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+    TabObject.TabButton = Tab
+
+    Tab.MouseButton1Click:Connect(function()
+        for _, TabObject in pairs(UIData.UI.Tabs:GetChildren()) do
+            if TabObject:IsA("TextButton") then
+                TabObject.TextTransparency = 0.5
+            end
+        end
+
+        Tab.TextTransparency = 0
+
+        for _, TabDataObject in pairs(UIData.Tabs:GetChildren()) do
+            if not TabDataObject.TabButton == Tab then
+                TabDataObject.UI.Visible = false
+                TabDataObject.Selected = false
+                TabDataObject.TabButton.TextTransparency = 0.5
+            end
+        end
+
+        UIData.Tabs[TabData.Title].UI.Visible = true
+    end)
+
+    table.insert(UIData.Tabs, TabObject)
+
+    return Tab
+end
+
 
 return Lib

@@ -25,7 +25,7 @@ UITextSizeConstraint.Parent = Tab
 
 function Lib:Init(Theme, Assets)
     Lib.Data = {
-        
+        ["Keybind"] = Enum.KeyCode.Insert
     }
     
     local VisionClient = Instance.new("ScreenGui")
@@ -59,7 +59,7 @@ function Lib:Init(Theme, Assets)
     Tabs.BackgroundColor3 = Theme.BackgroundColor
     Tabs.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Tabs.BorderSizePixel = 0
-    Tabs.Position = UDim2.new(0, 0, 0.0561122261, 0)
+    Tabs.Position = UDim2.new(0, 0, 0.0561122522, 0)
     Tabs.Size = UDim2.new(0.200501248, 0, 0.943887711, 0)
     Tabs.ScrollBarThickness = 4
 
@@ -106,6 +106,85 @@ function Lib:Init(Theme, Assets)
     Exit.Size = UDim2.new(0.0350877196, 0, 0.0561122261, 0)
     Exit.AutoButtonColor = false
     Exit.Image = Assets.CloseWindowIcon
+
+    Exit.MouseButton1Click:Connect(function()
+        VisionClient:Destroy()
+        _G.VisionClient.CloseAllThreads = true
+    end)
+
+    Minimize.MouseButton1Click:Connect(function()
+        VisionClient.Enabled = not VisionClient.Enabled
+    end)
+
+    Exit.MouseEnter:Connect(function()
+        Exit.BackgroundColor3 = Theme.BackgroundColor
+    end)
+
+    Exit.MouseLeave:Connect(function()
+        Exit.BackgroundColor3 = Theme.DarkBackgroundColor
+    end)
+
+    Minimize.MouseEnter:Connect(function()
+        Minimize.BackgroundColor3 = Theme.BackgroundColor
+    end)
+
+    Minimize.MouseLeave:Connect(function()
+        Minimize.BackgroundColor3 = Theme.BackgroundColor
+    end)
+
+    game.UserInputService.InputBegan:Connect(function(Input, GameProcessed)
+        if GameProcessed then return end
+        if Input.KeyCode == Lib.Data["Keybind"] then
+            VisionClient.Enabled = not VisionClient.Enabled
+        end
+    end)
+
+    local function DraggingThread() 
+        local DragToggle = nil
+        local DragSpeed = 0.25
+        local DragStart = nil
+        local StartPos = nil
+
+        local function UpdateInput(Input)
+            local Delta = Input.Position - DragStart
+            local Position = UDim2.new(StartPos.X.Scale, StartPos.X.Offset + Delta.X,StartPos.Y.Scale, StartPos.Y.Offset + Delta.Y)
+
+            game:GetService('TweenService'):Create(MainFrame, TweenInfo.new(DragSpeed), {Position = Position}):Play()
+        end
+
+        local ConnectionInputBegan = MainFrame.InputBegan:Connect(function(Input)
+            if (Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch) then 
+                DragToggle = true
+                DragStart = Input.Position
+                StartPos = MainFrame.Position
+
+                Input.Changed:Connect(function()
+                    if Input.UserInputState == Enum.UserInputState.End then
+                        DragToggle = false
+                    end
+                end)
+            end
+        end)
+
+        local ConnectionInputChanged = game.UserInputService.InputChanged:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+                if DragToggle then
+                    UpdateInput(input)
+                end
+            end
+        end)
+
+        while task.wait(1) do
+            if _G.VisionClient.CloseAllThreads then
+                ConnectionInputBegan:Disconnect()
+                ConnectionInputChanged:Disconnect()
+                
+                return
+            end
+        end
+    end
+
+    coroutine.wrap(DraggingThread)()
 
     return Lib
 end

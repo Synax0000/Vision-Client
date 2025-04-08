@@ -1,6 +1,6 @@
 <p align="center">
   <picture>
-    <img alt="Unable to load." src="./README/visionclientlogo.png">
+    <img alt="Unable to load." src="./README/visionclientlogo.png" width="200px">
   </picture>
 </p>
 <h2 align="center">

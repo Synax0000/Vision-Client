@@ -41,7 +41,7 @@ function Lib:Init(Theme, Assets)
     Lib.UI = VisionClient
 
     VisionClient.Name = "VisionClient"
-    VisionClient.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    VisionClient.Parent = game:WaitForChild("CoreGui")
     VisionClient.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
     MainFrame.Name = "MainFrame"

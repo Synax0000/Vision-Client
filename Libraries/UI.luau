@@ -34,7 +34,7 @@ function Lib:Init(Theme, Assets)
 
     UiStroke.Parent = MainFrame
     UiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-    UiStroke.Thickness = 1
+    UiStroke.Thickness = Theme.StrokeThickness
     UiStroke.Color = Theme.StrokeColor
 
     Tabs.Name = "Tabs"
@@ -45,7 +45,7 @@ function Lib:Init(Theme, Assets)
     Tabs.BorderSizePixel = 0
     Tabs.Position = UDim2.new(0, 0, 0.0561122522, 0)
     Tabs.Size = UDim2.new(0.200501248, 0, 0.943887711, 0)
-    Tabs.ScrollBarThickness = 4
+    Tabs.ScrollBarThickness = Theme.ScrollBarThickness
 
     UIListLayout.Parent = Tabs
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -207,9 +207,9 @@ function Lib:InitTab(UIData, Theme, TabData)
     TabPage.BackgroundColor3 = Color3.fromRGB(38, 32, 42)
     TabPage.BorderColor3 = Color3.fromRGB(0, 0, 0)
     TabPage.BorderSizePixel = 0
-    TabPage.Position = UDim2.new(0, 159, 0, 28)
-    TabPage.Size = UDim2.new(0, 638, 0, 471)
-    TabPage.ScrollBarThickness = 3
+    TabPage.Position = UDim2.new(0.19924812, 0, 0.0561122224, 0)
+    TabPage.Size = UDim2.new(0.799498737, 0, 0.943887711, 0)
+    TabPage.ScrollBarThickness = Theme.ScrollBarThickness
     TabPage.Visible = false
 
     UIListLayout.Parent = TabPage

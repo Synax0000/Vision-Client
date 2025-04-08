@@ -5,4 +5,6 @@ return {
     StrokeColor = Color3.fromRGB(228, 196, 255),
     ScrollbarColor = Color3.fromRGB(228, 196, 255),
     TextColor = Color3.fromRGB(240, 222, 255),
+    ScrollBarThickness = 4,
+    StrokeThickness = 1,
 }

@@ -190,7 +190,7 @@ function Lib:InitTab(UIData, Theme, TabData)
     Tab.AutoButtonColor = false
     Tab.Font = Enum.Font.ArialBold
     Tab.Text = TabData.Title
-    Tab.TextColor3 = Theme.TextColor3
+    Tab.TextColor3 = Theme.TextColor
     Tab.TextScaled = true
     Tab.TextSize = 14.000
     Tab.TextTransparency = 0.5

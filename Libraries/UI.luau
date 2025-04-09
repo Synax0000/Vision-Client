@@ -1,8 +1,7 @@
 local Lib = {}
 
 function Lib:Init(Theme, Assets)
-    local WindowData = {}
-    WindowData.Data = {
+    local WindowData = {
         Keybind = Enum.KeyCode.Insert,
         Tabs = {},
     }
@@ -18,7 +17,7 @@ function Lib:Init(Theme, Assets)
     local Exit = Instance.new("ImageButton")
     local UiStroke = Instance.new("UIStroke")
 
-    Lib.Data.UI = VisionClient
+    WindowData.UI = VisionClient
 
     VisionClient.Name = "VisionClient"
     VisionClient.Parent = game:WaitForChild("CoreGui")
@@ -122,7 +121,8 @@ function Lib:Init(Theme, Assets)
 
     game.UserInputService.InputBegan:Connect(function(Input, GameProcessed)
         if GameProcessed then return end
-        if Input.KeyCode == Lib.Data["Keybind"] then
+        print(WindowData.Keybind)
+        if Input.KeyCode == WindowData.Keybind then
             VisionClient.Enabled = not VisionClient.Enabled
         end
     end)

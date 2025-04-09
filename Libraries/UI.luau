@@ -3,8 +3,8 @@ local Lib = {}
 function Lib:Init(Theme, Assets)
     local WindowData = {}
     WindowData.Data = {
-        ["Keybind"] = Enum.KeyCode.Insert,
-        ["Tabs"] = {},
+        Keybind = Enum.KeyCode.Insert,
+        Tabs = {},
     }
     
     local VisionClient = Instance.new("ScreenGui")
@@ -179,7 +179,7 @@ end
 function Lib:InitTab(UIData, Theme, TabData)
     local TabObject = {}
     TabObject.Data = {
-        ["Selected"] = false
+        Selected = false
     }
 
     local Tab = Instance.new("TextButton")

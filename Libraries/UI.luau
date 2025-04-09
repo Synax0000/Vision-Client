@@ -233,4 +233,37 @@ function Lib:InitTab(UIData, Theme, TabData)
 end
 
 
+function Lib:InitItemContainer(TabData, Theme, ContainerName, ItemData)
+    local ContainerObject = {}
+
+    local ItemContainer = Instance.new("Frame")
+    local Container = Instance.new("Frame")
+    local UIListLayout = Instance.new("UIListLayout")
+
+    ItemContainer.Name = "ItemContainer"
+    ItemContainer.Parent = TabData.TabPage
+    ItemContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    ItemContainer.BackgroundTransparency = 1.000
+    ItemContainer.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    ItemContainer.BorderSizePixel = 0
+    ItemContainer.ClipsDescendants = true
+    ItemContainer.Size = UDim2.new(0.996865213, 0, 1, 0)
+
+    Container.Name = "Container"
+    Container.Parent = ItemContainer
+    Container.BackgroundColor3 = Theme.BackgroundColor
+    Container.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Container.BorderSizePixel = 0
+    Container.ClipsDescendants = true
+    Container.Position = UDim2.new(0.0156985875, 0, 0.0339702778, 0)
+    Container.Size = UDim2.new(0.970125794, 0, 0.92993629, 0)
+
+    UIListLayout.Parent = Container
+    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+    ContainerObject.Container = Container
+
+    return ContainerObject
+end
+
 return Lib

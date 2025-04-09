@@ -184,6 +184,7 @@ function Lib:InitTab(UIData, Theme, TabData)
 
     local Tab = Instance.new("TextButton")
     local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+    local UiPadding = Instance.new("UIPadding")
 
     Tab.Name = TabData.Title
     Tab.Parent = UIData.UI.MainFrame.Tabs
@@ -192,15 +193,19 @@ function Lib:InitTab(UIData, Theme, TabData)
     Tab.BorderSizePixel = 0
     Tab.Size = UDim2.new(1, 0, 0.0811965838, 0)
     Tab.AutoButtonColor = false
-    Tab.Font = Theme.Font
+    Tab.Font = Enum.Font.ArialBold
     Tab.Text = TabData.Title
     Tab.TextColor3 = Theme.TextColor
+    Tab.TextWrapped = false
     Tab.TextScaled = true
-    Tab.TextSize = 14.000
     Tab.TextTransparency = 0.5
-    Tab.TextWrapped = true
 
     UITextSizeConstraint.Parent = Tab
+
+    UiPadding.Parent = Tab
+    UiPadding.PaddingLeft = UDim.new(0.1, 0)
+    UiPadding.PaddingRight = UDim.new(0.1, 0)
+    UiPadding.Parent = Tab
 
     local TabPage = Instance.new("ScrollingFrame")
     local UIListLayout = Instance.new("UIListLayout")
@@ -229,8 +234,8 @@ function Lib:InitTab(UIData, Theme, TabData)
             end
         end
 
-        for _, TabDataObject in pairs(UIData.Tabs:GetChildren()) do
-            if not TabDataObject.TabButton == Tab then
+        for _, TabDataObject in pairs(UIData.UI.MainFrame.Tabs:GetChildren()) do
+            if not TabDataObject == Tab and TabDataObject:IsA("TextButton") then
                 TabDataObject.TabPage.Visible = false
                 TabDataObject.Selected = false
                 TabDataObject.TabButton.TextTransparency = 0.5

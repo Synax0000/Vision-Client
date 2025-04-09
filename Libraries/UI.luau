@@ -1,7 +1,8 @@
 local Lib = {}
 
 function Lib:Init(Theme, Assets)
-    Lib.Data = {
+    local WindowData = {}
+    WindowData.Data = {
         ["Keybind"] = Enum.KeyCode.Insert,
         ["Tabs"] = {},
     }
@@ -172,7 +173,7 @@ function Lib:Init(Theme, Assets)
 
     coroutine.wrap(DraggingThread)()
 
-    return Lib
+    return WindowData
 end
 
 function Lib:InitTab(UIData, Theme, TabData)

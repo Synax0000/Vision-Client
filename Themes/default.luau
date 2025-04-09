@@ -7,4 +7,5 @@ return {
     TextColor = Color3.fromRGB(240, 222, 255),
     ScrollBarThickness = 4,
     StrokeThickness = 1,
+    WindowBorderVisble = true
 }

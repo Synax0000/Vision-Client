@@ -198,7 +198,7 @@ function Lib:InitTab(UIData, Theme, TabData)
     Tab.TextScaled = true
     Tab.TextSize = 14.000
     Tab.TextTransparency = 0.5
-    Tab.TextWrapped = false
+    Tab.TextWrapped = true
 
     UITextSizeConstraint.Parent = Tab
 
@@ -220,9 +220,10 @@ function Lib:InitTab(UIData, Theme, TabData)
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
     TabObject.TabButton = Tab
+    TabObject.TabPage = TabPage
 
     Tab.MouseButton1Click:Connect(function()
-        for _, TabObject in pairs(UIData.UI.Tabs:GetChildren()) do
+        for _, TabObject in pairs(UIData.UI.MainFrame.Tabs:GetChildren()) do
             if TabObject:IsA("TextButton") then
                 TabObject.TextTransparency = 0.5
             end
@@ -230,7 +231,7 @@ function Lib:InitTab(UIData, Theme, TabData)
 
         for _, TabDataObject in pairs(UIData.Tabs:GetChildren()) do
             if not TabDataObject.TabButton == Tab then
-                TabDataObject.UI.Visible = false
+                TabDataObject.TabPage.Visible = false
                 TabDataObject.Selected = false
                 TabDataObject.TabButton.TextTransparency = 0.5
             end

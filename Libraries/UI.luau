@@ -198,7 +198,7 @@ function Lib:InitTab(UIData, Theme, TabData)
     Tab.TextScaled = true
     Tab.TextSize = 14.000
     Tab.TextTransparency = 0.5
-    Tab.TextWrapped = true
+    Tab.TextWrapped = false
 
     UITextSizeConstraint.Parent = Tab
 

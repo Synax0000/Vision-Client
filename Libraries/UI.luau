@@ -186,7 +186,7 @@ function Lib:InitTab(UIData, Theme, TabData)
     local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
 
     Tab.Name = TabData.Title
-    Tab.Parent = UIData.UI
+    Tab.Parent = UIData.UI.MainFrame.Tabs
     Tab.BackgroundColor3 = Color3.fromRGB(26, 23, 29)
     Tab.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Tab.BorderSizePixel = 0
@@ -206,7 +206,7 @@ function Lib:InitTab(UIData, Theme, TabData)
     local UIListLayout = Instance.new("UIListLayout")
 
     TabPage.Name = "TabPage"
-    TabPage.Parent = UIData.UI
+    TabPage.Parent = UIData.UI.MainFrame
     TabPage.Active = true
     TabPage.BackgroundColor3 = Color3.fromRGB(38, 32, 42)
     TabPage.BorderColor3 = Color3.fromRGB(0, 0, 0)

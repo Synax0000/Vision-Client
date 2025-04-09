@@ -99,26 +99,6 @@ function Lib:Init(Theme, Assets)
         _G.VisionClient.CloseAllThreads = true
     end)
 
-    Minimize.MouseButton1Click:Connect(function()
-        VisionClient.Enabled = not VisionClient.Enabled
-    end)
-
-    Exit.MouseEnter:Connect(function()
-        Exit.BackgroundColor3 = Theme.BackgroundColor
-    end)
-
-    Exit.MouseLeave:Connect(function()
-        Exit.BackgroundColor3 = Theme.DarkBackgroundColor
-    end)
-
-    Minimize.MouseEnter:Connect(function()
-        Minimize.BackgroundColor3 = Theme.BackgroundColor
-    end)
-
-    Minimize.MouseLeave:Connect(function()
-        Minimize.BackgroundColor3 = Theme.BackgroundColor
-    end)
-
     game.UserInputService.InputBegan:Connect(function(Input, GameProcessed)
         if GameProcessed then return end
         print(WindowData.Keybind)
@@ -191,7 +171,7 @@ function Lib:InitTab(UIData, Theme, TabData)
     Tab.BackgroundColor3 = Color3.fromRGB(26, 23, 29)
     Tab.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Tab.BorderSizePixel = 0
-    Tab.Size = UDim2.new(1, 0, 0.0811965838, 0)
+    Tab.Size = UDim2.new(1, 0, 0.0511965838, 0)
     Tab.AutoButtonColor = false
     Tab.Font = Enum.Font.ArialBold
     Tab.Text = TabData.Title

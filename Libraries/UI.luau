@@ -192,7 +192,7 @@ function Lib:InitTab(UIData, Theme, TabData)
     Tab.BorderSizePixel = 0
     Tab.Size = UDim2.new(1, 0, 0.0811965838, 0)
     Tab.AutoButtonColor = false
-    Tab.Font = Enum.Font.ArialBold
+    Tab.Font = Theme.Font
     Tab.Text = TabData.Title
     Tab.TextColor3 = Theme.TextColor
     Tab.TextScaled = true

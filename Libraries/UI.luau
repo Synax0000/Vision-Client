@@ -32,7 +32,10 @@ function Lib:Init(Theme, Assets)
     MainFrame.Position = UDim2.new(0.246803075, 0, 0.0928338766, 0)
     MainFrame.Size = UDim2.new(0.510230184, 0, 0.812703609, 0)
 
-    UiStroke.Parent = MainFrame
+    if Theme.WindowBorderVisble then
+        UiStroke.Parent = MainFrame
+    end
+
     UiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
     UiStroke.Thickness = Theme.StrokeThickness
     UiStroke.Color = Theme.StrokeColor
@@ -224,8 +227,6 @@ function Lib:InitTab(UIData, Theme, TabData)
             end
         end
 
-        Tab.TextTransparency = 0
-
         for _, TabDataObject in pairs(UIData.Tabs:GetChildren()) do
             if not TabDataObject.TabButton == Tab then
                 TabDataObject.UI.Visible = false
@@ -234,7 +235,9 @@ function Lib:InitTab(UIData, Theme, TabData)
             end
         end
 
-        UIData.Tabs[TabData.Title].UI.Visible = true
+        Tab.TextTransparency = 0
+        TabPage.Visible = true
+        TabObject.Selected = true
     end)
 
     table.insert(UIData.Tabs, TabObject)

@@ -101,7 +101,6 @@ function Lib:Init(Theme, Assets)
 
     game.UserInputService.InputBegan:Connect(function(Input, GameProcessed)
         if GameProcessed then return end
-        print(WindowData.Keybind)
         if Input.KeyCode == WindowData.Keybind then
             VisionClient.Enabled = not VisionClient.Enabled
         end
@@ -248,7 +247,7 @@ function Lib:InitItemContainer(TabData, Theme, ContainerName, ItemData)
     ItemContainer.BorderColor3 = Color3.fromRGB(0, 0, 0)
     ItemContainer.BorderSizePixel = 0
     ItemContainer.ClipsDescendants = true
-    ItemContainer.Size = UDim2.new(0.996865213, 0, 1, 0)
+    ItemContainer.Size = UDim2.new(0.997, 0,0.55, 0)
 
     Container.Name = "Container"
     Container.Parent = ItemContainer
@@ -257,6 +256,7 @@ function Lib:InitItemContainer(TabData, Theme, ContainerName, ItemData)
     Container.BorderSizePixel = 0
     Container.ClipsDescendants = true
     Container.Position = UDim2.new(0.0156985875, 0, 0.0339702778, 0)
+    Container.Size = UDim2.new(0.978, 0, 0.5, 0)
 
     UIListLayout.Parent = Container
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -267,9 +267,6 @@ function Lib:InitItemContainer(TabData, Theme, ContainerName, ItemData)
     UIStroke.Thickness = Theme.StrokeThickness
 
     ContainerObject.Container = Container
-
-    Container.Size = UDim2.new(Container.Size.X.Scale, Container.Size.X.Offset, 0, UIListLayout.AbsoluteContentSize.Y)
-    ItemContainer.Size = UDim2.new(Container.Size.X.Scale, Container.Size.X.Offset, 0, UIListLayout.AbsoluteContentSize.Y + 10)
 
     return ContainerObject
 end
@@ -296,7 +293,7 @@ function Lib:SpawnLabel(ContainerObject, Theme, LabelData)
     Label.Position = UDim2.new(0.0210696924, 0, 0.192780986, 0)
     Label.Size = UDim2.new(0.956239879, 0, 0.603773594, 0)
     Label.Font = Enum.Font.ArimoBold
-    Label.Text = LabelData.Title
+    Label.Text = LabelData.Text
     Label.TextColor3 = Theme.TextColor
     Label.TextScaled = true
     Label.TextSize = 14.000
@@ -305,6 +302,11 @@ function Lib:SpawnLabel(ContainerObject, Theme, LabelData)
 
     UIPadding_2.Parent = Label
     UIPadding_2.PaddingLeft = UDim.new(0.00999999978, 0)
+
+    UIStroke.Parent = Label
+    UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    UIStroke.Color = Theme.StrokeColor
+    UIStroke.Thickness = Theme.StrokeThickness
 end
 
 function Lib:SpawnButton(ContainerObject, Theme, ButtonData) 
@@ -395,6 +397,7 @@ end
 
 function Lib:SpawnSlider(ContainerObject, Theme, SliderData) 
     local SliderContainer = Instance.new("Frame")
+    local SliderDetector = Instance.new("TextButton")
     local Slider = Instance.new("Frame")
     local Bar = Instance.new("Frame")
     local Display = Instance.new("TextLabel")
@@ -407,6 +410,22 @@ function Lib:SpawnSlider(ContainerObject, Theme, SliderData)
     SliderContainer.BorderColor3 = Color3.fromRGB(0, 0, 0)
     SliderContainer.BorderSizePixel = 0
     SliderContainer.Size = UDim2.new(1, 0, 0.121004567, 0)
+
+    SliderDetector.Name = "SliderDetector"
+    SliderDetector.Parent = Slider
+    SliderDetector.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    SliderDetector.BackgroundTransparency = 1.000
+    SliderDetector.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    SliderDetector.BorderSizePixel = 0
+    SliderDetector.Position = UDim2.new(0.0209999997, 0, 0.193000004, 0)
+    SliderDetector.Size = UDim2.new(1,0,1,0)
+    SliderDetector.Font = Enum.Font.ArimoBold
+    SliderDetector.Text = ""
+    SliderDetector.TextColor3 = Theme.TextColor
+    SliderDetector.TextScaled = true
+    SliderDetector.TextSize = 14.000
+    SliderDetector.TextWrapped = true
+    SliderDetector.TextXAlignment = Enum.TextXAlignment.Left
 
     Slider.Name = "Slider"
     Slider.Parent = SliderContainer
@@ -444,7 +463,7 @@ function Lib:SpawnSlider(ContainerObject, Theme, SliderData)
     UiStroke.Color = Theme.StrokeColor
     UiStroke.Thickness = Theme.StrokeThickness
 
-    Slider.MouseButton1Down:Connect(function()
+    SliderDetector.MouseButton1Down:Connect(function()
         local MousePosition = game:GetService("UserInputService"):GetMouseLocation()
         local SliderPosition = Slider.AbsolutePosition
         local SliderWidth = Slider.AbsoluteSize.X

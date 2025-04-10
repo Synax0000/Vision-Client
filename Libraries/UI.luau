@@ -257,7 +257,6 @@ function Lib:InitItemContainer(TabData, Theme, ContainerName, ItemData)
     Container.BorderSizePixel = 0
     Container.ClipsDescendants = true
     Container.Position = UDim2.new(0.0156985875, 0, 0.0339702778, 0)
-    Container.Size = UDim2.new(0.970125794, 0, 0.92993629, 0)
 
     UIListLayout.Parent = Container
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -268,6 +267,7 @@ function Lib:InitItemContainer(TabData, Theme, ContainerName, ItemData)
     UIStroke.Thickness = Theme.StrokeThickness
 
     ContainerObject.Container = Container
+    Container.Size = UDim2.new(Container.Size.X.Scale, Container.Size.X.Offset, 0, UIListLayout.AbsoluteContentSize.Y)
 
     return ContainerObject
 end

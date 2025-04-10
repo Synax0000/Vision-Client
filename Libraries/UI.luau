@@ -267,9 +267,236 @@ function Lib:InitItemContainer(TabData, Theme, ContainerName, ItemData)
     UIStroke.Thickness = Theme.StrokeThickness
 
     ContainerObject.Container = Container
+
     Container.Size = UDim2.new(Container.Size.X.Scale, Container.Size.X.Offset, 0, UIListLayout.AbsoluteContentSize.Y)
+    ItemContainer.Size = UDim2.new(Container.Size.X.Scale, Container.Size.X.Offset, 0, UIListLayout.AbsoluteContentSize.Y + 10)
 
     return ContainerObject
+end
+
+function Lib:SpawnLabel(ContainerObject, Theme, LabelData) 
+    local LabelContainer = Instance.new("Frame")
+    local Label = Instance.new("TextLabel")
+    local UIPadding_2 = Instance.new("UIPadding")
+    local UIStroke = Instance.new("UIStroke")
+
+    LabelContainer.Name = "LabelContainer"
+    LabelContainer.Parent = ContainerObject.Container
+    LabelContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    LabelContainer.BackgroundTransparency = 1.000
+    LabelContainer.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    LabelContainer.BorderSizePixel = 0
+    LabelContainer.Size = UDim2.new(1, 0, 0.121004567, 0)
+
+    Label.Name = "Label"
+    Label.Parent = LabelContainer
+    Label.BackgroundColor3 = Theme.DarkBackgroundColor
+    Label.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Label.BorderSizePixel = 0
+    Label.Position = UDim2.new(0.0210696924, 0, 0.192780986, 0)
+    Label.Size = UDim2.new(0.956239879, 0, 0.603773594, 0)
+    Label.Font = Enum.Font.ArimoBold
+    Label.Text = LabelData.Title
+    Label.TextColor3 = Theme.TextColor
+    Label.TextScaled = true
+    Label.TextSize = 14.000
+    Label.TextWrapped = true
+    Label.TextXAlignment = Enum.TextXAlignment.Left
+
+    UIPadding_2.Parent = Label
+    UIPadding_2.PaddingLeft = UDim.new(0.00999999978, 0)
+end
+
+function Lib:SpawnButton(ContainerObject, Theme, ButtonData) 
+    local ButtonContainer = Instance.new("Frame")
+    local TextButton = Instance.new("TextButton")
+    local UIPadding = Instance.new("UIPadding")
+    local UIStroke = Instance.new("UIStroke")
+
+    ButtonContainer.Name = "ButtonContainer"
+    ButtonContainer.Parent = ContainerObject.Container
+    ButtonContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    ButtonContainer.BackgroundTransparency = 1.000
+    ButtonContainer.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    ButtonContainer.BorderSizePixel = 0
+    ButtonContainer.Size = UDim2.new(1, 0, 0.121004567, 0)
+
+    TextButton.Parent = ButtonContainer
+    TextButton.BackgroundColor3 = Theme.DarkBackgroundColor
+    TextButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    TextButton.BorderSizePixel = 0
+    TextButton.Position = UDim2.new(0.0209999997, 0, 0.193000004, 0)
+    TextButton.Size = UDim2.new(0.956239879, 0, 0.603773594, 0)
+    TextButton.Font = Enum.Font.ArimoBold
+    TextButton.Text = ButtonData.Text
+    TextButton.TextColor3 = Theme.TextColor
+    TextButton.TextScaled = true
+    TextButton.TextSize = 14.000
+    TextButton.TextWrapped = true
+    TextButton.TextXAlignment = Enum.TextXAlignment.Left
+
+    UIPadding.Parent = TextButton
+    UIPadding.PaddingLeft = UDim.new(0.00999999978, 0)
+
+    UIStroke.Parent = TextButton
+    UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    UIStroke.Color = Theme.StrokeColor
+    UIStroke.Thickness = Theme.StrokeThickness
+
+    TextButton.MouseButton1Click:Connect(ButtonData.Callback)
+end
+
+function Lib:SpawnToggle(ContainerObject, Theme, ToggleData) 
+    local ButtonContainer = Instance.new("Frame")
+    local TextButton = Instance.new("TextButton")
+    local UIPadding = Instance.new("UIPadding")
+    local UIStroke = Instance.new("UIStroke")
+
+    ButtonContainer.Name = "ButtonContainer"
+    ButtonContainer.Parent = ContainerObject.Container
+    ButtonContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    ButtonContainer.BackgroundTransparency = 1.000
+    ButtonContainer.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    ButtonContainer.BorderSizePixel = 0
+    ButtonContainer.Size = UDim2.new(1, 0, 0.121004567, 0)
+
+    TextButton.Parent = ButtonContainer
+    TextButton.BackgroundColor3 = Theme.DarkBackgroundColor
+    TextButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    TextButton.BorderSizePixel = 0
+    TextButton.Position = UDim2.new(0.0209999997, 0, 0.193000004, 0)
+    TextButton.Size = UDim2.new(0.956239879, 0, 0.603773594, 0)
+    TextButton.Font = Enum.Font.ArimoBold
+    TextButton.Text = ToggleData.Text
+    TextButton.TextColor3 = Theme.TextColor
+    TextButton.TextScaled = true
+    TextButton.TextSize = 14.000
+    TextButton.TextWrapped = true
+    TextButton.TextXAlignment = Enum.TextXAlignment.Left
+
+    UIPadding.Parent = TextButton
+    UIPadding.PaddingLeft = UDim.new(0.00999999978, 0)
+
+    UIStroke.Parent = TextButton
+    UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    UIStroke.Color = Theme.StrokeColor
+    UIStroke.Thickness = Theme.StrokeThickness
+
+    TextButton.MouseButton1Click:Connect(function()
+        if TextButton.BackgroundColor3 == Theme.DarkBackgroundColor then
+            TextButton.BackgroundColor3 = Theme.ButtonToggledColor
+            ToggleData.Callback(true)
+        else
+            TextButton.BackgroundColor3 = Theme.DarkBackgroundColor
+            ToggleData.Callback(false)
+        end
+    end)
+end
+
+function Lib:SpawnSlider(ContainerObject, Theme, SliderData) 
+    local SliderContainer = Instance.new("Frame")
+    local Slider = Instance.new("Frame")
+    local Bar = Instance.new("Frame")
+    local Display = Instance.new("TextLabel")
+    local UiStroke = Instance.new("UIStroke")
+
+    SliderContainer.Name = "SliderContainer"
+    SliderContainer.Parent = ContainerObject.Container
+    SliderContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    SliderContainer.BackgroundTransparency = 1.000
+    SliderContainer.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    SliderContainer.BorderSizePixel = 0
+    SliderContainer.Size = UDim2.new(1, 0, 0.121004567, 0)
+
+    Slider.Name = "Slider"
+    Slider.Parent = SliderContainer
+    Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Slider.BackgroundTransparency = 1.000
+    Slider.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Slider.BorderSizePixel = 0
+    Slider.Position = UDim2.new(0.0209999997, 0, 0.193000004, 0)
+    Slider.Size = UDim2.new(0.956239879, 0, 0.603773594, 0)
+
+    Bar.Name = "Bar"
+    Bar.Parent = Slider
+    Bar.BackgroundColor3 = Theme.SliderFillColor
+    Bar.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Bar.BorderSizePixel = 0
+    Bar.Position = UDim2.new(4.16344754e-08, 0, 0, 0)
+    Bar.Size = UDim2.new(0.5, 0, 1, 0)
+
+    Display.Name = "Display"
+    Display.Parent = Slider
+    Display.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Display.BackgroundTransparency = 1.000
+    Display.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Display.BorderSizePixel = 0
+    Display.Size = UDim2.new(1, 0, 1, 0)
+    Display.Font = Enum.Font.Arimo
+    Display.Text = SliderData.Number
+    Display.TextColor3 = Theme.TextColor
+    Display.TextScaled = true
+    Display.TextSize = 14.000
+    Display.TextWrapped = true
+
+    UiStroke.Parent = Slider
+    UiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    UiStroke.Color = Theme.StrokeColor
+    UiStroke.Thickness = Theme.StrokeThickness
+
+    Slider.MouseButton1Down:Connect(function()
+        local MousePosition = game:GetService("UserInputService"):GetMouseLocation()
+        local SliderPosition = Slider.AbsolutePosition
+        local SliderWidth = Slider.AbsoluteSize.X
+        local Value = math.clamp((MousePosition.X - SliderPosition.X) / SliderWidth, 0, 1)
+        Slider.Bar.Size = UDim2.new(Value, 0, 1, 0)
+
+        if SliderData.RawInt then
+            SliderData.Number = math.floor((Value * SliderData.Max) + 0.5)
+            Display.Text = SliderData.Number
+        else
+            SliderData.Number = (Value * SliderData.Max) + 0.5
+            Display.Text = SliderData.Number
+        end
+    end)
+end
+
+function Lib:SpawnTextBox(ContainerObject, Theme, TextBoxData) 
+    local TextboxContainer = Instance.new("Frame")
+    local TextBox = Instance.new("TextBox")
+    local UIPadding_3 = Instance.new("UIPadding")
+    local UIStroke = Instance.new("UIStroke")
+
+    TextboxContainer.Name = "TextboxContainer"
+    TextboxContainer.Parent = ContainerObject.Container
+    TextboxContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    TextboxContainer.BackgroundTransparency = 1.000
+    TextboxContainer.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    TextboxContainer.BorderSizePixel = 0
+    TextboxContainer.Size = UDim2.new(1, 0, 0.121004567, 0)
+
+    TextBox.Parent = TextboxContainer
+    TextBox.BackgroundColor3 = Theme.DarkBackgroundColor
+    TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    TextBox.BorderSizePixel = 0
+    TextBox.Position = UDim2.new(0.0209999997, 0, 0.193000004, 0)
+    TextBox.Size = UDim2.new(0.956239879, 0, 0.603773594, 0)
+    TextBox.Font = Enum.Font.ArimoBold
+    TextBox.PlaceholderColor3 = Theme.PlaceholderTextColor
+    TextBox.PlaceholderText = TextBoxData.PlaceholderText
+    TextBox.Text = TextBoxData.Text
+    TextBox.TextColor3 = Theme.TextColor
+    TextBox.TextScaled = true
+    TextBox.TextSize = 14.000
+    TextBox.TextWrapped = true
+    TextBox.TextXAlignment = Enum.TextXAlignment.Left
+
+    UIPadding_3.Parent = TextBox
+    UIPadding_3.PaddingLeft = UDim.new(0.00999999978, 0)
+
+    UIStroke.Parent = TextBox
+    UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    UIStroke.Color = Theme.StrokeColor
 end
 
 return Lib

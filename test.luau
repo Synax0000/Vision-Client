@@ -9,3 +9,5 @@ local Ui = Lib:Init(Theme, Assets)
 local TestTab = Lib:InitTab(Ui, Theme, {
     ["Title"] = "Test Tab",
 })
+
+local container = Lib:InitItemContainer(TestTab, Theme, "Test Container", {})

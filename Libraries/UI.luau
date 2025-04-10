@@ -229,7 +229,7 @@ function Lib:InitTab(UIData, Theme, TabData)
 
     table.insert(UIData.Tabs, TabObject)
 
-    return Tab
+    return TabObject
 end
 
 
@@ -239,6 +239,7 @@ function Lib:InitItemContainer(TabData, Theme, ContainerName, ItemData)
     local ItemContainer = Instance.new("Frame")
     local Container = Instance.new("Frame")
     local UIListLayout = Instance.new("UIListLayout")
+    local UIStroke = Instance.new("UIStroke")
 
     ItemContainer.Name = "ItemContainer"
     ItemContainer.Parent = TabData.TabPage
@@ -260,6 +261,11 @@ function Lib:InitItemContainer(TabData, Theme, ContainerName, ItemData)
 
     UIListLayout.Parent = Container
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+    UIStroke.Parent = Container
+    UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    UIStroke.Color = Theme.StrokeColor
+    UIStroke.Thickness = Theme.StrokeThickness
 
     ContainerObject.Container = Container
 

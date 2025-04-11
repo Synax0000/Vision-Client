@@ -43,7 +43,7 @@ function Lib:Init()
         end
     end)()
 
-    game.Players.LocalPlayer.PlayerLeaving:Connect(function()
+    game:BindToClose(function()
         print("📃 Saving configs...")
         writefile("VisionClient/GameConfigs/" .. game.PlaceId .. ".json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.LocalConfig))
         writefile("VisionClient/GlobalConfig.json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.GlobalConfig))

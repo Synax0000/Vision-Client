@@ -18,10 +18,11 @@ function Lib:UpdateThemes()
 end
 
 function Lib:LoadConfig(Path)
+    local Config = nil
     local s,e = pcall(function()
         if isfolder("VisionClient") then
             Lib:UpdateThemes()
-            return readfile(Path)
+            Config = readfile(Path)
         else
             makefolder("VisionClient")
             makefolder("VisionClient/GameConfigs")
@@ -39,14 +40,15 @@ function Lib:LoadConfig(Path)
             writefile("VisionClient/GlobalConfig.json", game:GetService("HttpService"):JSONEncode(Config))
             
             Lib:UpdateThemes()
-            return readfile("VisionClient/GlobalConfig.json")
+            Config = readfile("VisionClient/GlobalConfig.json")
         end
     end)
 
     if not s then
-        warn(e)
         return nil
     end
+
+    return Config
 end
 
 function Lib:SaveConfig(Config, Path)

@@ -9,5 +9,5 @@ _G.VisionClient.CloseAllThreads = false
 --end
 
 
-local Main = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/refs/heads/main/main.luau"))()
+local Main = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/main/main.luau"))()
 Main:Init()

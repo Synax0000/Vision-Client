@@ -2,7 +2,7 @@ local Lib = {}
 
 function Lib:UpdateThemes()
     CurrentExistingThemes = listfiles("VisionClient/Themes")
-    LiveThemes = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/refs/heads/main/Themes/themes.luau"))()
+    LiveThemes = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/main/Themes/themes.luau"))()
     
     for _,Theme in pairs(LiveThemes) do
         if not table.find(CurrentExistingThemes, Theme) then
@@ -28,13 +28,13 @@ function Lib:LoadConfig(Path)
             makefolder("VisionClient/GameConfigs")
             makefolder("VisionClient/Themes")
             
-            ThemeLinks = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/refs/heads/main/Themes/themes.luau"))()
+            ThemeLinks = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/main/Themes/themes.luau"))()
 
             Config = {
                 ["Theme"] = "default",
                 ["Themes"] = listfiles("VisionClient/Themes"),
                 ["GameConfigs"] = listfiles("VisionClient/GameConfigs"),
-                ["Keybind"] = Enum.KeyCode.Insert,
+                ["Keybind"] = "Insert",
             }
 
             writefile("VisionClient/GlobalConfig.json", game:GetService("HttpService"):JSONEncode(Config))

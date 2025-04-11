@@ -7,7 +7,7 @@ function Lib:Init()
     local Module = nil
     local GameConfig = nil
     
-    local s,e pcall(function()
+    local s,e = pcall(function()
         Module = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/refs/heads/main/Games/" .. game.PlaceId .. ".luau"))()
         GameConfig = game:GetService("HttpService"):JSONDecode(Data:LoadConfig("VisionClient/GameConfigs/" .. game.PlaceId .. ".json"))
     end)

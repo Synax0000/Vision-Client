@@ -3,13 +3,13 @@ local Lib = {}
 function Lib:Init()
     local Data = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/refs/heads/main/Libraries/Data.luau"))()
 
-    local GlobalConfig = game:GetService("HttpService"):JSONEDecode(Data:LoadConfig("VisionClient/GlobalConfig.json"))
+    local GlobalConfig = game:GetService("HttpService"):JSONDecode(Data:LoadConfig("VisionClient/GlobalConfig.json"))
     local Module = nil
     local GameConfig = nil
     
     local s,e pcall(function()
         Module = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/refs/heads/main/Games/" .. game.PlaceId .. ".luau"))()
-        GameConfig = game:GetService("HttpService"):JSONEDecode(Data:LoadConfig("VisionClient/GameConfigs/" .. game.PlaceId .. ".json"))
+        GameConfig = game:GetService("HttpService"):JSONDecode(Data:LoadConfig("VisionClient/GameConfigs/" .. game.PlaceId .. ".json"))
     end)
 
     if not s then
@@ -19,7 +19,7 @@ function Lib:Init()
         end
         
         Module = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/refs/heads/main/Games/0.luau"))()
-        GameConfig = game:GetService("HttpService"):JSONEDecode(Data:LoadConfig("VisionClient/GameConfigs/0.json"))
+        GameConfig = game:GetService("HttpService"):JSONDecode(Data:LoadConfig("VisionClient/GameConfigs/0.json"))
     end
 
     local Assets = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/refs/heads/main/Libraries/Assets.luau"))()

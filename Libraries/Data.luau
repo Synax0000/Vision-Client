@@ -8,7 +8,7 @@ function Lib:UpdateThemes()
         if not table.find(CurrentExistingThemes, Theme) then
             ThemeContents = game:HttpGet(Theme)
             ThemeName = loadstring(ThemeContents)()["ThemeName"]
-            writefile("VisionClient/Themes/" .. ThemeName .. ".luau", Theme)
+            writefile("VisionClient/Themes/" .. ThemeName .. ".luau", ThemeContents)
         end
     end
 

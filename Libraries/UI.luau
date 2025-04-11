@@ -155,61 +155,6 @@ function Lib:Init(Theme, Assets)
     return WindowData
 end
 
-function Lib:InitExtras(UIData, Theme)
-    local SettingsTab = Lib:InitTab(UIData, Theme, {Title = "Settings"})
-    local CreditsTab = Lib:InitTab(UIData, Theme, {Title = "Credits"})
-
-    local SettingsContainer = Lib:InitItemContainer(UIData, Theme, "SettingsContainer", {})
-    local CreditsContainer = Lib:InitItemContainer(UIData, Theme, "CreditsContainer", {})
-
-    local CreditsLabel1 = Lib:SpawnLabel(CreditsContainer, Theme, {
-        Text = "Credits",
-    })
-
-    local CreditsLabel2 = Lib:SpawnLabel(CreditsContainer, Theme, {
-        Text = "Scripting - Github - Synax0000",
-    })
-
-    local CreditsLabel1 = Lib:SpawnLabel(CreditsContainer, Theme, {
-        Text = "UI - Github - Synax0000",
-    })
-
-    local PlaceId = game.PlaceId
-
-    local s,e = pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/main/Games/" .. PlaceId .. ".luau"))()
-    end)
-
-    if not s then
-        PlaceId = 0
-    end
-
-    local SaveConfig = Lib:SpawnButton(SettingsContainer, Theme, {
-        Text = "Save Config",
-        Callback = function()
-            print("📃 Saving configs...")
-            writefile("VisionClient/GameConfigs/" .. PlaceId .. ".json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.LocalConfig))
-            writefile("VisionClient/GlobalConfig.json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.GlobalConfig))
-            print("✅ Saved configs.")
-        end
-    })
-
-    local ThemeLabel = Lib:SpawnLabel(SettingsContainer, Theme, {
-        Text = "Themes",
-    })
-
-    local DefaultTheme = Lib:SpawnButton(SettingsContainer, Theme, {
-        Text = "Default",
-        Callback = function()
-            _G.VisionClient.GlobalConfig.Theme = "Default"
-            _G.VisionClient.CloseAllThreads = true
-            VisionClient:Destroy()
-
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/main/loader.luau"))()
-        end
-    })
-end
-
 function Lib:InitTab(UIData, Theme, TabData)
     local TabObject = {}
     TabObject.Data = {
@@ -613,6 +558,61 @@ function Lib:SpawnTextBox(ContainerObject, Theme, TextBoxData)
     TextBox:GetPropertyChangedSignal("Text"):Connect(function()
         TextBoxData.Value = TextBox.Text
     end)
+end
+
+function Lib:InitExtras(UIData, Theme)
+    local SettingsTab = Lib:InitTab(UIData, Theme, {Title = "Settings"})
+    local CreditsTab = Lib:InitTab(UIData, Theme, {Title = "Credits"})
+
+    local SettingsContainer = Lib:InitItemContainer(UIData, Theme, "SettingsContainer", {})
+    local CreditsContainer = Lib:InitItemContainer(UIData, Theme, "CreditsContainer", {})
+
+    local CreditsLabel1 = Lib:SpawnLabel(CreditsContainer, Theme, {
+        Text = "Credits",
+    })
+
+    local CreditsLabel2 = Lib:SpawnLabel(CreditsContainer, Theme, {
+        Text = "Scripting - Github - Synax0000",
+    })
+
+    local CreditsLabel1 = Lib:SpawnLabel(CreditsContainer, Theme, {
+        Text = "UI - Github - Synax0000",
+    })
+
+    local PlaceId = game.PlaceId
+
+    local s,e = pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/main/Games/" .. PlaceId .. ".luau"))()
+    end)
+
+    if not s then
+        PlaceId = 0
+    end
+
+    local SaveConfig = Lib:SpawnButton(SettingsContainer, Theme, {
+        Text = "Save Config",
+        Callback = function()
+            print("📃 Saving configs...")
+            writefile("VisionClient/GameConfigs/" .. PlaceId .. ".json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.LocalConfig))
+            writefile("VisionClient/GlobalConfig.json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.GlobalConfig))
+            print("✅ Saved configs.")
+        end
+    })
+
+    local ThemeLabel = Lib:SpawnLabel(SettingsContainer, Theme, {
+        Text = "Themes",
+    })
+
+    local DefaultTheme = Lib:SpawnButton(SettingsContainer, Theme, {
+        Text = "Default",
+        Callback = function()
+            _G.VisionClient.GlobalConfig.Theme = "Default"
+            _G.VisionClient.CloseAllThreads = true
+            VisionClient:Destroy()
+
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/main/loader.luau"))()
+        end
+    })
 end
 
 return Lib

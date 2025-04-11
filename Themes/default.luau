@@ -1,4 +1,6 @@
 return {
+    ThemeName = "Default",
+
     BackgroundColor = Color3.fromRGB(26, 23, 29),
     DarkBackgroundColor = Color3.fromRGB(22, 18, 24),
     LightBackgroundColor = Color3.fromRGB(38, 32, 42),

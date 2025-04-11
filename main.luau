@@ -12,10 +12,13 @@ function Lib:Init()
         GameConfig = game:GetService("HttpService"):JSONDecode(Data:LoadConfig("VisionClient/GameConfigs/" .. game.PlaceId .. ".json"))
     end)
 
+    local PlaceId = game.PlaceId
+
     if not s then
         if isfile("VisionClient/GameConfigs/0.json") == false then
             writefile("VisionClient/GameConfigs/0.json", game:GetService("HttpService"):JSONEncode({}))
             GameConfig = {}
+            PlaceId = 0
         end
         
         Module = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/main/Games/0.luau"))()
@@ -37,7 +40,7 @@ function Lib:Init()
     coroutine.wrap(function() 
         while task.wait(math.random(5, 20)) do
             print("📃 Saving configs...")
-            writefile("VisionClient/GameConfigs/" .. game.PlaceId .. ".json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.LocalConfig))
+            writefile("VisionClient/GameConfigs/" .. PlaceId .. ".json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.LocalConfig))
             writefile("VisionClient/GlobalConfig.json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.GlobalConfig))
             print("✅ Saved configs.")
         end
@@ -47,7 +50,7 @@ function Lib:Init()
 
     PlayerGUI.Destroying:Connect(function() -- Likely means player is leaving
         print("📃 Saving configs...")
-        writefile("VisionClient/GameConfigs/" .. game.PlaceId .. ".json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.LocalConfig))
+        writefile("VisionClient/GameConfigs/" .. PlaceId .. ".json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.LocalConfig))
         writefile("VisionClient/GlobalConfig.json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.GlobalConfig))
         print("✅ Saved configs.")
     end)

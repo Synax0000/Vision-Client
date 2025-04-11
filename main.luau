@@ -43,7 +43,9 @@ function Lib:Init()
         end
     end)()
 
-    game:BindToClose(function()
+    local PlayerGUI = game.Players.LocalPlayer.PlayerGui
+
+    PlayerGUI.Destroying:Connect(function() -- Likely means player is leaving
         print("📃 Saving configs...")
         writefile("VisionClient/GameConfigs/" .. game.PlaceId .. ".json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.LocalConfig))
         writefile("VisionClient/GlobalConfig.json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.GlobalConfig))

@@ -5,9 +5,10 @@ function Lib:UpdateThemes()
     LiveThemes = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/main/Themes/themes.luau"))()
     
     for _,Theme in pairs(LiveThemes) do
-        if not table.find(CurrentExistingThemes, Theme) then
-            ThemeContents = game:HttpGet(Theme)
-            ThemeName = loadstring(ThemeContents)()["ThemeName"]
+        ThemeContents = game:HttpGet(Theme)
+        ThemeName = loadstring(ThemeContents)()["ThemeName"]
+
+        if not table.find(CurrentExistingThemes, ThemeName) then
             writefile("VisionClient/Themes/" .. ThemeName .. ".luau", ThemeContents)
         end
     end

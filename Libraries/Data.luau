@@ -18,27 +18,33 @@ function Lib:UpdateThemes()
 end
 
 function Lib:LoadConfig(Path)
-    if isfolder("VisionClient") then
-        Lib:UpdateThemes()
-        return readfile(Path)
-    else
-        makefolder("VisionClient")
-        makefolder("VisionClient/GameConfigs")
-        makefolder("VisionClient/Themes")
-        
-        ThemeLinks = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/refs/heads/main/Themes/themes.luau"))()
+    local s,e = pcall(function()
+        if isfolder("VisionClient") then
+            Lib:UpdateThemes()
+            return readfile(Path)
+        else
+            makefolder("VisionClient")
+            makefolder("VisionClient/GameConfigs")
+            makefolder("VisionClient/Themes")
+            
+            ThemeLinks = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/refs/heads/main/Themes/themes.luau"))()
 
-        Config = {
-            ["Theme"] = "default",
-            ["Themes"] = listfiles("VisionClient/Themes"),
-            ["GameConfigs"] = listfiles("VisionClient/GameConfigs"),
-            ["Keybind"] = Enum.KeyCode.Insert,
-        }
+            Config = {
+                ["Theme"] = "default",
+                ["Themes"] = listfiles("VisionClient/Themes"),
+                ["GameConfigs"] = listfiles("VisionClient/GameConfigs"),
+                ["Keybind"] = Enum.KeyCode.Insert,
+            }
 
-        writefile("VisionClient/GlobalConfig.json", game:GetService("HttpService"):JSONEncode(Config))
-        
-        Lib:UpdateThemes()
-        return readfile("VisionClient/GlobalConfig.json")
+            writefile("VisionClient/GlobalConfig.json", game:GetService("HttpService"):JSONEncode(Config))
+            
+            Lib:UpdateThemes()
+            return readfile("VisionClient/GlobalConfig.json")
+        end
+    end)
+
+    if not s then
+        return nil
     end
 end
 

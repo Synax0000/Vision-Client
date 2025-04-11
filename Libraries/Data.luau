@@ -44,6 +44,7 @@ function Lib:LoadConfig(Path)
     end)
 
     if not s then
+        warn(e)
         return nil
     end
 end

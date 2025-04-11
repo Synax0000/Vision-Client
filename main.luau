@@ -22,6 +22,7 @@ function Lib:Init()
         GameConfig = game:GetService("HttpService"):JSONDecode(Data:LoadConfig("VisionClient/GameConfigs/0.json"))
     end
 
+
     local Assets = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/main/Libraries/Assets.luau"))()
     local UILib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/main/Libraries/UI.luau"))()
     local Theme = loadstring(readfile("VisionClient/Themes/" .. GlobalConfig.Theme .. ".luau"))()
@@ -29,7 +30,9 @@ function Lib:Init()
     Module.Assets = Assets
     Module.Theme = Theme
     Module.Lib = UILib
-    Module.Config = GameConfig
+
+    _G.VisionClient.LocalConfig = GameConfig
+    _G.VisionClient.GlobalConfig = GlobalConfig
 
     Module:Run()
 end

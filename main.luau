@@ -34,6 +34,22 @@ function Lib:Init()
     _G.VisionClient.LocalConfig = GameConfig
     _G.VisionClient.GlobalConfig = GlobalConfig
 
+    coroutine.wrap(function() 
+        while task.wait(math.random(5, 20)) do
+            print("📃 Saving configs...")
+            writefile("VisionClient/GameConfigs/" .. game.PlaceId .. ".json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.LocalConfig))
+            writefile("VisionClient/GlobalConfig.json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.GlobalConfig))
+            print("✅ Saved configs.")
+        end
+    end)()
+
+    game.Players.LocalPlayer.PlayerLeaving:Connect(function()
+        print("📃 Saving configs...")
+        writefile("VisionClient/GameConfigs/" .. game.PlaceId .. ".json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.LocalConfig))
+        writefile("VisionClient/GlobalConfig.json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.GlobalConfig))
+        print("✅ Saved configs.")
+    end)
+
     Module:Run()
 end
 

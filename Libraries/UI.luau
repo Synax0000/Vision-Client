@@ -384,12 +384,22 @@ function Lib:SpawnToggle(ContainerObject, Theme, ToggleData)
     UIStroke.Color = Theme.StrokeColor
     UIStroke.Thickness = Theme.StrokeThickness
 
+    if _G.VisionClient.LocalConfig[ToggleData.Text] then
+        if _G.VisionClient.LocalConfig[ToggleData.Text] == true then
+            TextButton.BackgroundColor3 = Theme.ButtonToggledColor
+        end
+    else
+        _G.VisionClient.LocalConfig[ToggleData.Text] = false
+    end
+
     TextButton.MouseButton1Click:Connect(function()
         if TextButton.BackgroundColor3 == Theme.DarkBackgroundColor then
             TextButton.BackgroundColor3 = Theme.ButtonToggledColor
+            _G.VisionClient.LocalConfig[ToggleData.Text] = true
             ToggleData.Callback(true)
         else
             TextButton.BackgroundColor3 = Theme.DarkBackgroundColor
+            _G.VisionClient.LocalConfig[ToggleData.Text] = false
             ToggleData.Callback(false)
         end
     end)
@@ -463,6 +473,22 @@ function Lib:SpawnSlider(ContainerObject, Theme, SliderData)
     UiStroke.Color = Theme.StrokeColor
     UiStroke.Thickness = Theme.StrokeThickness
 
+    do
+        local MousePosition = game:GetService("UserInputService"):GetMouseLocation()
+        local SliderPosition = Slider.AbsolutePosition
+        local SliderWidth = Slider.AbsoluteSize.X
+        local Value = math.clamp((MousePosition.X - SliderPosition.X) / SliderWidth, 0, 1)
+        
+        if _G.VisionClient.LocalConfig[SliderData.Text] then
+            SliderData.Number = _G.VisionClient.LocalConfig[SliderData.Text]
+            Display.Text = SliderData.Number
+            Slider.Bar.Size = UDim2.new(Value, 0, 1, 0)
+        else
+            SliderData.Number = (Value * SliderData.Max) + 0.5
+            _G.VisionClient.LocalConfig[SliderData.Text] = SliderData.Number
+        end
+    end
+
     SliderDetector.MouseButton1Down:Connect(function()
         local MousePosition = game:GetService("UserInputService"):GetMouseLocation()
         local SliderPosition = Slider.AbsolutePosition
@@ -472,9 +498,11 @@ function Lib:SpawnSlider(ContainerObject, Theme, SliderData)
 
         if SliderData.RawInt then
             SliderData.Number = math.floor((Value * SliderData.Max) + 0.5)
+            _G.VisionClient.LocalConfig[SliderData.Text] = SliderData.Number
             Display.Text = SliderData.Number
         else
             SliderData.Number = (Value * SliderData.Max) + 0.5
+            _G.VisionClient.LocalConfig[SliderData.Text] = SliderData.Number
             Display.Text = SliderData.Number
         end
     end)
@@ -516,6 +544,20 @@ function Lib:SpawnTextBox(ContainerObject, Theme, TextBoxData)
     UIStroke.Parent = TextBox
     UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
     UIStroke.Color = Theme.StrokeColor
+
+    if _G.VisionClient.LocalConfig[TextBoxData.Text] then
+        TextBox.Text = _G.VisionClient.LocalConfig[TextBoxData.Text]
+    else
+        _G.VisionClient.LocalConfig[TextBoxData.Text] = TextBox.Text
+    end
+
+    TextBox.FocusLost:Connect(function()
+        _G.VisionClient.LocalConfig[TextBoxData.Text] = TextBox.Text
+    end)
+
+    TextBox:GetPropertyChangedSignal("Text"):Connect(function()
+        TextBoxData.Value = TextBox.Text
+    end)
 end
 
 return Lib

@@ -68,8 +68,8 @@ end
 
 function Module:CombatTabFunctions(CombatTab)
     -- TODO: ADD
-    -- Tp Aura
     -- Orbit Aura
+    -- Lock On
     -- Click Aura
     -- Auto Clicker
     -- Aimbot
@@ -93,7 +93,7 @@ function Module:CombatTabFunctions(CombatTab)
         Min = 0,
         Max = 100,
         RawInt = true,
-        Number = 20,
+        Number = 8,
     })
 
     Module.Lib:SpawnLabel(TpAuraContainer, Module.Theme, {Text = "Distance Behind",})
@@ -102,7 +102,40 @@ function Module:CombatTabFunctions(CombatTab)
         RawInt = true,
         Min = 0,
         Max = 100,
-        Number = 4,
+        Number = 2,
+    })
+
+    -- Just make the orbit aura set the players cframe in a circle around the player
+
+    local OrbitAuraContainer = Module.Lib:InitItemContainer(CombatTab, Module.Theme)
+    Module.Lib:SpawnLabel(OrbitAuraContainer, Module.Theme, {Text = "Tp Aura",})
+
+    local OrbitAuraEnabled = false
+    Module.Lib:SpawnToggle(OrbitAuraContainer, Module.Theme, {
+        Text = "OrbitAura-Enabled",
+        DisplayText = "Enabled",
+        Callback = function(Value)
+            OrbitAuraEnabled = Value
+        end
+    })
+
+    Module.Lib:SpawnLabel(OrbitAuraContainer, Module.Theme, {Text = "Target Range",})
+    local OrbitAuraRange = Module.Lib:SpawnSlider(OrbitAuraContainer, Module.Theme, {
+        Text = "OrbitAura-Range",
+        Min = 0,
+        Max = 100,
+        RawInt = true,
+        Number = 8,
+    })
+
+    local OrbitAngle = 0;
+    Module.Lib:SpawnLabel(OrbitAuraContainer, Module.Theme, {Text = "Rotation Speed",})
+    local DistanceBehind = Module.Lib:SpawnSlider(OrbitAuraContainer, Module.Theme, {
+        Text = "OrbitAura-RotateSpeed",
+        RawInt = true,
+        Min = 0,
+        Max = 100,
+        Number = 2,
     })
 
     coroutine.wrap(function()
@@ -116,6 +149,26 @@ function Module:CombatTabFunctions(CombatTab)
                         game.Players.LocalPlayer.Character.PrimaryPart.CFrame = Player.Character.PrimaryPart.CFrame + -(Player.Character.PrimaryPart.CFrame.LookVector * DistanceBehind.Number)
                     end
                 end
+
+                if OrbitAuraEnabled then
+                    local Player = Module:FindNearistPlayer(OrbitAuraRange.Number)
+                
+                    if Player then
+                        local TargetPos = Player.Character.PrimaryPart.Position
+                        local Radius = OrbitAuraRange.Number
+                        local Speed = DistanceBehind.Number / 10
+                
+                        OrbitAngle += Speed
+                
+                        local X = math.cos(OrbitAngle) * Radius
+                        local Z = math.sin(OrbitAngle) * Radius
+                
+                        local NewPosition = Vector3.new(TargetPos.X + X, TargetPos.Y, TargetPos.Z + Z)
+                
+                        game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(NewPosition, TargetPos))
+                    end
+                end
+                
             end)
 
             if not s then

@@ -17,9 +17,10 @@ function Lib:Init()
     if not s then
         if isfile("VisionClient/GameConfigs/0.json") == false then
             writefile("VisionClient/GameConfigs/0.json", game:GetService("HttpService"):JSONEncode({}))
-            GameConfig = {}
-            PlaceId = 0
         end
+        
+        GameConfig = {}
+        PlaceId = 0
         
         Module = loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/main/Games/0.luau"))()
         GameConfig = game:GetService("HttpService"):JSONDecode(Data:LoadConfig("VisionClient/GameConfigs/0.json"))

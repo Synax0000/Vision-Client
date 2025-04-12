@@ -440,6 +440,7 @@ function Lib:SpawnToggle(ContainerObject, Theme, ToggleData)
     if _G.VisionClient.LocalConfig[ToggleData.Text] then
         if _G.VisionClient.LocalConfig[ToggleData.Text] == true then
             TextButton.BackgroundColor3 = Theme.ButtonToggledColor
+            ToggleData.Callback(true)
         end
     else
         _G.VisionClient.LocalConfig[ToggleData.Text] = false
@@ -614,6 +615,7 @@ function Lib:SpawnTextBox(ContainerObject, Theme, TextBoxData)
 
     if _G.VisionClient.LocalConfig[TextBoxData.Text] then
         TextBox.Text = _G.VisionClient.LocalConfig[TextBoxData.Text]
+        TextBoxData.Value = _G.VisionClient.LocalConfig[TextBoxData.Text]
     else
         _G.VisionClient.LocalConfig[TextBoxData.Text] = TextBox.Text
     end

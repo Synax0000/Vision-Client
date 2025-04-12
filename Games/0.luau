@@ -60,7 +60,7 @@ function Module:FindNearistPlayer(Range)
     return ClosestPlayer
 end
 
-function Module:CombatTabFunctions()
+function Module:CombatTabFunctions(CombatTab)
     -- TODO: ADD
     -- Tp Aura
     -- Orbit Aura
@@ -69,7 +69,7 @@ function Module:CombatTabFunctions()
     -- Aimbot
     -- Aim Assist
 
-    local TpAuraContainer = Module.Lib:InitTab(Module.UIOBJECT, Module.Theme, {Title = "Tp Aura",})
+    local TpAuraContainer = Module.Lib:InitItemContainer(CombatTab, Module.Theme, {Title = "Tp Aura",})
     local TpAuraLabel = Module.Lib:SpawnLabel(TpAuraContainer, Module.Theme, {Text = "Tp Aura",})
 
     local TpAuraEnabled = false
@@ -109,7 +109,7 @@ function Module:CombatTabFunctions()
     end)()
 end
 
-function Module:MovementTabFunctions()
+function Module:MovementTabFunctions(MovementTab)
     -- TODO: ADD    
     -- Speed
     -- Flight
@@ -118,7 +118,7 @@ function Module:MovementTabFunctions()
     -- Click To Tp    
 end
 
-function Module:VisualsTabFunctions()
+function Module:VisualsTabFunctions(VisualsTab)
     -- TODO: ADD
     -- ESP
     -- Aimbot
@@ -128,7 +128,7 @@ function Module:VisualsTabFunctions()
     -- Health Bar
 end
 
-function Module:UtilitiesTabFunctions()
+function Module:UtilitiesTabFunctions(UtilitiesTab)
     -- TODO: ADD
     -- Gravity Changer
     -- Noclip

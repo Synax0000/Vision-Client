@@ -157,10 +157,7 @@ end
 
 function Lib:InitTab(UIData, Theme, TabData)
     local TabObject = {}
-    TabObject.Data = {
-        Selected = false
-    }
-
+    
     local Tab = Instance.new("TextButton")
     local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
     local UiPadding = Instance.new("UIPadding")
@@ -207,20 +204,19 @@ function Lib:InitTab(UIData, Theme, TabData)
     TabObject.TabPage = TabPage
 
     Tab.MouseButton1Click:Connect(function()
-        for _, TabObject in pairs(UIData.UI.MainFrame.Tabs:GetChildren()) do
-            if TabObject:IsA("TextButton") then
-                TabObject.TextTransparency = 0.5
+        for _, TabObjecti in pairs(UIData.UI.MainFrame.Tabs:GetChildren()) do
+            if TabObjecti:IsA("TextButton") then
+                TabObjecti.TextTransparency = 0.5
             end
         end
-        for _, TabObject in pairs(UIData.UI.MainFrame:GetChildren()) do
-            if TabObject.Name == "TabPage" then
-                TabObject.Visible = false
+        for _, TabObjecti in pairs(UIData.UI.MainFrame:GetChildren()) do
+            if TabObjecti.Name == "TabPage" then
+                TabObjecti.Visible = false
             end
         end
 
         Tab.TextTransparency = 0
         TabPage.Visible = true
-        TabObject.Selected = true
     end)
 
     table.insert(UIData.Tabs, TabObject)
@@ -252,7 +248,7 @@ function Lib:InitItemContainer(TabData, Theme, ContainerName, ItemData)
     Container.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Container.BorderSizePixel = 0
     Container.ClipsDescendants = true
-    Container.Position = UDim2.new(0.0156985875, 0, 0.0339702778, 0)
+    Container.Position = UDim2.new(0.0146985875, 0, 0.0339702778, 0)
     Container.Size = UDim2.new(0.978, 0, 0.5, 0)
 
     UIListLayout.Parent = Container

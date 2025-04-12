@@ -687,7 +687,7 @@ function Lib:InitExtras(LibVar,UIData, Theme)
     local DefaultTheme = LibVar:SpawnButton(SettingsContainer, Theme, {
         Text = "Default",
         Callback = function()
-            _G.VisionClient.GlobalConfig.Theme = "default"
+            _G.VisionClient.GlobalConfig.Theme = "Default"
             _G.VisionClient.CloseAllThreads = true
             UIData.UI:Destroy()
 

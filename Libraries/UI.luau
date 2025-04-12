@@ -157,7 +157,7 @@ end
 
 function Lib:InitTab(UIData, Theme, TabData)
     local TabObject = {}
-    
+
     local Tab = Instance.new("TextButton")
     local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
     local UiPadding = Instance.new("UIPadding")
@@ -280,7 +280,7 @@ function Lib:SpawnLabel(ContainerObject, Theme, LabelData)
 
     Label.Name = "Label"
     Label.Parent = LabelContainer
-    Label.BackgroundColor3 = Theme.DarkBackgroundColor
+    Label.BackgroundColor3 = Theme.BackgroundColor
     Label.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Label.BorderSizePixel = 0
     Label.Position = UDim2.new(0.0210696924, 0, 0.192780986, 0)

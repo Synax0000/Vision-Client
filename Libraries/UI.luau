@@ -213,6 +213,12 @@ function Lib:InitTab(UIData, Theme, TabData)
             end
         end
 
+        for _, TabObject in pairs(UIData.UI.MainFrame:GetChildren()) do
+            if TabObject.Name == "TabPage" then
+                TabObject.Visible = false
+            end
+        end
+
         for _, TabDataObject in pairs(UIData.UI.MainFrame.Tabs:GetChildren()) do
             if not TabDataObject == Tab and TabDataObject:IsA("TextButton") then
                 TabDataObject.TabPage.Visible = false

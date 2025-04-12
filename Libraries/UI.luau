@@ -228,7 +228,6 @@ function Lib:InitTab(UIData, Theme, TabData)
 
     UIListLayout.Parent = TabPage
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    UIListLayout.Padding = UDim.new(-0.05, 0)
 
     TabObject.TabButton = Tab
     TabObject.TabPage = TabPage

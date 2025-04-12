@@ -134,7 +134,7 @@ function Module:CombatTabFunctions(CombatTab)
         Text = "OrbitAura-RotateSpeed",
         RawInt = true,
         Min = 0,
-        Max = 100,
+        Max = 6,
         Number = 2,
     })
 

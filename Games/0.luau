@@ -110,7 +110,7 @@ function Module:CombatTabFunctions(CombatTab)
             task.wait()
             local s,e = pcall(function() -- final failsafe
                 if TpAuraEnabled then
-                    local Player = Module:FindNearistPlayer(TpAuraRange.Value)
+                    local Player = Module:FindNearistPlayer(TpAuraRange.Number)
     
                     if Player then
                         Player.Character.PrimaryPart.CFrame = game.Players.LocalPlayer.Character.PrimaryPart.CFrame + -(game.Players.LocalPlayer.Character.PrimaryPart.CFrame.LookVector * DistanceBehind.Value)

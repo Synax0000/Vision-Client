@@ -198,6 +198,7 @@ function Lib:InitTab(UIData, Theme, TabData)
     Tab.TextColor3 = Theme.TextColor
     Tab.TextWrapped = false
     Tab.TextScaled = true
+    Tab.BackgroundTransparency = 1
     Tab.TextTransparency = 0.5
 
     UITextSizeConstraint.Parent = Tab
@@ -213,7 +214,7 @@ function Lib:InitTab(UIData, Theme, TabData)
     TabPage.Name = "TabPage"
     TabPage.Parent = UIData.UI.MainFrame
     TabPage.Active = true
-    TabPage.BackgroundColor3 = Color3.fromRGB(38, 32, 42)
+    TabPage.BackgroundColor3 = Theme.LightBackgroundColor
     TabPage.BorderColor3 = Color3.fromRGB(0, 0, 0)
     TabPage.BorderSizePixel = 0
     TabPage.Position = UDim2.new(0.19924812, 0, 0.0561122224, 0)

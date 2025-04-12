@@ -560,22 +560,22 @@ function Lib:SpawnTextBox(ContainerObject, Theme, TextBoxData)
     end)
 end
 
-function Lib:InitExtras(UIData, Theme)
-    local SettingsTab = Lib:InitTab(UIData, Theme, {Title = "Settings"})
-    local CreditsTab = Lib:InitTab(UIData, Theme, {Title = "Credits"})
+function Lib:InitExtras(LibVar,UIData, Theme)
+    local SettingsTab = LibVar:InitTab(UIData, Theme, {Title = "Settings"})
+    local CreditsTab = LibVar:InitTab(UIData, Theme, {Title = "Credits"})
 
-    local SettingsContainer = Lib:InitItemContainer(UIData, Theme, "SettingsContainer", {})
-    local CreditsContainer = Lib:InitItemContainer(UIData, Theme, "CreditsContainer", {})
+    local SettingsContainer = LibVar:InitItemContainer(UIData, Theme, "SettingsContainer", {})
+    local CreditsContainer = LibVar:InitItemContainer(UIData, Theme, "CreditsContainer", {})
 
-    local CreditsLabel1 = Lib:SpawnLabel(CreditsContainer, Theme, {
+    local CreditsLabel1 = LibVar:SpawnLabel(CreditsContainer, Theme, {
         Text = "Credits",
     })
 
-    local CreditsLabel2 = Lib:SpawnLabel(CreditsContainer, Theme, {
+    local CreditsLabel2 = LibVar:SpawnLabel(CreditsContainer, Theme, {
         Text = "Scripting - Github - Synax0000",
     })
 
-    local CreditsLabel1 = Lib:SpawnLabel(CreditsContainer, Theme, {
+    local CreditsLabel1 = LibVar:SpawnLabel(CreditsContainer, Theme, {
         Text = "UI - Github - Synax0000",
     })
 
@@ -589,7 +589,7 @@ function Lib:InitExtras(UIData, Theme)
         PlaceId = 0
     end
 
-    local SaveConfig = Lib:SpawnButton(SettingsContainer, Theme, {
+    local SaveConfig = LibVar:SpawnButton(SettingsContainer, Theme, {
         Text = "Save Config",
         Callback = function()
             print("📃 Saving configs...")
@@ -599,16 +599,16 @@ function Lib:InitExtras(UIData, Theme)
         end
     })
 
-    local ThemeLabel = Lib:SpawnLabel(SettingsContainer, Theme, {
+    local ThemeLabel = LibVar:SpawnLabel(SettingsContainer, Theme, {
         Text = "Themes",
     })
 
-    local DefaultTheme = Lib:SpawnButton(SettingsContainer, Theme, {
+    local DefaultTheme = LibVar:SpawnButton(SettingsContainer, Theme, {
         Text = "Default",
         Callback = function()
             _G.VisionClient.GlobalConfig.Theme = "Default"
             _G.VisionClient.CloseAllThreads = true
-            VisionClient:Destroy()
+            UIData.UI:Destroy()
 
             loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/main/loader.luau"))()
         end

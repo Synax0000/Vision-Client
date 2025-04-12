@@ -74,7 +74,8 @@ function Module:CombatTabFunctions(CombatTab)
 
     local TpAuraEnabled = false
     Module.Lib:SpawnToggle(TpAuraContainer, Module.Theme, {
-        Text = "TpAura Enabled",
+        Text = "TpAura-Enabled",
+        DisplayText = "Enabled",
         Callback = function(Value)
             TpAuraEnabled = Value
         end
@@ -82,6 +83,7 @@ function Module:CombatTabFunctions(CombatTab)
 
     Module.Lib:SpawnLabel(TpAuraContainer, Module.Theme, {Text = "Target Range",})
     local TpAuraRange = Module.Lib:SpawnSlider(TpAuraContainer, Module.Theme, {
+        Text = "TpAura-Range",
         Min = 0,
         Max = 100,
         RawInt = true,
@@ -90,7 +92,7 @@ function Module:CombatTabFunctions(CombatTab)
 
     Module.Lib:SpawnLabel(TpAuraContainer, Module.Theme, {Text = "Distance Behind",})
     local DistanceBehind = Module.Lib:SpawnSlider(TpAuraContainer, Module.Theme, {
-        Text = "Distance Behind",
+        Text = "TpAura-DistanceBehind",
         RawInt = true,
         Min = 0,
         Max = 100,

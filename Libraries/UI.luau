@@ -421,7 +421,7 @@ function Lib:SpawnToggle(ContainerObject, Theme, ToggleData)
     TextButton.Position = UDim2.new(0.0209999997, 0, 0.193000004, 0)
     TextButton.Size = UDim2.new(0.956239879, 0, 0.603773594, 0)
     TextButton.Font = Enum.Font.ArimoBold
-    TextButton.Text = ToggleData.Text
+    TextButton.Text = ToggleData.DisplayText
     TextButton.TextColor3 = Theme.TextColor
     TextButton.TextScaled = true
     TextButton.TextSize = 14.000
@@ -575,6 +575,8 @@ function Lib:SpawnSlider(ContainerObject, Theme, SliderData)
             _G.VisionClient.LocalConfig[SliderData.Text] = SliderData.Number or 0
             Display.Text = SliderData.Number
         end
+
+        _G.VisionClient.LocalConfig[SliderData.Text] = SliderData.Number or 0
     end)
 
     SliderDetector.MouseEnter:Connect(function()

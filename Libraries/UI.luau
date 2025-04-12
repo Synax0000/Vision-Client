@@ -492,22 +492,6 @@ function Lib:SpawnSlider(ContainerObject, Theme, SliderData)
     SliderContainer.BorderSizePixel = 0
     SliderContainer.Size = UDim2.new(1, 0, 0.121004567, 0)
 
-    SliderDetector.Name = "SliderDetector"
-    SliderDetector.Parent = Slider
-    SliderDetector.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    SliderDetector.BackgroundTransparency = 1.000
-    SliderDetector.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    SliderDetector.BorderSizePixel = 0
-    SliderDetector.Position = UDim2.new(0.0209999997, 0, 0.193000004, 0)
-    SliderDetector.Size = UDim2.new(1,0,1,0)
-    SliderDetector.Font = Enum.Font.ArimoBold
-    SliderDetector.Text = ""
-    SliderDetector.TextColor3 = Theme.TextColor
-    SliderDetector.TextScaled = true
-    SliderDetector.TextSize = 14.000
-    SliderDetector.TextWrapped = true
-    SliderDetector.TextXAlignment = Enum.TextXAlignment.Left
-
     Slider.Name = "Slider"
     Slider.Parent = SliderContainer
     Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -517,13 +501,29 @@ function Lib:SpawnSlider(ContainerObject, Theme, SliderData)
     Slider.Position = UDim2.new(0.0209999997, 0, 0.193000004, 0)
     Slider.Size = UDim2.new(0.956239879, 0, 0.603773594, 0)
 
+    SliderDetector.Name = "SliderDetector"
+    SliderDetector.Parent = Slider
+    SliderDetector.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    SliderDetector.BackgroundTransparency = 1.000
+    SliderDetector.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    SliderDetector.BorderSizePixel = 0
+    SliderDetector.Position = UDim2.new(0, 0, 0, 0)
+    SliderDetector.Size = UDim2.new(1, 0, 1, 0)
+    SliderDetector.Font = Enum.Font.ArimoBold
+    SliderDetector.Text = ""
+    SliderDetector.TextColor3 = Theme.TextColor
+    SliderDetector.TextScaled = true
+    SliderDetector.TextSize = 14.000
+    SliderDetector.TextWrapped = true
+    SliderDetector.TextXAlignment = Enum.TextXAlignment.Left
+
     Bar.Name = "Bar"
     Bar.Parent = Slider
     Bar.BackgroundColor3 = Theme.SliderFillColor
     Bar.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Bar.BorderSizePixel = 0
-    Bar.Position = UDim2.new(4.16344754e-08, 0, 0, 0)
-    Bar.Size = UDim2.new(0.5, 0, 1, 0)
+    Bar.Position = UDim2.new(0, 0, 0, 0)
+    Bar.Size = UDim2.new(0, 0, 1, 0)
 
     Display.Name = "Display"
     Display.Parent = Slider
@@ -544,60 +544,54 @@ function Lib:SpawnSlider(ContainerObject, Theme, SliderData)
     UiStroke.Color = Theme.StrokeColor
     UiStroke.Thickness = Theme.StrokeThickness
 
-    Slider.AbsoluteSize.X = (SliderData.Number - Slider.AbsolutePosition.X) / Slider.AbsoluteSize.X
+    -- Fix initial bar size
+    task.defer(function()
+        if _G.VisionClient.LocalConfig[SliderData.Text] then
+            SliderData.Number = _G.VisionClient.LocalConfig[SliderData.Text]
+        else
+            _G.VisionClient.LocalConfig[SliderData.Text] = SliderData.Number or 0
+        end
 
-    local MousePosition = game:GetService("UserInputService"):GetMouseLocation()
-    local SliderPosition = Slider.AbsolutePosition
-    local SliderWidth = Slider.AbsoluteSize.X
-    local Value = math.clamp((MousePosition.X - SliderPosition.X) / SliderWidth, 0, 1)
-        
-    if _G.VisionClient.LocalConfig[SliderData.Text] then
-        SliderData.Number = _G.VisionClient.LocalConfig[SliderData.Text]
+        local ClampedValue = math.clamp(SliderData.Number / SliderData.Max, 0, 1)
+        Bar.Size = UDim2.new(ClampedValue, 0, 1, 0)
         Display.Text = SliderData.Number
-        Slider.Bar.Size = UDim2.new(Value, 0, 1, 0)
-    else
-        SliderData.Number = (Value * SliderData.Max) + 0.5
-        _G.VisionClient.LocalConfig[SliderData.Text] = SliderData.Number or 0
-    end
-
-    
+    end)
 
     SliderDetector.MouseButton1Down:Connect(function()
-        MousePosition = game:GetService("UserInputService"):GetMouseLocation()
-        SliderPosition = Slider.AbsolutePosition
-        SliderWidth = Slider.AbsoluteSize.X
-        Value = math.clamp((MousePosition.X - SliderPosition.X) / SliderWidth, 0, 1)
-        Slider.Bar.Size = UDim2.new(Value, 0, 1, 0)
+        local MousePosition = game:GetService("UserInputService"):GetMouseLocation()
+        local SliderPosition = Slider.AbsolutePosition
+        local SliderWidth = Slider.AbsoluteSize.X
+        local Value = math.clamp((MousePosition.X - SliderPosition.X) / SliderWidth, 0, 1)
+
+        Bar.Size = UDim2.new(Value, 0, 1, 0)
 
         if SliderData.RawInt then
             SliderData.Number = math.floor((Value * SliderData.Max) + 0.5)
-            _G.VisionClient.LocalConfig[SliderData.Text] = SliderData.Number or 0
-            Display.Text = SliderData.Number
         else
             SliderData.Number = (Value * SliderData.Max) + 0.5
-            _G.VisionClient.LocalConfig[SliderData.Text] = SliderData.Number or 0
-            Display.Text = SliderData.Number
         end
 
         _G.VisionClient.LocalConfig[SliderData.Text] = SliderData.Number or 0
+        Display.Text = SliderData.Number
     end)
 
     SliderDetector.MouseEnter:Connect(function()
         local tweenInfo = TweenInfo.new(0.2)
-        local tween = game:GetService("TweenService"):Create(SliderDetector, tweenInfo, {
+        game:GetService("TweenService"):Create(SliderDetector, tweenInfo, {
             BackgroundColor3 = Theme.ButtonToggledColor
         }):Play()
     end)
 
     SliderDetector.MouseLeave:Connect(function()
         local tweenInfo = TweenInfo.new(0.2)
-        local tween = game:GetService("TweenService"):Create(SliderDetector, tweenInfo, {
+        game:GetService("TweenService"):Create(SliderDetector, tweenInfo, {
             BackgroundColor3 = Theme.SliderFillColor    
         }):Play()
     end)
 
     return SliderData
 end
+
 
 function Lib:SpawnTextBox(ContainerObject, Theme, TextBoxData) 
     local TextboxContainer = Instance.new("Frame")

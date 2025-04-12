@@ -27,10 +27,10 @@ function Module:Run()
 
     Module.Lib:InitExtras(Module.Lib, Module.UIOBJECT, Module.Theme);
 
-    Module:CombatTabFunctions()
-    Module:MovementTabFunctions()
-    Module:VisualsTabFunctions()
-    Module:UtilitiesTabFunctions()
+    Module:CombatTabFunctions(Combat)
+    Module:MovementTabFunctions(Movement)
+    Module:VisualsTabFunctions(Visuals)
+    Module:UtilitiesTabFunctions(Utilities)
 end
 
 function Module:FindNearistPlayer(Range) 

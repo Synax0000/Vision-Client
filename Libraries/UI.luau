@@ -564,8 +564,8 @@ function Lib:InitExtras(LibVar,UIData, Theme)
     local SettingsTab = LibVar:InitTab(UIData, Theme, {Title = "Settings"})
     local CreditsTab = LibVar:InitTab(UIData, Theme, {Title = "Credits"})
 
-    local SettingsContainer = LibVar:InitItemContainer(UIData, Theme, "SettingsContainer", {})
-    local CreditsContainer = LibVar:InitItemContainer(UIData, Theme, "CreditsContainer", {})
+    local SettingsContainer = LibVar:InitItemContainer(SettingsTab, Theme, "SettingsContainer", {})
+    local CreditsContainer = LibVar:InitItemContainer(CreditsTab, Theme, "CreditsContainer", {})
 
     local CreditsLabel1 = LibVar:SpawnLabel(CreditsContainer, Theme, {
         Text = "Credits",

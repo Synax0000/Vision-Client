@@ -690,6 +690,7 @@ function Lib:InitExtras(LibVar,UIData, Theme)
             _G.VisionClient.CloseAllThreads = true
             UIData.UI:Destroy()
 
+            writefile("VisionClient/GlobalConfig.json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.GlobalConfig))
             loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/main/loader.luau"))()
         end
     })

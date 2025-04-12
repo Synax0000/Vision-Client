@@ -369,6 +369,7 @@ function Lib:SpawnButton(ContainerObject, Theme, ButtonData)
     TextButton.TextSize = 14.000
     TextButton.TextWrapped = true
     TextButton.TextXAlignment = Enum.TextXAlignment.Left
+    TextButton.AutoButtonColor = false
 
     UIPadding.Parent = TextButton
     UIPadding.PaddingLeft = UDim.new(0.00999999978, 0)
@@ -421,6 +422,7 @@ function Lib:SpawnToggle(ContainerObject, Theme, ToggleData)
     TextButton.TextSize = 14.000
     TextButton.TextWrapped = true
     TextButton.TextXAlignment = Enum.TextXAlignment.Left
+    TextButton.AutoButtonColor = false
 
     UIPadding.Parent = TextButton
     UIPadding.PaddingLeft = UDim.new(0.00999999978, 0)

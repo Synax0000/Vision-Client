@@ -69,18 +69,18 @@ function Module:CombatTabFunctions(CombatTab)
     -- Aimbot
     -- Aim Assist
 
-    local TpAuraContainer = Module.Lib:InitItemContainer(CombatTab, Module.Theme, {Title = "Tp Aura",})
-    local TpAuraLabel = Module.Lib:SpawnLabel(TpAuraContainer, Module.Theme, {Text = "Tp Aura",})
+    local TpAuraContainer = Module.Lib:InitItemContainer(CombatTab, Module.Theme)
+    Module.Lib:SpawnLabel(TpAuraContainer, Module.Theme, {Text = "Tp Aura",})
 
     local TpAuraEnabled = false
-    local TpAuraToggle = Module.Lib:SpawnToggle(TpAuraContainer, Module.Theme, {
+    Module.Lib:SpawnToggle(TpAuraContainer, Module.Theme, {
         Text = "Enabled",
         Callback = function(Value)
             TpAuraEnabled = Value
         end
     })
 
-    local TpAuraRangeLabel = Module.Lib:SpawnLabel(TpAuraContainer, Module.Theme, {Text = "Target Range",})
+    Module.Lib:SpawnLabel(TpAuraContainer, Module.Theme, {Text = "Target Range",})
     local TpAuraRange = Module.Lib:SpawnSlider(TpAuraContainer, Module.Theme, {
         Text = "Range",
         Min = 0,
@@ -88,7 +88,7 @@ function Module:CombatTabFunctions(CombatTab)
         Value = 20,
     })
 
-    local DistanceBehindLabel = Module.Lib:SpawnLabel(TpAuraContainer, Module.Theme, {Text = "Distance Behind",})
+    Module.Lib:SpawnLabel(TpAuraContainer, Module.Theme, {Text = "Distance Behind",})
     local DistanceBehind = Module.Lib:SpawnSlider(TpAuraContainer, Module.Theme, {
         Text = "Distance",
         Min = 0,

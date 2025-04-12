@@ -270,7 +270,7 @@ function Lib:InitTab(UIData, Theme, TabData)
 end
 
 
-function Lib:InitItemContainer(TabData, Theme, ContainerName, ItemData)
+function Lib:InitItemContainer(TabData, Theme)
     local ContainerObject = {}
 
     local ItemContainer = Instance.new("Frame")
@@ -651,8 +651,8 @@ function Lib:InitExtras(LibVar,UIData, Theme)
     local SettingsTab = LibVar:InitTab(UIData, Theme, {Title = "Settings"})
     local CreditsTab = LibVar:InitTab(UIData, Theme, {Title = "Credits"})
 
-    local SettingsContainer = LibVar:InitItemContainer(SettingsTab, Theme, "SettingsContainer", {})
-    local CreditsContainer = LibVar:InitItemContainer(CreditsTab, Theme, "CreditsContainer", {})
+    local SettingsContainer = LibVar:InitItemContainer(SettingsTab, Theme)
+    local CreditsContainer = LibVar:InitItemContainer(CreditsTab, Theme)
 
     local CreditsLabel1 = LibVar:SpawnLabel(CreditsContainer, Theme, {
         Text = "Credits",

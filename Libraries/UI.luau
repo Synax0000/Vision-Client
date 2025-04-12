@@ -94,6 +94,30 @@ function Lib:Init(Theme, Assets)
     Exit.AutoButtonColor = false
     Exit.Image = Assets.CloseWindowIcon
 
+    Exit.MouseEnter:Connect(function()
+        local tweenInfo = TweenInfo.new(0.2)
+        local tween = game:GetService("TweenService"):Create(Exit, tweenInfo, {ImageColor3 = Color3.fromRGB(255, 0, 0)})
+        tween:Play()
+    end)
+
+    Exit.MouseLeave:Connect(function()
+        local tweenInfo = TweenInfo.new(0.2)
+        local tween = game:GetService("TweenService"):Create(Exit, tweenInfo, {ImageColor3 = Color3.fromRGB(255, 255, 255)})
+        tween:Play()
+    end)
+
+    Minimize.MouseEnter:Connect(function()
+        local tweenInfo = TweenInfo.new(0.2)
+        local tween = game:GetService("TweenService"):Create(Minimize, tweenInfo, {ImageColor3 = Color3.fromRGB(187, 187, 187)})
+        tween:Play()
+    end)
+
+    Minimize.MouseLeave:Connect(function()
+        local tweenInfo = TweenInfo.new(0.2)
+        local tween = game:GetService("TweenService"):Create(Minimize, tweenInfo, {ImageColor3 = Color3.fromRGB(255, 255, 255)})
+        tween:Play()
+    end)
+
     Exit.MouseButton1Click:Connect(function()
         VisionClient:Destroy()
         _G.VisionClient.CloseAllThreads = true
@@ -169,7 +193,7 @@ function Lib:InitTab(UIData, Theme, TabData)
     Tab.BorderSizePixel = 0
     Tab.Size = UDim2.new(1, 0, 0.0511965838, 0)
     Tab.AutoButtonColor = false
-    Tab.Font = Enum.Font.ArialBold
+    Tab.Font = Enum.Font.ArimoBold
     Tab.Text = TabData.Title
     Tab.TextColor3 = Theme.TextColor
     Tab.TextWrapped = false
@@ -202,6 +226,22 @@ function Lib:InitTab(UIData, Theme, TabData)
 
     TabObject.TabButton = Tab
     TabObject.TabPage = TabPage
+
+    Tab.MouseEnter:Connect(function()
+        local tweenInfo = TweenInfo.new(0.2)
+        local tween = game:GetService("TweenService"):Create(Tab, tweenInfo, {TextTransparency = 0})
+        tween:Play()
+    end)
+
+    Tab.MouseLeave:Connect(function()
+        if TabPage.Visible == false then 
+            return 
+        end
+
+        local tweenInfo = TweenInfo.new(0.2)
+        local tween = game:GetService("TweenService"):Create(Tab, tweenInfo, {TextTransparency = 0.5})
+        tween:Play()
+    end)
 
     Tab.MouseButton1Click:Connect(function()
         for _, TabObjecti in pairs(UIData.UI.MainFrame.Tabs:GetChildren()) do

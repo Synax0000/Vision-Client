@@ -591,6 +591,8 @@ function Lib:SpawnSlider(ContainerObject, Theme, SliderData)
             BackgroundColor3 = Theme.SliderFillColor    
         }):Play()
     end)
+
+    return SliderData
 end
 
 function Lib:SpawnTextBox(ContainerObject, Theme, TextBoxData) 

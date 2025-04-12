@@ -9,23 +9,130 @@ local Module = {
 function Module:Run() 
     Module.UIOBJECT = Module.Lib:Init(Module.Theme, Module.Assets)
 
-    Module.Lib:InitTab(Module.UIOBJECT, Module.Theme, {
+    local Combat = Module.Lib:InitTab(Module.UIOBJECT, Module.Theme, {
         Title = "Combat",
     })
 
-    Module.Lib:InitTab(Module.UIOBJECT, Module.Theme, {
+    local Movement = Module.Lib:InitTab(Module.UIOBJECT, Module.Theme, {
         Title = "Movement",
     })
 
-    Module.Lib:InitTab(Module.UIOBJECT, Module.Theme, {
+    local Visuals = Module.Lib:InitTab(Module.UIOBJECT, Module.Theme, {
         Title = "Visuals",
     })
 
-    Module.Lib:InitTab(Module.UIOBJECT, Module.Theme, {
+    local Utilities = Module.Lib:InitTab(Module.UIOBJECT, Module.Theme, {
         Title = "Utilities",
     })
 
     Module.Lib:InitExtras(Module.Lib, Module.UIOBJECT, Module.Theme);
+
+    Module:CombatTabFunctions()
+    Module:MovementTabFunctions()
+    Module:VisualsTabFunctions()
+    Module:UtilitiesTabFunctions()
+end
+
+function Module:FindNearistPlayer(Range) 
+    local Players = game:GetService("Players")
+    local LocalPlayer = Players.LocalPlayer
+    local Character = LocalPlayer.Character
+    local CharacterPosition = Character.PrimaryPart.Position
+    local ClosestPlayer = nil
+    local ClosestDistance = math.huge
+
+    for _, Player in pairs(Players:GetPlayers()) do
+        if Player ~= LocalPlayer then
+            local PlayerCharacter = Player.Character
+
+            if PlayerCharacter and PlayerCharacter.PrimaryPart then
+                local PlayerPosition = PlayerCharacter.PrimaryPart.Position
+                local Distance = (PlayerPosition - CharacterPosition).Magnitude
+
+                if Distance < ClosestDistance and Distance <= Range then
+                    ClosestPlayer = Player
+                    ClosestDistance = Distance
+                end
+            end
+        end
+    end
+
+    return ClosestPlayer
+end
+
+function Module:CombatTabFunctions()
+    -- TODO: ADD
+    -- Tp Aura
+    -- Orbit Aura
+    -- Click Aura
+    -- Auto Clicker
+    -- Aimbot
+    -- Aim Assist
+
+    local TpAuraContainer = Module.Lib:InitTab(Module.UIOBJECT, Module.Theme, {Title = "Tp Aura",})
+    local TpAuraLabel = Module.Lib:SpawnLabel(TpAuraContainer, Module.Theme, {Text = "Tp Aura",})
+
+    local TpAuraEnabled = false
+    local TpAuraToggle = Module.Lib:SpawnToggle(TpAuraContainer, Module.Theme, {
+        Text = "Enabled",
+        Callback = function(Value)
+            TpAuraEnabled = Value
+        end
+    })
+
+    local TpAuraRangeLabel = Module.Lib:SpawnLabel(TpAuraContainer, Module.Theme, {Text = "Target Range",})
+    local TpAuraRange = Module.Lib:SpawnSlider(TpAuraContainer, Module.Theme, {
+        Text = "Range",
+        Min = 0,
+        Max = 100,
+        Value = 20,
+    })
+
+    local DistanceBehindLabel = Module.Lib:SpawnLabel(TpAuraContainer, Module.Theme, {Text = "Distance Behind",})
+    local DistanceBehind = Module.Lib:SpawnSlider(TpAuraContainer, Module.Theme, {
+        Text = "Distance",
+        Min = 0,
+        Max = 100,
+        Value = 4,
+    })
+
+    coroutine.wrap(function()
+        while task.wait() do
+            if TpAuraEnabled then
+                local Player = Module:FindNearistPlayer(TpAuraRange.Value)
+
+                if Player then
+                    Player.Character.PrimaryPart.CFrame = game.Players.LocalPlayer.Character.PrimaryPart.CFrame + -(game.Players.LocalPlayer.Character.PrimaryPart.CFrame.LookVector * DistanceBehind.Value)
+                end
+            end
+        end
+    end)()
+end
+
+function Module:MovementTabFunctions()
+    -- TODO: ADD    
+    -- Speed
+    -- Flight
+    -- Infinite Jump
+    -- Platform Float
+    -- Click To Tp    
+end
+
+function Module:VisualsTabFunctions()
+    -- TODO: ADD
+    -- ESP
+    -- Aimbot
+    -- Box ESP
+    -- Nametags
+    -- Tracers
+    -- Health Bar
+end
+
+function Module:UtilitiesTabFunctions()
+    -- TODO: ADD
+    -- Gravity Changer
+    -- Noclip
+    -- rejoin
 end
 
 return Module 

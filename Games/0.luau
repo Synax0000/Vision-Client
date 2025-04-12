@@ -84,12 +84,14 @@ function Module:CombatTabFunctions(CombatTab)
     local TpAuraRange = Module.Lib:SpawnSlider(TpAuraContainer, Module.Theme, {
         Min = 0,
         Max = 100,
+        RawInt = true,
         Number = 20,
     })
 
     Module.Lib:SpawnLabel(TpAuraContainer, Module.Theme, {Text = "Distance Behind",})
     local DistanceBehind = Module.Lib:SpawnSlider(TpAuraContainer, Module.Theme, {
         Text = "Distance Behind",
+        RawInt = true,
         Min = 0,
         Max = 100,
         Number = 4,

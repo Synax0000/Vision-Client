@@ -108,7 +108,7 @@ function Module:CombatTabFunctions(CombatTab)
     -- Just make the orbit aura set the players cframe in a circle around the player
 
     local OrbitAuraContainer = Module.Lib:InitItemContainer(CombatTab, Module.Theme)
-    Module.Lib:SpawnLabel(OrbitAuraContainer, Module.Theme, {Text = "Tp Aura",})
+    Module.Lib:SpawnLabel(OrbitAuraContainer, Module.Theme, {Text = "Orbit Aura",})
 
     local OrbitAuraEnabled = false
     Module.Lib:SpawnToggle(OrbitAuraContainer, Module.Theme, {
@@ -155,7 +155,7 @@ function Module:CombatTabFunctions(CombatTab)
                 
                     if Player then
                         local TargetPos = Player.Character.PrimaryPart.Position
-                        local Radius = OrbitAuraRange.Number
+                        local Radius = OrbitAuraRange.Number/2
                         local Speed = DistanceBehind.Number / 10
                 
                         OrbitAngle += Speed

@@ -686,7 +686,40 @@ function Lib:InitExtras(LibVar,UIData, Theme)
     local DefaultTheme = LibVar:SpawnButton(SettingsContainer, Theme, {
         Text = "Default",
         Callback = function()
-            _G.VisionClient.GlobalConfig.Theme = "Default"
+            _G.VisionClient.GlobalConfig.Theme = "default"
+            _G.VisionClient.CloseAllThreads = true
+            UIData.UI:Destroy()
+
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/main/loader.luau"))()
+        end
+    })
+
+    local DarkTheme = LibVar:SpawnButton(SettingsContainer, Theme, {
+        Text = "Dark",
+        Callback = function()
+            _G.VisionClient.GlobalConfig.Theme = "Dark"
+            _G.VisionClient.CloseAllThreads = true
+            UIData.UI:Destroy()
+
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/main/loader.luau"))()
+        end
+    })
+
+    local LightTheme = LibVar:SpawnButton(SettingsContainer, Theme, {
+        Text = "Light",
+        Callback = function()
+            _G.VisionClient.GlobalConfig.Theme = "Light"
+            _G.VisionClient.CloseAllThreads = true
+            UIData.UI:Destroy()
+
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/main/loader.luau"))()
+        end
+    })
+
+    local RandomizedChaosTheme = LibVar:SpawnButton(SettingsContainer, Theme, {
+        Text = "RandomizedChaos",
+        Callback = function()
+            _G.VisionClient.GlobalConfig.Theme = "RandomizedChaos"
             _G.VisionClient.CloseAllThreads = true
             UIData.UI:Destroy()
 

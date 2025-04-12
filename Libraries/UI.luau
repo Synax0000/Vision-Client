@@ -188,7 +188,7 @@ function Lib:InitTab(UIData, Theme, TabData)
 
     Tab.Name = TabData.Title
     Tab.Parent = UIData.UI.MainFrame.Tabs
-    Tab.BackgroundColor3 = Color3.fromRGB(26, 23, 29)
+    Tab.BackgroundColor3 = Theme.BackgroundColor
     Tab.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Tab.BorderSizePixel = 0
     Tab.Size = UDim2.new(1, 0, 0.0511965838, 0)

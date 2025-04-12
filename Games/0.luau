@@ -25,7 +25,7 @@ function Module:Run()
         Title = "Utilities",
     })
 
-    Module.Lib:InitExtras(Module.Lib, Module, Module.Theme);
+    Module.Lib:InitExtras(Module.Lib, Module.UIOBJECT, Module.Theme);
 end
 
 return Module 

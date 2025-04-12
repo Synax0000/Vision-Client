@@ -41,7 +41,7 @@ function Module:FindNearistPlayer(Range)
     local ClosestPlayer = nil
     local ClosestDistance = math.huge
 
-    pcall(function() 
+    local s,e = pcall(function() 
         for _, Player in pairs(Players:GetPlayers()) do
             if Player ~= LocalPlayer then
                 local PlayerCharacter = Player.Character
@@ -58,8 +58,11 @@ function Module:FindNearistPlayer(Range)
             end
         end
     end)
-    
 
+    if not s then
+        print(e)
+    end
+    
     return ClosestPlayer
 end
 
@@ -105,7 +108,7 @@ function Module:CombatTabFunctions(CombatTab)
     coroutine.wrap(function()
         while _G.VisionClient.CloseAllThreads == false do
             task.wait()
-            pcall(function() -- final failsafe
+            local s,e = pcall(function() -- final failsafe
                 if TpAuraEnabled then
                     local Player = Module:FindNearistPlayer(TpAuraRange.Value)
     
@@ -114,6 +117,10 @@ function Module:CombatTabFunctions(CombatTab)
                     end
                 end
             end)
+
+            if not s then
+                print(e)
+            end
         end
     end)()
 end

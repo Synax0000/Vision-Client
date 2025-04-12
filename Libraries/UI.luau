@@ -544,6 +544,8 @@ function Lib:SpawnSlider(ContainerObject, Theme, SliderData)
     UiStroke.Color = Theme.StrokeColor
     UiStroke.Thickness = Theme.StrokeThickness
 
+    Slider.AbsoluteSize.X = (SliderData.Number - Slider.AbsolutePosition.X) / Slider.AbsoluteSize.X
+
     local MousePosition = game:GetService("UserInputService"):GetMouseLocation()
     local SliderPosition = Slider.AbsolutePosition
     local SliderWidth = Slider.AbsoluteSize.X
@@ -558,7 +560,7 @@ function Lib:SpawnSlider(ContainerObject, Theme, SliderData)
         _G.VisionClient.LocalConfig[SliderData.Text] = SliderData.Number or 0
     end
 
-    SliderWidth = Slider.AbsoluteSize.X / SliderData.Number
+    
 
     SliderDetector.MouseButton1Down:Connect(function()
         MousePosition = game:GetService("UserInputService"):GetMouseLocation()

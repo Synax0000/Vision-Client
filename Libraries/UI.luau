@@ -456,24 +456,6 @@ function Lib:SpawnToggle(ContainerObject, Theme, ToggleData)
             ToggleData.Callback(false)
         end
     end)
-
-    TextButton.MouseEnter:Connect(function()
-        local tweenInfo = TweenInfo.new(0.2)
-        local tween = game:GetService("TweenService"):Create(TextButton, tweenInfo, {
-            BackgroundColor3 = Theme.ButtonToggledColor
-        }):Play()
-    end)
-
-    TextButton.MouseLeave:Connect(function()
-        if TextButton.BackgroundColor3 == Theme.ButtonToggledColor then
-            return
-        end
-
-        local tweenInfo = TweenInfo.new(0.2)
-        local tween = game:GetService("TweenService"):Create(TextButton, tweenInfo, {
-            BackgroundColor3 = Theme.DarkBackgroundColor
-        }):Play()
-    end)
 end
 
 function Lib:SpawnSlider(ContainerObject, Theme, SliderData) 

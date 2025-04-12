@@ -1,3 +1,5 @@
+local Random = Random.new()
+
 RandomFontPool = {
     Enum.Font.Arimo,
     Enum.Font.Arial,

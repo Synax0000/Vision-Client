@@ -97,7 +97,8 @@ function Module:CombatTabFunctions(CombatTab)
     })
 
     coroutine.wrap(function()
-        while task.wait() do
+        while _G.VisionClient.CloseAllThreads == false do
+            task.wait()
             if TpAuraEnabled then
                 local Player = Module:FindNearistPlayer(TpAuraRange.Value)
 

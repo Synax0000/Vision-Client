@@ -379,6 +379,19 @@ function Lib:SpawnButton(ContainerObject, Theme, ButtonData)
     UIStroke.Thickness = Theme.StrokeThickness
 
     TextButton.MouseButton1Click:Connect(ButtonData.Callback)
+    TextButton.MouseEnter:Connect(function()
+        local tweenInfo = TweenInfo.new(0.2)
+        local tween = game:GetService("TweenService"):Create(TextButton, tweenInfo, {
+            BackgroundColor3 = Theme.ButtonToggledColor
+        })
+    end)
+
+    TextButton.MouseLeave:Connect(function()
+        local tweenInfo = TweenInfo.new(0.2)
+        local tween = game:GetService("TweenService"):Create(TextButton, tweenInfo, {
+            BackgroundColor3 = Theme.DarkBackgroundColor
+        })
+    end)
 end
 
 function Lib:SpawnToggle(ContainerObject, Theme, ToggleData) 
@@ -435,6 +448,24 @@ function Lib:SpawnToggle(ContainerObject, Theme, ToggleData)
             _G.VisionClient.LocalConfig[ToggleData.Text] = false
             ToggleData.Callback(false)
         end
+    end)
+
+    TextButton.MouseEnter:Connect(function()
+        local tweenInfo = TweenInfo.new(0.2)
+        local tween = game:GetService("TweenService"):Create(TextButton, tweenInfo, {
+            BackgroundColor3 = Theme.ButtonToggledColor
+        }):Play()
+    end)
+
+    TextButton.MouseLeave:Connect(function()
+        if TextButton.BackgroundColor3 == Theme.ButtonToggledColor then
+            return
+        end
+
+        local tweenInfo = TweenInfo.new(0.2)
+        local tween = game:GetService("TweenService"):Create(TextButton, tweenInfo, {
+            BackgroundColor3 = Theme.DarkBackgroundColor
+        }):Play()
     end)
 end
 
@@ -538,6 +569,20 @@ function Lib:SpawnSlider(ContainerObject, Theme, SliderData)
             _G.VisionClient.LocalConfig[SliderData.Text] = SliderData.Number
             Display.Text = SliderData.Number
         end
+    end)
+
+    SliderDetector.MouseEnter:Connect(function()
+        local tweenInfo = TweenInfo.new(0.2)
+        local tween = game:GetService("TweenService"):Create(SliderDetector, tweenInfo, {
+            BackgroundColor3 = Theme.ButtonToggledColor
+        }):Play()
+    end)
+
+    SliderDetector.MouseLeave:Connect(function()
+        local tweenInfo = TweenInfo.new(0.2)
+        local tween = game:GetService("TweenService"):Create(SliderDetector, tweenInfo, {
+            BackgroundColor3 = Theme.SliderFillColor    
+        }):Play()
     end)
 end
 

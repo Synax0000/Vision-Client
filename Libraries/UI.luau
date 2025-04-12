@@ -389,14 +389,14 @@ function Lib:SpawnButton(ContainerObject, Theme, ButtonData)
         local tweenInfo = TweenInfo.new(0.2)
         local tween = game:GetService("TweenService"):Create(TextButton, tweenInfo, {
             BackgroundColor3 = Theme.ButtonToggledColor
-        })
+        }):Play()
     end)
 
     TextButton.MouseLeave:Connect(function()
         local tweenInfo = TweenInfo.new(0.2)
         local tween = game:GetService("TweenService"):Create(TextButton, tweenInfo, {
             BackgroundColor3 = Theme.DarkBackgroundColor
-        })
+        }):Play()
     end)
 end
 

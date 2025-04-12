@@ -118,6 +118,10 @@ function Lib:Init(Theme, Assets)
         tween:Play()
     end)
 
+    Minimize.MouseButton1Click:Connect(function()
+        VisionClient.Visible = false
+    end)
+
     Exit.MouseButton1Click:Connect(function()
         VisionClient:Destroy()
         _G.VisionClient.CloseAllThreads = true

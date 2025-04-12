@@ -557,7 +557,8 @@ function Lib:SpawnSlider(ContainerObject, Theme, SliderData)
         SliderData.Number = (Value * SliderData.Max) + 0.5
         _G.VisionClient.LocalConfig[SliderData.Text] = SliderData.Number or 0
     end
-    
+
+    SliderWidth = Slider.AbsoluteSize.X / SliderData.Number
 
     SliderDetector.MouseButton1Down:Connect(function()
         MousePosition = game:GetService("UserInputService"):GetMouseLocation()

@@ -41,21 +41,24 @@ function Module:FindNearistPlayer(Range)
     local ClosestPlayer = nil
     local ClosestDistance = math.huge
 
-    for _, Player in pairs(Players:GetPlayers()) do
-        if Player ~= LocalPlayer then
-            local PlayerCharacter = Player.Character
-
-            if PlayerCharacter and PlayerCharacter.PrimaryPart then
-                local PlayerPosition = PlayerCharacter.PrimaryPart.Position
-                local Distance = (PlayerPosition - CharacterPosition).Magnitude
-
-                if Distance < ClosestDistance and Distance <= Range then
-                    ClosestPlayer = Player
-                    ClosestDistance = Distance
+    pcall(function() 
+        for _, Player in pairs(Players:GetPlayers()) do
+            if Player ~= LocalPlayer then
+                local PlayerCharacter = Player.Character
+    
+                if PlayerCharacter and PlayerCharacter.PrimaryPart then
+                    local PlayerPosition = PlayerCharacter.PrimaryPart.Position
+                    local Distance = (PlayerPosition - CharacterPosition).Magnitude
+    
+                    if Distance < ClosestDistance and Distance <= Range then
+                        ClosestPlayer = Player
+                        ClosestDistance = Distance
+                    end
                 end
             end
         end
-    end
+    end)
+    
 
     return ClosestPlayer
 end
@@ -102,13 +105,15 @@ function Module:CombatTabFunctions(CombatTab)
     coroutine.wrap(function()
         while _G.VisionClient.CloseAllThreads == false do
             task.wait()
-            if TpAuraEnabled then
-                local Player = Module:FindNearistPlayer(TpAuraRange.Value)
-
-                if Player then
-                    Player.Character.PrimaryPart.CFrame = game.Players.LocalPlayer.Character.PrimaryPart.CFrame + -(game.Players.LocalPlayer.Character.PrimaryPart.CFrame.LookVector * DistanceBehind.Value)
+            pcall(function() -- final failsafe
+                if TpAuraEnabled then
+                    local Player = Module:FindNearistPlayer(TpAuraRange.Value)
+    
+                    if Player then
+                        Player.Character.PrimaryPart.CFrame = game.Players.LocalPlayer.Character.PrimaryPart.CFrame + -(game.Players.LocalPlayer.Character.PrimaryPart.CFrame.LookVector * DistanceBehind.Value)
+                    end
                 end
-            end
+            end)
         end
     end)()
 end

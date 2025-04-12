@@ -113,7 +113,7 @@ function Module:CombatTabFunctions(CombatTab)
                     local Player = Module:FindNearistPlayer(TpAuraRange.Number)
     
                     if Player then
-                        Player.Character.PrimaryPart.CFrame = game.Players.LocalPlayer.Character.PrimaryPart.CFrame + -(game.Players.LocalPlayer.Character.PrimaryPart.CFrame.LookVector * DistanceBehind.Value)
+                        Player.Character.PrimaryPart.CFrame = game.Players.LocalPlayer.Character.PrimaryPart.CFrame + -(game.Players.LocalPlayer.Character.PrimaryPart.CFrame.LookVector * DistanceBehind.Number)
                     end
                 end
             end)

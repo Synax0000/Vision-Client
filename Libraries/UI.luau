@@ -96,7 +96,7 @@ function Lib:Init(Theme, Assets)
 
     Exit.MouseEnter:Connect(function()
         local tweenInfo = TweenInfo.new(0.2)
-        local tween = game:GetService("TweenService"):Create(Exit, tweenInfo, {ImageColor3 = Color3.fromRGB(255, 0, 0)})
+        local tween = game:GetService("TweenService"):Create(Exit, tweenInfo, {ImageColor3 = Theme.StrokeColor})
         tween:Play()
     end)
 
@@ -234,7 +234,7 @@ function Lib:InitTab(UIData, Theme, TabData)
     end)
 
     Tab.MouseLeave:Connect(function()
-        if TabPage.Visible == false then 
+        if TabPage.Visible == true then 
             return 
         end
 

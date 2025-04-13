@@ -294,7 +294,7 @@ function Lib:InitItemContainer(TabData, Theme)
     Container.BorderSizePixel = 0
     Container.ClipsDescendants = true
     Container.Position = UDim2.new(0.0146985875, 0, 0.0339702778, 0)
-    Container.Size = UDim2.new(0.978, 0, 0.5, 0)
+    Container.Size = UDim2.new(0.978, 0, 0.9, 0)
 
     UIListLayout.Parent = Container
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder

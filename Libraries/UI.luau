@@ -285,7 +285,7 @@ function Lib:InitItemContainer(TabData, Theme)
     ItemContainer.BorderColor3 = Color3.fromRGB(0, 0, 0)
     ItemContainer.BorderSizePixel = 0
     ItemContainer.ClipsDescendants = true
-    ItemContainer.Size = UDim2.new(0.997, 0,0.35, 0)
+    ItemContainer.Size = UDim2.new(0.997, 0,0.15, 0)
 
     Container.Name = "Container"
     Container.Parent = ItemContainer

@@ -62,7 +62,7 @@ function Module:GetBestPlayerInFov(Players, Radius)
         local ScreenPosition, OnScreen = Camera:WorldToViewportPoint(Head.Position)
 
         if OnScreen and ScreenPosition.Z > 0 then
-            local DistanceFromCenter = (ScreenPosition - ScreenCenter).Magnitude
+            local DistanceFromCenter = (Vector2.new(ScreenPosition.X, ScreenPosition.Y) - ScreenCenter).Magnitude
 
             if DistanceFromCenter < Radius and DistanceFromCenter < SmallestDistance then
                 SmallestDistance = DistanceFromCenter
@@ -231,8 +231,8 @@ function Module:CombatTabFunctions(CombatTab)
         end
     })
 
-    Module.Lib:SpawnLabel(LockOnContainer, Module.Theme, {Text = "Aim Assist FOV",})
-    local AimAssistFOVRange = Module.Lib:SpawnSlider(LockOnContainer, Module.Theme, {
+    Module.Lib:SpawnLabel(AimAssistContainer, Module.Theme, {Text = "Aim Assist FOV",})
+    local AimAssistFOVRange = Module.Lib:SpawnSlider(AimAssistContainer, Module.Theme, {
         Text = "AimAssist-FOV",
         Min = 0,
         Max = 500,
@@ -240,8 +240,8 @@ function Module:CombatTabFunctions(CombatTab)
         Number = 150,
     })
 
-    Module.Lib:SpawnLabel(LockOnContainer, Module.Theme, {Text = "Aim Assist Smoothness",})
-    local AimAssistSmoothnessRange = Module.Lib:SpawnSlider(LockOnContainer, Module.Theme, {
+    Module.Lib:SpawnLabel(AimAssistContainer, Module.Theme, {Text = "Aim Assist Smoothness",})
+    local AimAssistSmoothnessRange = Module.Lib:SpawnSlider(AimAssistContainer, Module.Theme, {
         Text = "AimAssist-Smoothness",
         Min = 0.01,
         Max = 0.3,
@@ -289,8 +289,8 @@ function Module:CombatTabFunctions(CombatTab)
                         
                         local LookCFrame = CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.Position, TargetPos)
                         local NewCFrame = game.Players.LocalPlayer.Character.PrimaryPart.CFrame:Lerp(LookCFrame, Smoothness)
-                        
-                        game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(NewCFrame)
+
+                        game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(NewCFrame.X, game.Players.LocalPlayer.Character.PrimaryPart.Position.Y, NewCFrame.Z))
                     end
                 end
 

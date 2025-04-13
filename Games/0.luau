@@ -36,7 +36,7 @@ end
 function Module:GetPlayersWithinScreenView() 
     local VisiblePlayers = {}
     
-    for _,Player in pairs(game:GetService("Players"):GetPlayers()) do
+    for _,Player in pairs(game:GetService("Players"):GetChildern()) do
         if Player.Character ~= game.Players.LocalPlayer and Player.Character:FindFirstChild("HumanoidRootPart") then
             local Head = Player.Character.Head
             local ScreenPosition, OnScreen = game.Workspace.CurrentCamera:WorldToViewportPoint(Head.Position)

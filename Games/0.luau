@@ -68,7 +68,6 @@ end
 
 function Module:CombatTabFunctions(CombatTab)
     -- TODO: ADD
-    -- Lock On
     -- Click Aura
     -- Auto Clicker
     -- Aimbot
@@ -135,6 +134,36 @@ function Module:CombatTabFunctions(CombatTab)
         Number = 2,
     })
 
+    local LockOnContainer = Module.Lib:InitItemContainer(CombatTab, Module.Theme)
+    Module.Lib:SpawnLabel(LockOnContainer, Module.Theme, {Text = "Lock On",})
+
+    local LockOnEnabled = false
+    Module.Lib:SpawnToggle(LockOnContainer, Module.Theme, {
+        Text = "LockOn-Enabled",
+        DisplayText = "Enabled",
+        Callback = function(Value)
+            LockOnEnabled = Value
+        end
+    })
+
+    Module.Lib:SpawnLabel(LockOnContainer, Module.Theme, {Text = "Target Range",})
+    local LockOnRange = Module.Lib:SpawnSlider(LockOnContainer, Module.Theme, {
+        Text = "LockOn-Range",
+        Min = 0,
+        Max = 100,
+        RawInt = true,
+        Number = 8,
+    })
+
+    Module.Lib:SpawnLabel(LockOnContainer, Module.Theme, {Text = "Smoothness",})
+    local LockOnSmoothness = Module.Lib:SpawnSlider(LockOnContainer, Module.Theme, {
+        Text = "LockOn-Smoothness",
+        Min = 0,
+        Max = 1,
+        RawInt = false,
+        Number = 0.5,
+    })
+
     coroutine.wrap(function()
         while _G.VisionClient.CloseAllThreads == false do
             task.wait()
@@ -165,7 +194,19 @@ function Module:CombatTabFunctions(CombatTab)
                         game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(NewPosition, TargetPos))
                     end
                 end
+
+                if LockOnEnabled then
+                    local Player = Module:FindNearistPlayer(LockOnRange.Number)
                 
+                    if Player then
+                        local TargetPos = Player.Character.PrimaryPart.Position
+                        local Smoothness = LockOnSmoothness.Number
+                
+                        local NewPosition = game.Players.LocalPlayer.Character.PrimaryPart.CFrame:Lerp(CFrame.new(TargetPos), Smoothness)
+                
+                        game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(NewPosition)
+                    end
+                end
             end)
 
             if not s then

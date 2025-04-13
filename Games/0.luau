@@ -76,8 +76,8 @@ end
 
 function Module:IsPlayerObstructed(Player) 
     local raycastParams = RaycastParams.new()
-    RaycastParams.FilterType = Enum.RaycastFilterType.Blacklist
-    RaycastParams.FilterDescendantsInstances = {Player.Character}
+    raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
+    raycastParams.FilterDescendantsInstances = {Player.Character}
 
     local Result = workspace:Raycast(game.Workspace.CurrentCamera.CFrame.Position, (Player.Character.Head.Position - game.Workspace.CurrentCamera.CFrame.Position).Unit * 500, raycastParams)
 
@@ -126,7 +126,6 @@ end
 function Module:CombatTabFunctions(CombatTab)
     -- TODO: ADD
     -- Aimbot
-    -- Aim Assist
 
     local TpAuraContainer = Module.Lib:InitItemContainer(CombatTab, Module.Theme)
     Module.Lib:SpawnLabel(TpAuraContainer, Module.Theme, {Text = "Tp Aura",})

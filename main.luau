@@ -38,6 +38,14 @@ function Lib:Init()
     _G.VisionClient.LocalConfig = GameConfig
     _G.VisionClient.GlobalConfig = GlobalConfig
 
+    if GlobalConfig == "null" then
+        _G.VisionClient.GlobalConfig = {}
+    end
+
+    if GameConfig == "null" then
+        _G.VisionClient.LocalConfig = {}
+    end
+
     coroutine.wrap(function() 
         while task.wait(math.random(5, 20)) do
             print("📃 Saving configs...")

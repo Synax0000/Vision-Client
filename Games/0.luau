@@ -68,7 +68,6 @@ end
 
 function Module:CombatTabFunctions(CombatTab)
     -- TODO: ADD
-    -- Orbit Aura
     -- Lock On
     -- Click Aura
     -- Auto Clicker
@@ -104,8 +103,6 @@ function Module:CombatTabFunctions(CombatTab)
         Max = 100,
         Number = 2,
     })
-
-    -- Just make the orbit aura set the players cframe in a circle around the player
 
     local OrbitAuraContainer = Module.Lib:InitItemContainer(CombatTab, Module.Theme)
     Module.Lib:SpawnLabel(OrbitAuraContainer, Module.Theme, {Text = "Orbit Aura",})

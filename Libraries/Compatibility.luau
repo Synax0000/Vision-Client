@@ -2,7 +2,7 @@ local Lib = {}
 
 function Lib:Check()
     local FunctionsToCheck = {
-
+        mouse1click
     }
 
     local IncompatibleFunctions = {}

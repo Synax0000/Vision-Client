@@ -33,6 +33,63 @@ function Module:Run()
     Module:UtilitiesTabFunctions(Utilities)
 end
 
+function Module:GetPlayersWithinScreenView() 
+    local VisiblePlayers = {}
+    
+    for _,Player in pairs(game:GetService("Players"):GetPlayers()) do
+        if Player.Character ~= game.Players.LocalPlayer and Player.Character:FindFirstChild("HumanoidRootPart") then
+            local Head = Player.Character.Head
+            local ScreenPosition, OnScreen = game.Workspace.CurrentCamera:WorldToViewportPoint(Head.Position)
+
+            if OnScreen and ScreenPosition.Z > 0 then
+                table.insert(VisiblePlayers, Player)
+            end
+        end
+    end
+
+    return VisiblePlayers
+end
+
+function Module:GetBestPlayerInFov(Players, Radius) 
+    local Camera = game.Workspace.CurrentCamera
+    local ScreenCenter = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
+
+    local BestPlayer = nil
+    local SmallestDistance = math.huge
+
+    for _, Player in pairs(Players) do
+        local Head = Player.Character.Head
+        local ScreenPosition, OnScreen = Camera:WorldToViewportPoint(Head.Position)
+
+        if OnScreen and ScreenPosition.Z > 0 then
+            local DistanceFromCenter = (ScreenPosition - ScreenCenter).Magnitude
+
+            if DistanceFromCenter < Radius and DistanceFromCenter < SmallestDistance then
+                SmallestDistance = DistanceFromCenter
+                BestPlayer = Player
+            end
+        end
+    end
+
+    return BestPlayer
+end
+
+function Module:IsPlayerObstructed(Player) 
+    local raycastParams = RaycastParams.new()
+    RaycastParams.FilterType = Enum.RaycastFilterType.Blacklist
+    RaycastParams.FilterDescendantsInstances = {Player.Character}
+
+    local Result = workspace:Raycast(game.Workspace.CurrentCamera.CFrame.Position, (Player.Character.Head.Position - game.Workspace.CurrentCamera.CFrame.Position).Unit * 500, raycastParams)
+
+    if Result then
+        if Result.Instance.Parent == Player.Character then
+            return false
+        end
+    end
+
+    return true
+end
+
 function Module:FindNearistPlayer(Range) 
     local Players = game:GetService("Players")
     local LocalPlayer = Players.LocalPlayer
@@ -68,8 +125,6 @@ end
 
 function Module:CombatTabFunctions(CombatTab)
     -- TODO: ADD
-    -- Click Aura
-    -- Auto Clicker
     -- Aimbot
     -- Aim Assist
 
@@ -158,10 +213,40 @@ function Module:CombatTabFunctions(CombatTab)
     Module.Lib:SpawnLabel(LockOnContainer, Module.Theme, {Text = "Smoothness",})
     local LockOnSmoothness = Module.Lib:SpawnSlider(LockOnContainer, Module.Theme, {
         Text = "LockOn-Smoothness",
-        Min = 0,
+        Min = 0.1,
         Max = 1,
         RawInt = false,
         Number = 0.5,
+    })
+
+    local AimAssistContainer = Module.Lib:InitItemContainer(CombatTab, Module.Theme)
+    Module.Lib:SpawnLabel(AimAssistContainer, Module.Theme, {Text = "Aim Assist",})
+
+    local AimAssistEnabled = false
+    Module.Lib:SpawnToggle(AimAssistContainer, Module.Theme, {
+        Text = "AimAssist-Enabled",
+        DisplayText = "Enabled",
+        Callback = function(Value)
+            AimAssistEnabled = Value
+        end
+    })
+
+    Module.Lib:SpawnLabel(LockOnContainer, Module.Theme, {Text = "Aim Assist FOV",})
+    local AimAssistFOVRange = Module.Lib:SpawnSlider(LockOnContainer, Module.Theme, {
+        Text = "AimAssist-FOV",
+        Min = 0,
+        Max = 500,
+        RawInt = true,
+        Number = 150,
+    })
+
+    Module.Lib:SpawnLabel(LockOnContainer, Module.Theme, {Text = "Aim Assist Smoothness",})
+    local AimAssistSmoothnessRange = Module.Lib:SpawnSlider(LockOnContainer, Module.Theme, {
+        Text = "AimAssist-Smoothness",
+        Min = 0.01,
+        Max = 0.3,
+        RawInt = false,
+        Number = 0.08,
     })
 
     coroutine.wrap(function()
@@ -201,10 +286,30 @@ function Module:CombatTabFunctions(CombatTab)
                     if Player then
                         local TargetPos = Player.Character.PrimaryPart.Position
                         local Smoothness = LockOnSmoothness.Number
-                
-                        local NewPosition = game.Players.LocalPlayer.Character.PrimaryPart.CFrame:Lerp(CFrame.new(TargetPos), Smoothness)
-                
-                        game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(NewPosition)
+                        
+                        local LookCFrame = CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.Position, TargetPos)
+                        local NewCFrame = game.Players.LocalPlayer.Character.PrimaryPart.CFrame:Lerp(LookCFrame, Smoothness)
+                        
+                        game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(NewCFrame)
+                    end
+                end
+
+                if AimAssistEnabled then
+                    local Players = Module:GetPlayersWithinScreenView()
+                    local BestPlayer = Module:GetBestPlayerInFov(Players, AimAssistFOVRange.Number)
+
+                    if BestPlayer then
+                        if not Module:IsPlayerObstructed(BestPlayer) then
+                            local Camera = workspace.CurrentCamera
+                            local Head = BestPlayer.Character:FindFirstChild("Head")
+
+                            if Head then
+                                local Smoothness = AimAssistSmoothnessRange.Number
+                    
+                                local TargetLookCFrame = CFrame.new(Camera.CFrame.Position, Head.Position)
+                                Camera.CFrame = Camera.CFrame:Lerp(TargetLookCFrame, Smoothness)
+                            end
+                        end
                     end
                 end
             end)

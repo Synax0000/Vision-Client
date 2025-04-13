@@ -298,6 +298,7 @@ function Lib:InitItemContainer(TabData, Theme)
 
     UIListLayout.Parent = Container
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    UIListLayout.Padding = UDim.new(0.05, 0)
 
     UIStroke.Parent = Container
     UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border

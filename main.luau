@@ -54,16 +54,7 @@ function Lib:Init()
             print("✅ Saved configs.")
         end
     end)()
-
-    local PlayerGUI = game.Players.LocalPlayer.PlayerGui
-
-    PlayerGUI.Destroying:Connect(function() -- Likely means player is leaving
-        print("📃 Saving configs...")
-        writefile("VisionClient/GameConfigs/" .. PlaceId .. ".json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.LocalConfig))
-        writefile("VisionClient/GlobalConfig.json", game:GetService("HttpService"):JSONEncode(_G.VisionClient.GlobalConfig))
-        print("✅ Saved configs.")
-    end)
-
+    
     Module:Run()
 end
 

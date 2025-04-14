@@ -119,7 +119,7 @@ function Lib:Init(Theme, Assets)
     end)
 
     Minimize.MouseButton1Click:Connect(function()
-        VisionClient.Visible = false
+        VisionClient.Enabled = false
     end)
 
     Exit.MouseButton1Click:Connect(function()

@@ -167,7 +167,7 @@ function Module:CombatTabFunctions(CombatTab)
 
     local AimAssistFOVCircleCorner = Instance.new("UICorner")
     AimAssistFOVCircleCorner.Parent = AimAssistFOVCircle
-    AimAssistFOVCircleCorner.CornerRadius = UDim.new(1, 0)
+    AimAssistFOVCircleCorner.CornerRadius = UDim.new(100, 0)
 
     local AimAssistFOVCircleStroke = Instance.new("UIStroke")
     AimAssistFOVCircleStroke.Parent = AimAssistFOVCircle
@@ -183,7 +183,7 @@ function Module:CombatTabFunctions(CombatTab)
 
     local AimbotFOVCircleCorner = Instance.new("UICorner")
     AimbotFOVCircleCorner.Parent = AimbotFOVCircle
-    AimbotFOVCircleCorner.CornerRadius = UDim.new(1, 0)
+    AimbotFOVCircleCorner.CornerRadius = UDim.new(100, 0)
 
     local AimbotFOVCircleStroke = Instance.new("UIStroke")
     AimbotFOVCircleStroke.Parent = AimbotFOVCircle
@@ -336,6 +336,10 @@ function Module:CombatTabFunctions(CombatTab)
 
     AimbotFOVCircle.Size = UDim2.new(0, AimbotFOVRange.Number, 0, AimbotFOVRange.Number)
     AimbotFOVCircle.Position = UDim2.new(0.5, -AimbotFOVRange.Number / 2, 0.5, -AimbotFOVRange.Number / 2)
+
+    Module.UIOBJECT.Destroying:Connect(function()
+        ScreenGui:Destroy()
+    end)
 
 
     coroutine.wrap(function()

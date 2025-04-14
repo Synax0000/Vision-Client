@@ -163,7 +163,6 @@ function Module:CombatTabFunctions(CombatTab)
     local AimAssistFOVCircle = Instance.new("Frame")
     AimAssistFOVCircle.BackgroundTransparency = 1.000
     AimAssistFOVCircle.Visible = false
-    AimAssistFOVCircle.Position = UDim2.new(0.5, 0, 0.5, 0)
     AimAssistFOVCircle.Parent = ScreenGui
 
     local AimAssistFOVCircleCorner = Instance.new("UICorner")
@@ -180,7 +179,6 @@ function Module:CombatTabFunctions(CombatTab)
     local AimbotFOVCircle = Instance.new("Frame")
     AimbotFOVCircle.Visible = false
     AimbotFOVCircle.BackgroundTransparency = 1.000
-    AimbotFOVCircle.Position = UDim2.new(0.5, 0, 0.5, 0)
     AimbotFOVCircle.Parent = ScreenGui
 
     local AimbotFOVCircleCorner = Instance.new("UICorner")
@@ -307,6 +305,8 @@ function Module:CombatTabFunctions(CombatTab)
         Number = 200,
     })
 
+    Module.Lib:SpawnLabel(AimAssistContainer, Module.Theme, {Text = "Hold Rightclick to AimAssist",})
+
     local AimbotContainer = Module.Lib:InitItemContainer(CombatTab, Module.Theme)
     Module.Lib:SpawnLabel(AimbotContainer, Module.Theme, {Text = "Aimbot",})
 
@@ -329,8 +329,14 @@ function Module:CombatTabFunctions(CombatTab)
         Number = 200,
     })
 
-    AimAssistFOVCircle.Size = UDim2.new(0.5, -AimAssistFOVRange.Number / 2, 0.5, -AimAssistFOVRange.Number / 2)
-    AimbotFOVCircle.Size = UDim2.new(0.5, -AimbotFOVRange.Number / 2, 0.5, -AimbotFOVRange.Number / 2)
+    Module.Lib:SpawnLabel(AimbotContainer, Module.Theme, {Text = "Hold Rightclick to Aimbot",})
+
+    AimAssistFOVCircle.Size = UDim2.new(0, AimAssistFOVRange.Number, 0, AimAssistFOVRange.Number)
+    AimAssistFOVCircle.Position = UDim2.new(0.5, -AimAssistFOVRange.Number / 2, 0.5, -AimAssistFOVRange.Number / 2)
+
+    AimbotFOVCircle.Size = UDim2.new(0, AimbotFOVRange.Number, 0, AimbotFOVRange.Number)
+    AimbotFOVCircle.Position = UDim2.new(0.5, -AimbotFOVRange.Number / 2, 0.5, -AimbotFOVRange.Number / 2)
+
 
     coroutine.wrap(function()
         while _G.VisionClient.CloseAllThreads == false do

@@ -52,44 +52,59 @@ function Module:GetPlayersWithinScreenView()
 end
 
 
-function Module:GetBestPlayerInFov(Players, Radius) 
-    local Camera = game.Workspace.CurrentCamera
-    local ScreenCenter = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
-
-    local BestPlayer = nil
-    local SmallestDistance = math.huge
-
-    for _, Player in pairs(Players) do
-        local Head = Player.Character.Head
-        local ScreenPosition, OnScreen = Camera:WorldToViewportPoint(Head.Position)
-
-        if OnScreen and ScreenPosition.Z > 0 then
-            local DistanceFromCenter = (Vector2.new(ScreenPosition.X, ScreenPosition.Y) - ScreenCenter).Magnitude
-
-            if DistanceFromCenter < Radius and DistanceFromCenter < SmallestDistance then
-                SmallestDistance = DistanceFromCenter
-                BestPlayer = Player
-            end
-        end
-    end
-
-    return BestPlayer
-end
-
 function Module:IsPlayerObstructed(Player) 
     local raycastParams = RaycastParams.new()
     raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
     raycastParams.FilterDescendantsInstances = {game.Players.LocalPlayer.Character}
 
-    local Result = workspace:Raycast(game.Workspace.CurrentCamera.CFrame.Position, (Player.Character.Head.Position - game.Workspace.CurrentCamera.CFrame.Position).Unit * 1000, raycastParams)
+    for _, iPlayer in pairs(game:GetService("Players"):GetPlayers()) do
+        if iPlayer ~= game.Players.LocalPlayer and iPlayer ~= Player then
+            table.insert(raycastParams.FilterDescendantsInstances, iPlayer.Character)
+        end
+    end 
+
+    local Origin = game.Workspace.CurrentCamera.CFrame.Position
+    local Direction = (Player.Character.Head.Position - Origin).Unit * (Player.Character.Head.Position - Origin).Magnitude
+
+    local Result = workspace:Raycast(Origin, Direction, raycastParams)
 
     if Result then
-        if Result.Instance.Parent == Player.Character then
+        if Result.Instance:IsDescendantOf(Player.Character) then
             return false
         end
     end
 
     return true
+end
+
+
+function Module:GetBestPlayerInFov(Radius) 
+    local Players = Module:GetPlayersWithinScreenView()
+    local Camera = game.Workspace.CurrentCamera
+    local MousePosition = game:GetService("UserInputService"):GetMouseLocation()
+    
+    local BestPlayer = nil
+    local ClosestDistance = Radius/2
+
+    for _, Player in pairs(Players) do
+        if Player ~= game:GetService("Players").LocalPlayer and Player.Character:FindFirstChild("Head") and Player.Character:FindFirstChild("Humanoid").Health > 0 then
+            local Head = Player.Character.Head
+
+            if Module:IsPlayerObstructed(Player) == false then
+                local PositionOnScreen, OnScreen = Camera:WorldToViewportPoint(Head.Position)
+                PositionOnScreen = Vector2.new(PositionOnScreen.X, PositionOnScreen.Y)
+
+                local Distance = (MousePosition - PositionOnScreen).Magnitude
+
+                if OnScreen and Distance < ClosestDistance then
+                    BestPlayer = PositionOnScreen
+                    ClosestDistance = Distance
+                end
+            end
+        end
+    end
+
+    return BestPlayer
 end
 
 function Module:FindNearistPlayer(Range) 
@@ -299,25 +314,15 @@ function Module:CombatTabFunctions(CombatTab)
                 end
 
                 if AimAssistEnabled then
-                    local Players = Module:GetPlayersWithinScreenView()
-                    local BestPlayer = Module:GetBestPlayerInFov(Players, AimAssistFOVRange.Number)
+                    local BestPlayer = Module:GetBestPlayerInFov(AimAssistFOVRange.Number)
 
                     if BestPlayer then
-                        if Module:IsPlayerObstructed(BestPlayer) == false then
-                            print("not obstructed")
-                            local Camera = workspace.CurrentCamera
-                            local Head = BestPlayer.Character:FindFirstChild("Head")
+                        local Camera = workspace.CurrentCamera
+                        local MousePosition = game:GetService("UserInputService"):GetMouseLocation()     
                         
-                            if Head then
-                                print("found head")
-                                local Smoothness = AimAssistSmoothnessRange.Number
-                                local MouseLocation = game:GetService("UserInputService"):GetMouseLocation()
-                                local HeadScreenPosition, OnScreen = Camera:WorldToViewportPoint(Head.Position)
-                        
-                                local Delta = (Vector2.new(HeadScreenPosition.X, HeadScreenPosition.Y) - MouseLocation) * Smoothness
-                                mousemoverel(Delta.X, Delta.Y)
-                            end
-                        end                        
+                        local MousePosition = game.UserInputService:GetMouseLocation()
+                        local Delta = (BestPlayer - MousePosition) * AimAssistSmoothnessRange.Number
+                        mousemoverel(Delta.X, Delta.Y)
                     end
                 end
             end)

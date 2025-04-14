@@ -35,11 +35,12 @@ end
 
 function Module:GetPlayersWithinScreenView() 
     local VisiblePlayers = {}
-    
-    for _,Player in pairs(game:GetService("Players"):GetChildren()) do
-        if Player.Character ~= game.Players.LocalPlayer and Player.Character:FindFirstChild("HumanoidRootPart") then
+    local LocalPlayer = game:GetService("Players").LocalPlayer
+
+    for _,Player in pairs(game:GetService("Players"):GetPlayers()) do
+        if Player ~= LocalPlayer and Player.Character and Player.Character:FindFirstChild("Head") then
             local Head = Player.Character.Head
-            local ScreenPosition, OnScreen = game.Workspace.CurrentCamera:WorldToViewportPoint(Head.Position)
+            local ScreenPosition, OnScreen = workspace.CurrentCamera:WorldToViewportPoint(Head.Position)
 
             if OnScreen and ScreenPosition.Z > 0 then
                 table.insert(VisiblePlayers, Player)
@@ -49,6 +50,7 @@ function Module:GetPlayersWithinScreenView()
 
     return VisiblePlayers
 end
+
 
 function Module:GetBestPlayerInFov(Players, Radius) 
     local Camera = game.Workspace.CurrentCamera
@@ -304,14 +306,18 @@ function Module:CombatTabFunctions(CombatTab)
                         if not Module:IsPlayerObstructed(BestPlayer) then
                             local Camera = workspace.CurrentCamera
                             local Head = BestPlayer.Character:FindFirstChild("Head")
-
+                        
                             if Head then
                                 local Smoothness = AimAssistSmoothnessRange.Number
-                    
-                                local TargetLookCFrame = CFrame.new(Camera.CFrame.Position, Head.Position)
-                                Camera.CFrame = Camera.CFrame:Lerp(TargetLookCFrame, Smoothness)
+                                local MouseLocation = game:GetService("UserInputService"):GetMouseLocation()
+                                local HeadScreenPos, OnScreen = Camera:WorldToViewportPoint(Head.Position)
+                        
+                                if OnScreen then
+                                    local Delta = (Vector2.new(HeadScreenPos.X, HeadScreenPos.Y) - MouseLocation) * Smoothness
+                                    mousemoverel(Delta.X, Delta.Y)
+                                end
                             end
-                        end
+                        end                        
                     end
                 end
             end)

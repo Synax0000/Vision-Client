@@ -2,7 +2,8 @@ local Lib = {}
 
 function Lib:Check()
     local FunctionsToCheck = {
-        mouse1click
+        mouse1click,
+        movemouserel
     }
 
     local IncompatibleFunctions = {}

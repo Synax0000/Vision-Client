@@ -578,6 +578,7 @@ function Module:VisualsTabFunctions(VisualsTab)
     -- Tracers
     -- Health Bar
 
+    local ESPStrokeColor = nil
     local ESPColor = nil
 
     local function AttachESP(Character)
@@ -597,7 +598,7 @@ function Module:VisualsTabFunctions(VisualsTab)
         local FillG = tonumber(FillColorParsed[2])
         local FillB = tonumber(FillColorParsed[3])
 
-        local StrokeColorParsed = string.split(ESPColor.TextboxText, ",")
+        local StrokeColorParsed = string.split(ESPStrokeColor.TextboxText, ",")
 
         for i = 1, #StrokeColorParsed do
             local Number = tonumber(StrokeColorParsed[i])
@@ -661,14 +662,14 @@ function Module:VisualsTabFunctions(VisualsTab)
     })
 
     Module.Lib:SpawnLabel(ESPContainer, Module.Theme, {Text = "ESP Color - Leave empty for no fill",})
-    local ESPColor = Module.Lib:SpawnTextBox(ESPContainer, Module.Theme, {
+    ESPColor = Module.Lib:SpawnTextBox(ESPContainer, Module.Theme, {
         Text = "ESP-Color",
         TextboxText = "255,0,0",
         PlaceholderText = "R,G,B",
     })
 
     Module.Lib:SpawnLabel(ESPContainer, Module.Theme, {Text = "ESP Stroke Color - Leave empty for no stroke",})
-    local ESPStrokeColor = Module.Lib:SpawnTextBox(ESPContainer, Module.Theme, {
+    ESPStrokeColor = Module.Lib:SpawnTextBox(ESPContainer, Module.Theme, {
         Text = "ESP-Stroke-Color",
         TextboxText = "255,255,255",
         PlaceholderText = "R,G,B",

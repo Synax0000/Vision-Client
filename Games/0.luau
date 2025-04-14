@@ -524,10 +524,10 @@ function Module:MovementTabFunctions(MovementTab)
                         InfinteJumpPlatform.CanCollide = true
                         InfinteJumpPlatform.Transparency = 0.5
                         InfinteJumpPlatform.Size = Vector3.new(5, 1, 5)
-                        InfinteJumpPlatform.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame - Vector3.new(0, 1.5, 0)
+                        InfinteJumpPlatform.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame - Vector3.new(0, 0.5, 0)
                         InfinteJumpPlatform.Parent = game.Workspace
                     else
-                        InfinteJumpPlatform.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame - Vector3.new(0, 1.5, 0)
+                        InfinteJumpPlatform.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame - Vector3.new(0, 0.5, 0)
                     end
 
                     game.Players.LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
@@ -547,7 +547,7 @@ function Module:MovementTabFunctions(MovementTab)
                 return
             end
 
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = MouseHit.CFrame
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = MouseHit
         end
     end)
 
@@ -688,9 +688,8 @@ function Module:VisualsTabFunctions(VisualsTab)
 end
 
 function Module:UtilitiesTabFunctions(UtilitiesTab)
-    -- TODO: ADD
-    -- Gravity Changer
-    -- Noclip
+    local NoUtilityContainer = Module.Lib:InitItemContainer(UtilitiesTab, Module.Theme)
+    Module.Lib:SpawnLabel(NoUtilityContainer, Module.Theme, {Text = "No Utilities - for now",})
 end
 
 return Module 

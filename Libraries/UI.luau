@@ -628,6 +628,8 @@ function Lib:SpawnTextBox(ContainerObject, Theme, TextBoxData)
     TextBox:GetPropertyChangedSignal("Text"):Connect(function()
         TextBoxData.TextboxText = TextBox.Text
     end)
+
+    return TextBoxData
 end
 
 function Lib:InitExtras(LibVar,UIData, Theme)

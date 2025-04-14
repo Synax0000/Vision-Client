@@ -36,7 +36,7 @@ end
 function Module:GetPlayersWithinScreenView() 
     local VisiblePlayers = {}
     
-    for _,Player in pairs(game:GetService("Players"):GetChildern()) do
+    for _,Player in pairs(game:GetService("Players"):GetChildren()) do
         if Player.Character ~= game.Players.LocalPlayer and Player.Character:FindFirstChild("HumanoidRootPart") then
             local Head = Player.Character.Head
             local ScreenPosition, OnScreen = game.Workspace.CurrentCamera:WorldToViewportPoint(Head.Position)
@@ -283,13 +283,16 @@ function Module:CombatTabFunctions(CombatTab)
                     local Player = Module:FindNearistPlayer(LockOnRange.Number)
                 
                     if Player then
-                        local TargetPos = Player.Character.PrimaryPart.Position
+                        local Character = game.Players.LocalPlayer.Character
+                        local TargetPosition = Player.Character.Head.Position
                         local Smoothness = LockOnSmoothness.Number
                         
-                        local LookCFrame = CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.Position, TargetPos)
-                        local NewCFrame = game.Players.LocalPlayer.Character.PrimaryPart.CFrame:Lerp(LookCFrame, Smoothness)
-
-                        game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(NewCFrame.X, game.Players.LocalPlayer.Character.PrimaryPart.Position.Y, NewCFrame.Z))
+                        local Origin = Character.PrimaryPart.Position
+                        local Direction = (TargetPosition - Origin).Unit
+                        local LookAt = CFrame.new(Origin, Origin + Direction)
+                        local NewCFrame = Character.PrimaryPart.CFrame:Lerp(LookAt, Smoothness)
+                        
+                        Character:SetPrimaryPartCFrame(NewCFrame)                        
                     end
                 end
 

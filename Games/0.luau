@@ -247,7 +247,7 @@ function Module:CombatTabFunctions(CombatTab)
         Min = 0.01,
         Max = 0.3,
         RawInt = false,
-        Number = 0.08,
+        Number = 0.15,
     })
 
     coroutine.wrap(function()
@@ -303,19 +303,20 @@ function Module:CombatTabFunctions(CombatTab)
                     local BestPlayer = Module:GetBestPlayerInFov(Players, AimAssistFOVRange.Number)
 
                     if BestPlayer then
+                        print(BestPlayer.Name)
                         if not Module:IsPlayerObstructed(BestPlayer) then
+                            print("not obstructed")
                             local Camera = workspace.CurrentCamera
                             local Head = BestPlayer.Character:FindFirstChild("Head")
                         
                             if Head then
+                                print("found head")
                                 local Smoothness = AimAssistSmoothnessRange.Number
                                 local MouseLocation = game:GetService("UserInputService"):GetMouseLocation()
-                                local HeadScreenPos, OnScreen = Camera:WorldToViewportPoint(Head.Position)
+                                local HeadScreenPosition, OnScreen = Camera:WorldToViewportPoint(Head.Position)
                         
-                                if OnScreen then
-                                    local Delta = (Vector2.new(HeadScreenPos.X, HeadScreenPos.Y) - MouseLocation) * Smoothness
-                                    mousemoverel(Delta.X, Delta.Y)
-                                end
+                                local Delta = (Vector2.new(HeadScreenPosition.X, HeadScreenPosition.Y) - MouseLocation) * Smoothness
+                                mousemoverel(Delta.X, Delta.Y)
                             end
                         end                        
                     end

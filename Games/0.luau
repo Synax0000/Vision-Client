@@ -79,9 +79,9 @@ end
 function Module:IsPlayerObstructed(Player) 
     local raycastParams = RaycastParams.new()
     raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
-    raycastParams.FilterDescendantsInstances = {Player.Character}
+    raycastParams.FilterDescendantsInstances = {game.Players.LocalPlayer.Character}
 
-    local Result = workspace:Raycast(game.Workspace.CurrentCamera.CFrame.Position, (Player.Character.Head.Position - game.Workspace.CurrentCamera.CFrame.Position).Unit * 500, raycastParams)
+    local Result = workspace:Raycast(game.Workspace.CurrentCamera.CFrame.Position, (Player.Character.Head.Position - game.Workspace.CurrentCamera.CFrame.Position).Unit * 1000, raycastParams)
 
     if Result then
         if Result.Instance.Parent == Player.Character then
@@ -303,8 +303,7 @@ function Module:CombatTabFunctions(CombatTab)
                     local BestPlayer = Module:GetBestPlayerInFov(Players, AimAssistFOVRange.Number)
 
                     if BestPlayer then
-                        print(BestPlayer.Name)
-                        if not Module:IsPlayerObstructed(BestPlayer) then
+                        if Module:IsPlayerObstructed(BestPlayer) == false then
                             print("not obstructed")
                             local Camera = workspace.CurrentCamera
                             local Head = BestPlayer.Character:FindFirstChild("Head")

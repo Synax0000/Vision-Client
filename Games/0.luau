@@ -157,8 +157,42 @@ function Module:FindNearistPlayer(Range)
 end
 
 function Module:CombatTabFunctions(CombatTab)
-    -- TODO: ADD
-    -- Aimbot
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Parent = game:WaitForChild("CoreGui")
+
+    local AimAssistFOVCircle = Instance.new("Frame")
+    AimAssistFOVCircle.BackgroundTransparency = 1.000
+    AimAssistFOVCircle.Visible = false
+    AimAssistFOVCircle.Position = UDim2.new(0.5, 0, 0.5, 0)
+    AimAssistFOVCircle.Parent = ScreenGui
+
+    local AimAssistFOVCircleCorner = Instance.new("UICorner")
+    AimAssistFOVCircleCorner.Parent = AimAssistFOVCircle
+    AimAssistFOVCircleCorner.CornerRadius = UDim.new(1, 0)
+
+    local AimAssistFOVCircleStroke = Instance.new("UIStroke")
+    AimAssistFOVCircleStroke.Parent = AimAssistFOVCircle
+    AimAssistFOVCircleStroke.Thickness = 1
+    AimAssistFOVCircleStroke.LineJoinMode = Enum.LineJoinMode.Round
+    AimAssistFOVCircleStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    AimAssistFOVCircleStroke.Color = Module.Theme.TextColor
+
+    local AimbotFOVCircle = Instance.new("Frame")
+    AimbotFOVCircle.Visible = false
+    AimbotFOVCircle.BackgroundTransparency = 1.000
+    AimbotFOVCircle.Position = UDim2.new(0.5, 0, 0.5, 0)
+    AimbotFOVCircle.Parent = ScreenGui
+
+    local AimbotFOVCircleCorner = Instance.new("UICorner")
+    AimbotFOVCircleCorner.Parent = AimbotFOVCircle
+    AimbotFOVCircleCorner.CornerRadius = UDim.new(1, 0)
+
+    local AimbotFOVCircleStroke = Instance.new("UIStroke")
+    AimbotFOVCircleStroke.Parent = AimbotFOVCircle
+    AimbotFOVCircleStroke.Thickness = 1
+    AimbotFOVCircleStroke.LineJoinMode = Enum.LineJoinMode.Round
+    AimbotFOVCircleStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    AimbotFOVCircleStroke.Color = Module.Theme.TextColor
 
     local TpAuraContainer = Module.Lib:InitItemContainer(CombatTab, Module.Theme)
     Module.Lib:SpawnLabel(TpAuraContainer, Module.Theme, {Text = "Tp Aura",})
@@ -260,17 +294,43 @@ function Module:CombatTabFunctions(CombatTab)
         DisplayText = "Enabled",
         Callback = function(Value)
             AimAssistEnabled = Value
+            AimAssistFOVCircle.Visible = Value
         end
     })
 
     Module.Lib:SpawnLabel(AimAssistContainer, Module.Theme, {Text = "Aim Assist FOV",})
     local AimAssistFOVRange = Module.Lib:SpawnSlider(AimAssistContainer, Module.Theme, {
         Text = "AimAssist-FOV",
-        Min = 0,
-        Max = 500,
+        Min = 50,
+        Max = 1000,
         RawInt = true,
-        Number = 150,
+        Number = 200,
     })
+
+    local AimbotContainer = Module.Lib:InitItemContainer(CombatTab, Module.Theme)
+    Module.Lib:SpawnLabel(AimbotContainer, Module.Theme, {Text = "Aimbot",})
+
+    local AimbotEnabled = false
+    Module.Lib:SpawnToggle(AimbotContainer, Module.Theme, {
+        Text = "Aimbot-Enabled",
+        DisplayText = "Enabled",
+        Callback = function(Value)
+            AimbotEnabled = Value
+            AimbotFOVCircle.Visible = Value
+        end
+    })
+
+    Module.Lib:SpawnLabel(AimbotContainer, Module.Theme, {Text = "Aimbot FOV",})
+    local AimbotFOVRange = Module.Lib:SpawnSlider(AimbotContainer, Module.Theme, {
+        Text = "Aimbot-FOV",
+        Min = 50,
+        Max = 1000,
+        RawInt = true,
+        Number = 200,
+    })
+
+    AimAssistFOVCircle.Size = UDim2.new(0.5, -AimAssistFOVRange.Number / 2, 0.5, -AimAssistFOVRange.Number / 2)
+    AimbotFOVCircle.Size = UDim2.new(0.5, -AimbotFOVRange.Number / 2, 0.5, -AimbotFOVRange.Number / 2)
 
     coroutine.wrap(function()
         while _G.VisionClient.CloseAllThreads == false do
@@ -328,7 +388,20 @@ function Module:CombatTabFunctions(CombatTab)
                         local MousePosition = game:GetService("UserInputService"):GetMouseLocation()     
                         
                         local MousePosition = game.UserInputService:GetMouseLocation()
-                        local Delta = (BestPlayer - MousePosition) * 0.05
+                        local Delta = (BestPlayer - MousePosition) * 0.04
+                        mousemoverel(Delta.X, Delta.Y)
+                    end
+                end
+
+                if AimbotEnabled and Module.HoldingRightClick then
+                    local BestPlayer = Module:GetBestPlayerInFov(AimbotFOVRange.Number)
+
+                    if BestPlayer then
+                        local Camera = workspace.CurrentCamera
+                        local MousePosition = game:GetService("UserInputService"):GetMouseLocation()     
+                        
+                        local MousePosition = game.UserInputService:GetMouseLocation()
+                        local Delta = (BestPlayer - MousePosition) * 0.15
                         mousemoverel(Delta.X, Delta.Y)
                     end
                 end

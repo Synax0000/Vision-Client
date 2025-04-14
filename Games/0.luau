@@ -540,15 +540,14 @@ function Module:MovementTabFunctions(MovementTab)
         if Input.UserInputType == Enum.UserInputType.MouseButton1 and ClickToTPEnabled then
             local MouseHit = game.Players.LocalPlayer:GetMouse().Hit
             
-            if MouseHit.Name == "HumanoidRootPart" then
-                local Distance = (MouseHit.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+            
+            local Distance = (MouseHit.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
 
-                if Distance > ClickToTPRange.Number then
-                    return
-                end
-
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = MouseHit.CFrame
+            if Distance > ClickToTPRange.Number then
+                return
             end
+
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = MouseHit.CFrame
         end
     end)
 
@@ -575,8 +574,6 @@ end
 
 function Module:VisualsTabFunctions(VisualsTab)
     -- TODO: ADD
-    -- ESP
-    -- Box ESP
     -- Nametags
     -- Tracers
     -- Health Bar
@@ -619,7 +616,7 @@ function Module:VisualsTabFunctions(VisualsTab)
         local ESP = Instance.new("Highlight")
         ESP.Name = "ESP"
         ESP.Enabled = true
-        
+
         if StrokeR == nil then
             ESP.StrokeTransparency = 1
         else
@@ -673,7 +670,7 @@ function Module:VisualsTabFunctions(VisualsTab)
     Module.Lib:SpawnLabel(ESPContainer, Module.Theme, {Text = "ESP Stroke Color - Leave empty for no stroke",})
     local ESPStrokeColor = Module.Lib:SpawnTextBox(ESPContainer, Module.Theme, {
         Text = "ESP-Stroke-Color",
-        TextboxText = "0,0,0",
+        TextboxText = "255,255,255",
         PlaceholderText = "R,G,B",
     })
 

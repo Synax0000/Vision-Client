@@ -600,7 +600,7 @@ function Lib:SpawnTextBox(ContainerObject, Theme, TextBoxData)
     TextBox.Font = Enum.Font.ArimoBold
     TextBox.PlaceholderColor3 = Theme.PlaceholderTextColor
     TextBox.PlaceholderText = TextBoxData.PlaceholderText
-    TextBox.Text = TextBoxData.Text
+    TextBox.Text = TextBoxData.TextboxText
     TextBox.TextColor3 = Theme.TextColor
     TextBox.TextScaled = true
     TextBox.TextSize = 14.000
@@ -618,7 +618,7 @@ function Lib:SpawnTextBox(ContainerObject, Theme, TextBoxData)
         TextBox.Text = _G.VisionClient.LocalConfig[TextBoxData.Text]
         TextBoxData.TextboxText = _G.VisionClient.LocalConfig[TextBoxData.Text]
     else
-        _G.VisionClient.LocalConfig[TextBoxData.Text] = TextBox.TextboxText
+        _G.VisionClient.LocalConfig[TextBoxData.Text] = TextBoxData.TextboxText
     end
 
     TextBox.FocusLost:Connect(function()

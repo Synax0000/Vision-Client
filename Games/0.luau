@@ -425,11 +425,122 @@ end
 
 function Module:MovementTabFunctions(MovementTab)
     -- TODO: ADD    
-    -- Speed
-    -- Flight
-    -- Infinite Jump
     -- Platform Float
     -- Click To Tp    
+    -- Flight
+
+    local SpeedContainer = Module.Lib:InitItemContainer(MovementTab, Module.Theme)
+    Module.Lib:SpawnLabel(SpeedContainer, Module.Theme, {Text = "Speed",})
+
+    local SpeedEnabled = false
+    Module.Lib:SpawnToggle(SpeedContainer, Module.Theme, {
+        Text = "Speed-Enabled",
+        DisplayText = "Enabled",
+        Callback = function(Value)
+            SpeedEnabled = Value
+        end
+    })
+
+    local SpeedRange = Module.Lib:SpawnSlider(SpeedContainer, Module.Theme, {
+        Text = "Speed",
+        Min = 1,
+        Max = 10,
+        RawInt = true,
+        Number = 4,
+    })
+
+    local UseWalkSpeed = false
+    Module.Lib:SpawnToggle(SpeedContainer, Module.Theme, {
+        Text = "Use-Walk-Speed",
+        DisplayText = "Use Walkspeed",
+        Callback = function(Value)
+            UseWalkSpeed = Value
+        end
+    })
+
+    local WalkSpeedRange = Module.Lib:SpawnSlider(SpeedContainer, Module.Theme, {
+        Text = "Walk Speed",
+        Min = 1,
+        Max = 1000,
+        RawInt = true,
+        Number = 30,
+    })
+
+    local InfinteJumpContainer = Module.Lib:InitItemContainer(MovementTab, Module.Theme)
+    Module.Lib:SpawnLabel(InfinteJumpContainer, Module.Theme, {Text = "Infinte Jump",})
+
+    local InfinteJumpEnabled = false
+    Module.Lib:SpawnToggle(InfinteJumpContainer, Module.Theme, {
+        Text = "InfinteJump-Enabled",
+        DisplayText = "Enabled",
+        Callback = function(Value)
+            InfinteJumpEnabled = Value
+        end
+    })
+
+    local InfinteJumpPlatform = nil
+
+    local UsePlatform = false
+    Module.Lib:SpawnToggle(InfinteJumpContainer, Module.Theme, {
+        Text = "Use-Platform",
+        DisplayText = "Use Platform",
+        Callback = function(Value)
+            UsePlatform = Value
+
+            if Value then
+                InfinteJumpPlatform.Transparency = 0.5
+                InfinteJumpPlatform.CanCollide = true
+            else
+                InfinteJumpPlatform.Transparency = 1
+                InfinteJumpPlatform.CanCollide = false
+            end
+        end
+    })
+
+    game.UserInputService.InputBegan:Connect(function(Input, GameProcessed)
+        if GameProcessed then return end
+        if Input.UserInputType == Enum.UserInputType.Keyboard and Input.KeyCode == Enum.KeyCode.Space then
+            if InfinteJumpEnabled then
+                if UsePlatform then
+                    if not InfinteJumpPlatform then
+                        InfinteJumpPlatform = Instance.new("Part")
+                        InfinteJumpPlatform.Anchored = true
+                        InfinteJumpPlatform.CanCollide = true
+                        InfinteJumpPlatform.Transparency = 0.5
+                        InfinteJumpPlatform.Size = Vector3.new(5, 1, 5)
+                        InfinteJumpPlatform.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame - Vector3.new(0, 3, 0)
+                        InfinteJumpPlatform.Parent = game.Workspace
+                    else
+                        InfinteJumpPlatform.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame - Vector3.new(0, 3, 0)
+                    end
+
+                    game.Players.LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+                else
+                    game.Players.LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+                end
+            end
+        end
+    end)
+
+
+    coroutine.wrap(function()
+        while _G.VisionClient.CloseAllThreads == false do
+            task.wait()
+
+            local s,e = pcall(function()
+                if SpeedEnabled then
+                    if UseWalkSpeed then
+                        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = WalkSpeedRange.Number
+                    else
+                        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame += game.Players.LocalPlayer.Character.Humanoid.MoveDirection * SpeedRange.Number
+                    end
+                end
+            end)
+        end
+
+        InfinteJumpPlatform:Destroy()
+    end)()
 end
 
 function Module:VisualsTabFunctions(VisualsTab)

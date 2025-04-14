@@ -337,10 +337,9 @@ function Module:CombatTabFunctions(CombatTab)
     AimbotFOVCircle.Size = UDim2.new(0, AimbotFOVRange.Number, 0, AimbotFOVRange.Number)
     AimbotFOVCircle.Position = UDim2.new(0.5, -AimbotFOVRange.Number / 2, 0.5, -AimbotFOVRange.Number / 2)
 
-    Module.UIOBJECT.Destroying:Connect(function()
+    Module.UIOBJECT.UI.Destroying:Connect(function()
         ScreenGui:Destroy()
     end)
-
 
     coroutine.wrap(function()
         while _G.VisionClient.CloseAllThreads == false do
@@ -436,7 +435,6 @@ end
 function Module:VisualsTabFunctions(VisualsTab)
     -- TODO: ADD
     -- ESP
-    -- Aimbot
     -- Box ESP
     -- Nametags
     -- Tracers
@@ -447,7 +445,6 @@ function Module:UtilitiesTabFunctions(UtilitiesTab)
     -- TODO: ADD
     -- Gravity Changer
     -- Noclip
-    -- rejoin
 end
 
 return Module 

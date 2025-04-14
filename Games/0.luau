@@ -424,11 +424,6 @@ function Module:CombatTabFunctions(CombatTab)
 end
 
 function Module:MovementTabFunctions(MovementTab)
-    -- TODO: ADD    
-    -- Platform Float
-    -- Click To Tp    
-    -- Flight
-
     local SpeedContainer = Module.Lib:InitItemContainer(MovementTab, Module.Theme)
     Module.Lib:SpawnLabel(SpeedContainer, Module.Theme, {Text = "Speed",})
 
@@ -497,6 +492,27 @@ function Module:MovementTabFunctions(MovementTab)
         end
     })
 
+    local ClickToTPContainer = Module.Lib:InitItemContainer(MovementTab, Module.Theme)
+    Module.Lib:SpawnLabel(ClickToTPContainer, Module.Theme, {Text = "Click To TP",})
+
+    local ClickToTPEnabled = false
+    Module.Lib:SpawnToggle(ClickToTPContainer, Module.Theme, {
+        Text = "ClickToTP-Enabled",
+        DisplayText = "Enabled",
+        Callback = function(Value)
+            ClickToTPEnabled = Value
+        end
+    })
+
+    Module.Lib:SpawnLabel(ClickToTPContainer, Module.Theme, {Text = "Click To TP Range",})
+    local ClickToTPRange = Module.Lib:SpawnSlider(ClickToTPContainer, Module.Theme, {
+        Text = "ClickToTP-Range",
+        Min = 0,
+        Max = 10000,
+        RawInt = true,
+        Number = 1000,
+    })
+
     game.UserInputService.InputBegan:Connect(function(Input, GameProcessed)
         if GameProcessed then return end
         if Input.UserInputType == Enum.UserInputType.Keyboard and Input.KeyCode == Enum.KeyCode.Space then
@@ -508,16 +524,30 @@ function Module:MovementTabFunctions(MovementTab)
                         InfinteJumpPlatform.CanCollide = true
                         InfinteJumpPlatform.Transparency = 0.5
                         InfinteJumpPlatform.Size = Vector3.new(5, 1, 5)
-                        InfinteJumpPlatform.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame - Vector3.new(0, 3, 0)
+                        InfinteJumpPlatform.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame - Vector3.new(0, 1.5, 0)
                         InfinteJumpPlatform.Parent = game.Workspace
                     else
-                        InfinteJumpPlatform.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame - Vector3.new(0, 3, 0)
+                        InfinteJumpPlatform.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame - Vector3.new(0, 1.5, 0)
                     end
 
                     game.Players.LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
                 else
                     game.Players.LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
                 end
+            end
+        end
+
+        if Input.UserInputType == Enum.UserInputType.MouseButton1 and ClickToTPEnabled then
+            local MouseHit = game.Players.LocalPlayer:GetMouse().Hit
+            
+            if MouseHit.Name == "HumanoidRootPart" then
+                local Distance = (MouseHit.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+
+                if Distance > ClickToTPRange.Number then
+                    return
+                end
+
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = MouseHit.CFrame
             end
         end
     end)
@@ -550,6 +580,114 @@ function Module:VisualsTabFunctions(VisualsTab)
     -- Nametags
     -- Tracers
     -- Health Bar
+
+    local ESPColor = nil
+
+    local function AttachESP(Character)
+        local FillColorParsed = string.split(ESPColor.TextboxText, ",")
+
+        for i = 1, #FillColorParsed do
+            local Number = tonumber(FillColorParsed[i])
+
+            if Number then
+                FillColorParsed[i] = Number
+            else
+                table.remove(FillColorParsed, i)
+            end
+        end
+
+        local FillR = tonumber(FillColorParsed[1])
+        local FillG = tonumber(FillColorParsed[2])
+        local FillB = tonumber(FillColorParsed[3])
+
+        local StrokeColorParsed = string.split(ESPColor.TextboxText, ",")
+
+        for i = 1, #StrokeColorParsed do
+            local Number = tonumber(StrokeColorParsed[i])
+
+            if Number then
+                StrokeColorParsed[i] = Number
+            else
+                table.remove(StrokeColorParsed, i)
+            end
+        end
+
+        local StrokeR = tonumber(StrokeColorParsed[1])
+        local StrokeG = tonumber(StrokeColorParsed[2])
+        local StrokeB = tonumber(StrokeColorParsed[3])
+
+        local ESP = Instance.new("Highlight")
+        ESP.Name = "ESP"
+        ESP.Enabled = true
+        
+        if StrokeR == nil then
+            ESP.StrokeTransparency = 1
+        else
+            ESP.StrokeTransparency = 0.5
+            ESP.StrokeColor = Color3.fromRGB(StrokeR, StrokeG, StrokeB)
+        end
+
+        if FillR == nil then
+            ESP.FillTransparency = 1
+        else
+            ESP.FillTransparency = 0.5
+            ESP.FillColor = Color3.fromRGB(FillR, FillG, FillB)
+        end
+
+        ESP.Parent = Character
+    end
+
+    local ESPContainer = Module.Lib:InitItemContainer(VisualsTab, Module.Theme)
+    Module.Lib:SpawnLabel(ESPContainer, Module.Theme, {Text = "ESP",})
+
+    local ESPEnabled = false
+    Module.Lib:SpawnToggle(ESPContainer, Module.Theme, {
+        Text = "ESP-Enabled",
+        DisplayText = "Enabled",
+        Callback = function(Value)
+            ESPEnabled = Value
+
+            if Value then
+                for _, Player in pairs(game.Players:GetPlayers()) do
+                    if Player.Character and not Player.Character:FindFirstChild("ESP") then
+                        AttachESP(Player.Character)
+                    end
+                end
+            else
+                for _, Player in pairs(game.Players:GetPlayers()) do
+                    if Player.Character and Player.Character:FindFirstChild("ESP") then
+                        Player.Character.ESP:Destroy()
+                    end
+                end
+            end
+        end
+    })
+
+    Module.Lib:SpawnLabel(ESPContainer, Module.Theme, {Text = "ESP Color - Leave empty for no fill",})
+    local ESPColor = Module.Lib:SpawnTextBox(ESPContainer, Module.Theme, {
+        Text = "ESP-Color",
+        TextboxText = "255,0,0",
+        PlaceholderText = "R,G,B",
+    })
+
+    Module.Lib:SpawnLabel(ESPContainer, Module.Theme, {Text = "ESP Stroke Color - Leave empty for no stroke",})
+    local ESPStrokeColor = Module.Lib:SpawnTextBox(ESPContainer, Module.Theme, {
+        Text = "ESP-Stroke-Color",
+        TextboxText = "0,0,0",
+        PlaceholderText = "R,G,B",
+    })
+
+    local Connection = game:GetService("Players").LocalPlayer.CharacterAdded:Connect(function(Character)
+        if ESPEnabled then
+            AttachESP(Character)
+        end
+    end)
+
+    while _G.VisionClient.CloseAllThreads == false do
+        task.wait()
+    end
+
+    Connection:Disconnect()
 end
 
 function Module:UtilitiesTabFunctions(UtilitiesTab)

@@ -616,9 +616,9 @@ function Lib:SpawnTextBox(ContainerObject, Theme, TextBoxData)
 
     if _G.VisionClient.LocalConfig[TextBoxData.Text] then
         TextBox.Text = _G.VisionClient.LocalConfig[TextBoxData.Text]
-        TextBoxData.Value = _G.VisionClient.LocalConfig[TextBoxData.Text]
+        TextBoxData.TextboxText = _G.VisionClient.LocalConfig[TextBoxData.Text]
     else
-        _G.VisionClient.LocalConfig[TextBoxData.Text] = TextBox.Text
+        _G.VisionClient.LocalConfig[TextBoxData.Text] = TextBox.TextboxText
     end
 
     TextBox.FocusLost:Connect(function()
@@ -626,7 +626,7 @@ function Lib:SpawnTextBox(ContainerObject, Theme, TextBoxData)
     end)
 
     TextBox:GetPropertyChangedSignal("Text"):Connect(function()
-        TextBoxData.Value = TextBox.Text
+        TextBoxData.TextboxText = TextBox.Text
     end)
 end
 

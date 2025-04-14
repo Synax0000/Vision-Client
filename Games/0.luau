@@ -25,8 +25,24 @@ function Module:Run()
         Title = "Utilities",
     })
 
-    Module.Lib:InitExtras(Module.Lib, Module.UIOBJECT, Module.Theme);
+    Module.HoldingRightClick = false
 
+    game.UserInputService.InputBegan:Connect(function(Input, GameProcessed)
+        if GameProcessed then return end
+        if Input.UserInputType == Enum.UserInputType.MouseButton2 then
+            Module.HoldingRightClick = true
+        end
+    end)
+
+    game.UserInputService.InputEnded:Connect(function(Input, GameProcessed)
+        if GameProcessed then return end
+        if Input.UserInputType == Enum.UserInputType.MouseButton2 then
+            Module.HoldingRightClick = false
+        end
+    end)
+
+    Module.Lib:InitExtras(Module.Lib, Module.UIOBJECT, Module.Theme);
+    
     Module:CombatTabFunctions(Combat)
     Module:MovementTabFunctions(Movement)
     Module:VisualsTabFunctions(Visuals)
@@ -256,15 +272,6 @@ function Module:CombatTabFunctions(CombatTab)
         Number = 150,
     })
 
-    Module.Lib:SpawnLabel(AimAssistContainer, Module.Theme, {Text = "Aim Assist Smoothness",})
-    local AimAssistSmoothnessRange = Module.Lib:SpawnSlider(AimAssistContainer, Module.Theme, {
-        Text = "AimAssist-Smoothness",
-        Min = 0.01,
-        Max = 0.3,
-        RawInt = false,
-        Number = 0.15,
-    })
-
     coroutine.wrap(function()
         while _G.VisionClient.CloseAllThreads == false do
             task.wait()
@@ -313,7 +320,7 @@ function Module:CombatTabFunctions(CombatTab)
                     end
                 end
 
-                if AimAssistEnabled then
+                if AimAssistEnabled and Module.HoldingRightClick then
                     local BestPlayer = Module:GetBestPlayerInFov(AimAssistFOVRange.Number)
 
                     if BestPlayer then
@@ -321,7 +328,7 @@ function Module:CombatTabFunctions(CombatTab)
                         local MousePosition = game:GetService("UserInputService"):GetMouseLocation()     
                         
                         local MousePosition = game.UserInputService:GetMouseLocation()
-                        local Delta = (BestPlayer - MousePosition) * AimAssistSmoothnessRange.Number
+                        local Delta = (BestPlayer - MousePosition) * 0.05
                         mousemoverel(Delta.X, Delta.Y)
                     end
                 end

@@ -20,7 +20,7 @@ function SourceLoader:LoadFolder(FolderName)
                 Method = "GET"
             })
 
-            writefile(FolderName .. "/" .. File.name, FileContent)
+            writefile(FolderName .. "/" .. File.name, game:HttpGet(File.download_url))
         end
     end
 end

@@ -1,6 +1,6 @@
 local DataSystem = {}
 
-function DataSystem:LoadConfigs() 
+function DataSystem:LoadConfigs(PlaceID) 
 end
 
 return DataSystem

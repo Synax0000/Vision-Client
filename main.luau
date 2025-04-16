@@ -9,6 +9,14 @@ _G.VisionGlobals.Modules.AssetSystem = loadstring(readfile("Vision-Client\\Modul
 _G.VisionGlobals.Modules.DataSystem = loadstring(readfile("Vision-Client\\Modules\\DataSystem.luau"))()
 
 _G.VisionGlobals.Modules.AssetSystem:LoadAssetSources()
-_G.VisionGlobals.Modules.DataSystem:LoadConfigs()
+
+local PlaceID = game.PlaceId
+
+if not isfolder("Vision-Client\\Games\\" .. PlaceID .. ".luau") then
+    PlaceID = 0
+end
+
+_G.VisionGlobals.Modules.DataSystem:LoadConfigs(PlaceID)
+loadstring(readfile("Vision-Client\\Games\\" .. PlaceID .. ".luau"))()
 
 

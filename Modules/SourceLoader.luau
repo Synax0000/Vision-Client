@@ -32,13 +32,13 @@ function SourceLoader:LoadSource()
 
     makefolder("Vision-Client")
     local RequiredFolders = {
-        "Vision-Client\\Modules",
-        "Vision-Client\\Games",
-        "Vision-Client\\Assets",
+        "Modules",
+        "Games",
+        "Assets",
     }
 
     for _,Folder in pairs(RequiredFolders) do
-        makefolder(Folder)
+        makefolder("Vision-Client\\" .. Folder)
         SourceLoader:LoadFolder(Folder)
     end
 end

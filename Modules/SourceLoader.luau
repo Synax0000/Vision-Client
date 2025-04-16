@@ -15,7 +15,7 @@ function SourceLoader:LoadFolder(FolderName)
 
     for _,File in pairs(Data) do
         if File.type == "file" then
-            writefile(Vision-Client .. "\\" .. FolderName .. "\\" .. File.name, game:HttpGet(File.download_url))
+            writefile("Vision-Client" .. "\\" .. FolderName .. "\\" .. File.name, game:HttpGet(File.download_url))
         end
     end
 end

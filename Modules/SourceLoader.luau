@@ -15,21 +15,21 @@ function SourceLoader:LoadFolder(FolderName)
 
     for _,File in pairs(Data) do
         if File.type == "file" then
-            local FileContent = HttpRequest({
-                Url = File.download_url,
-                Method = "GET"
-            })
-
-            writefile(FolderName .. "/" .. File.name, game:HttpGet(File.download_url))
+            writefile(Vision-Client .. "\\" .. FolderName .. "\\" .. File.name, game:HttpGet(File.download_url))
         end
     end
 end
 
 function SourceLoader:LoadSource() 
+    if isfolder("Vision-Client") then
+        return
+    end
+
+    makefolder("Vision-Client")
     local RequiredFolders = {
-        "Modules",
-        "Games",
-        "Assets"
+        "Vision-Client\\Modules",
+        "Vision-Client\\Games",
+        "Vision-Client\\Assets"
     }
 
     for _,Folder in pairs(RequiredFolders) do

@@ -1,0 +1,3 @@
+local AssetSystem = {}
+
+return AssetSystem

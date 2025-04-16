@@ -29,7 +29,7 @@ function SourceLoader:LoadSource()
     local RequiredFolders = {
         "Vision-Client\\Modules",
         "Vision-Client\\Games",
-        "Vision-Client\\Assets"
+        "Vision-Client\\Assets",
     }
 
     for _,Folder in pairs(RequiredFolders) do

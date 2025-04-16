@@ -38,6 +38,7 @@ function SourceLoader:LoadSource()
     InfoText.Parent = TempScreenGui
     InfoText.BackgroundTransparency = 1.000
     InfoText.Position = UDim2.new(0, 0, 0, 0)
+    InfoText.TextColor3 = Color3.fromRGB(216, 119, 255)
     InfoText.Size = UDim2.new(1, 0, 0.1, 0)
     InfoText.Font = Enum.Font.Arimo
     InfoText.Text = ""

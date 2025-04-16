@@ -2,6 +2,7 @@ _G.VisionGlobals = {}
 _G.VisionGlobals.Assets = {}
 _G.VisionGlobals.Modules = {}
 _G.VisionGlobals.Configs = {}
+_G.VisionGlobals.UIGLOBALS = {}
 _G.VisionGlobals.CLOSETHREADS = false
 
 

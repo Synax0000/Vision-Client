@@ -29,10 +29,6 @@ function SourceLoader:LoadFolder(FolderName, InfoText)
 end
 
 function SourceLoader:LoadSource() 
-    if isfolder("Vision-Client") then
-        return
-    end
-
     local TempScreenGui = Instance.new("ScreenGui")
     TempScreenGui.Name = "Vision-Client"
     TempScreenGui.Parent = game.CoreGui
@@ -52,12 +48,21 @@ function SourceLoader:LoadSource()
         "Modules",
         "Games",
         "Assets",
+        "Configs",
+        "Themes"
     }
 
     for _,Folder in pairs(RequiredFolders) do
         InfoText.Text = "Loading Folder'" .. Folder .. "'..."
         makefolder("Vision-Client\\" .. Folder)
-        SourceLoader:LoadFolder(Folder, InfoText)
+
+        local s,e = pcall(function()
+            SourceLoader:LoadFolder(Folder, InfoText)
+        end)
+
+        if not s and Folder ~= "Configs" then
+            print(e)
+        end
     end
 
     TempScreenGui:Destroy()

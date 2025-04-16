@@ -16,6 +16,8 @@ function DataSystem:LoadConfigs(PlaceID)
         writefile("Vision-Client\\Configs\\GlobalConfig.json", HttpService:JSONEncode(_G.VisionGlobals.Configs.GlobalConfig))
         writefile("Vision-Client\\Configs\\" .. PlaceID .. ".json", HttpService:JSONEncode(_G.VisionGlobals.Configs.PlaceConfig))
     end
+
+    _G.VisionGlobals.Configs.GlobalConfig.ThemeData = loadstring(readfile("Vision-Client\\Themes\\" .. _G.VisionGlobals.Configs.GlobalConfig.Theme .. ".luau"))()
 end
 
 return DataSystem

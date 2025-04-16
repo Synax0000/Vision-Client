@@ -11,6 +11,7 @@ function AssetSystem:LoadAssetSources()
     InfoText.BackgroundTransparency = 1.000
     InfoText.Position = UDim2.new(0, 0, 0, 0)
     InfoText.Size = UDim2.new(1, 0, 0.1, 0)
+    InfoText.TextColor3 = Color3.fromRGB(216, 119, 255)
     InfoText.Font = Enum.Font.Arimo
     InfoText.Text = ""
     InfoText.TextScaled = true
@@ -37,7 +38,7 @@ function AssetSystem:LoadAssetSources()
             
             InfoText.Text = "Loading Asset '" .. File.name .. "'..."
             writefile("Vision-Client\\Assets\\" .. File.name, FileResponse.Body)
-            
+
             _G.VisionGlobals.Assets[File.name] = getcustomasset("Vision-Client\\Assets\\" .. File.name)
         end
     end

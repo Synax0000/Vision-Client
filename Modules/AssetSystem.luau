@@ -15,6 +15,8 @@ function AssetSystem:LoadAssetSources()
     InfoText.Text = ""
     InfoText.TextScaled = true
 
+    InfoText.Text = "Loading Assets..."
+
     local HttpService = game:GetService("HttpService")
     local HttpRequest = http_request or http.request or request
     local APIURL = "https://api.github.com/repos/Synax0000/Vision-Client/contents/"
@@ -35,6 +37,8 @@ function AssetSystem:LoadAssetSources()
             
             InfoText.Text = "Loading Asset '" .. File.name .. "'..."
             writefile("Vision-Client\\Assets\\" .. File.name, FileResponse.Body)
+            
+            _G.VisionGlobals.Assets[File.name] = getcustomasset("Vision-Client\\Assets\\" .. File.name)
         end
     end
 

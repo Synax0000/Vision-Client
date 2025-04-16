@@ -34,7 +34,7 @@ function SourceLoader:LoadSource()
 
     for _,Folder in pairs(RequiredFolders) do
         makefolder(Folder)
-        SourceLoader:LoadFolder(FolderName)
+        SourceLoader:LoadFolder(Folder)
     end
 end
 

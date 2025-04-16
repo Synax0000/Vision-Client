@@ -51,7 +51,7 @@ function UILib:Init()
     VisionLogo.BorderSizePixel = 0
     VisionLogo.Position = UDim2.new(0.00767263444, 0, 0.0136815924, 0)
     VisionLogo.Size = UDim2.new(0, 100, 0, 100)
-    VisionLogo.Image = _G.VisionGlobals.Assets.Logo["visionclientlogo/png"]
+    VisionLogo.Image = _G.VisionGlobals.Assets["visionclientlogo.png"]
 
     Background.Name = "Background"
     Background.Parent = VisionClient
@@ -65,7 +65,7 @@ function UILib:Init()
     _G.VisionGlobals.UIGLOBALS.VisionClientUI = VisionClient
 
     UILib:AttachDrag(VisionLogo) 
-    
+
     game.UserInputService.InputBegan:Connect(function(Input)
         if Input.UserInputType == Enum.KeyCode[_G.VisionGlobals.Configs.Keybind] then
             VisionClient.Enabled = not VisionClient.Enabled

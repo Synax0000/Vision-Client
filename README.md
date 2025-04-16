@@ -20,7 +20,7 @@
 # Usage
 Simply paste this loadstring into your executor of choice and run it.
 ```lua
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/main/loader.luau"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Synax0000/Vision-Client/main/main.luau"))()
 ```
 
 # Bug Report

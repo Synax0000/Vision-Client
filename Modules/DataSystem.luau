@@ -1,0 +1,3 @@
+local DataSystem = {}
+
+return DataSystem

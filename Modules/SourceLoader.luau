@@ -11,7 +11,7 @@ function SourceLoader:LoadFolder(FolderName)
         Method = "GET"
     })
 
-    local Data = HttpService:JSONDecode(Response)
+    local Data = HttpService:JSONDecode(Response.Body)
 
     for _,File in pairs(Data) do
         if File.type == "file" then

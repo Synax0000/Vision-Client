@@ -33,6 +33,244 @@ function UILib:AttachDrag(Object)
     end)
 end
 
+function UILib:InitSettings(Container, SettingsData) 
+    local UIListLayout = Instance.new("UIListLayout")
+    local Settings = Instance.new("ScrollingFrame")
+
+    Settings.Name = "Settings"
+    Settings.Parent = Container
+    Settings.Active = true
+    Settings.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    Settings.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Settings.BorderSizePixel = 0
+    Settings.Position = UDim2.new(0, 0, 0.0679245293, 0)
+    Settings.Size = UDim2.new(1, 0, 0, 0)
+    Settings.ScrollBarThickness = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.ScrollBarThickness
+    Settings.ScrollBarImageColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.ScrollBarColor
+    Settings.ScrollBarImageTransparency = 1
+
+    UIListLayout.Parent = Settings 
+    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+    local s,e = pcall(function()
+        for Key,Data in pairs(SettingsData) do
+            if Data["Type"] == "Toggle" then
+                local Button = Instance.new("TextButton")
+                local Bar = Instance.new("Frame")
+
+                Button.Name = "Button"
+                Button.Parent = Settings
+                Button.BackgroundColor3 = Color3.fromRGB(17, 17, 17)
+                Button.BackgroundTransparency = 1.000
+                Button.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                Button.BorderSizePixel = 0
+                Button.Position = UDim2.new(0, 0, 0.159999996, 0)
+                Button.Size = UDim2.new(1, 0, 0.02678832, 0)
+                Button.Font = Enum.Font.Arial
+                Button.TextColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.TextColor
+                Button.TextScaled = true
+                Button.TextSize = 14.000
+                Button.TextWrapped = true
+
+                Bar.Name = "Bar"
+                Bar.Parent = Button
+                Bar.BackgroundColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.ButtonToggledColor
+                Bar.BackgroundTransparency = 0.800
+                Bar.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                Bar.BorderSizePixel = 0
+                Bar.Size = UDim2.new(0, 0, 1, 0)
+
+                local Enabled = false
+
+                Button.MouseButton1Click:Connect(function()
+                    if Bar.Size.X.Scale <= 0 then
+                        Enabled = true
+                        Data["Callback"](true)
+
+                        Bar.BackgroundColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.ButtonToggledColor
+                        Bar:TweenSize(UDim2.new(1, 0, 1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Sine, 0.3, true)
+                        
+                    else
+                        Enabled = false
+                        Data["Callback"](false)
+                        
+                        Bar.BackgroundColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.ButtonToggledColor
+                        Bar:TweenSize(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Sine, 0.3, true)
+                    end
+                end)
+
+                Button.MouseEnter:Connect(function()
+                    if not Enabled then
+                        Bar.BackgroundColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.ButtonHoverColor
+                        Bar:TweenSize(UDim2.new(1, 0, 1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Sine, 0.3, true)
+                    end
+                end)
+
+                Button.MouseLeave:Connect(function()
+                    if not Enabled then
+                        Bar.BackgroundColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.ButtonToggledColor
+                        Bar:TweenSize(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Sine, 0.3, true)
+                    end
+                end)
+            elseif Data["Type"] == "Button" then
+                local Button = Instance.new("TextButton")
+                local Bar = Instance.new("Frame")
+
+                Button.Name = "Button"
+                Button.Parent = Settings
+                Button.BackgroundColor3 = Color3.fromRGB(17, 17, 17)
+                Button.BackgroundTransparency = 1.000
+                Button.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                Button.BorderSizePixel = 0
+                Button.Position = UDim2.new(0, 0, 0.159999996, 0)
+                Button.Size = UDim2.new(1, 0, 0.02678832, 0)
+                Button.Font = Enum.Font.Arial
+                Button.TextColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.TextColor
+                Button.TextScaled = true
+                Button.TextSize = 14.000
+                Button.TextWrapped = true
+
+                Bar.Name = "Bar"
+                Bar.Parent = Button
+                Bar.BackgroundColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.ButtonToggledColor
+                Bar.BackgroundTransparency = 0.800
+                Bar.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                Bar.BorderSizePixel = 0
+                Bar.Size = UDim2.new(0, 0, 1, 0)
+
+                local ButtonTweenFull = game:GetService("TweenService"):Create(Bar, TweenInfo.new(0.3), {Size = UDim2.new(1, 0, 1, 0)})
+                local ButtonTweenEmpty = game:GetService("TweenService"):Create(Bar, TweenInfo.new(0.3), {Size = UDim2.new(0, 0, 1, 0)})
+
+                Button.MouseButton1Click:Connect(function()
+                    Data["Callback"]()
+                end)
+
+                Button.MouseButton1Down:Connect(function()
+                    Bar.BackgroundColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.ButtonHoverColor
+                end)
+
+                Button.MouseButton1Up:Connect(function()
+                    Bar.BackgroundColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.ButtonToggledColor
+                end)
+
+                Button.MouseEnter:Connect(function()
+                    Bar.BackgroundColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.ButtonHoverColor
+                    ButtonTweenFull:Play()
+                end)
+
+                Button.MouseLeave:Connect(function()
+                    Bar.BackgroundColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.ButtonToggledColor
+                    ButtonTweenEmpty:Play()
+                end)
+            elseif Data["Type"] == "Label" then
+                local Label = Instance.new("TextLabel")
+
+                Label.Name = "Label"
+                Label.Text = Data["Text"]
+                Label.Parent = Settings
+                Label.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+                Label.BackgroundTransparency = 0.800
+                Label.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                Label.BorderSizePixel = 0
+                Label.Size = UDim2.new(1, 0, 0.02678832, 0)
+                Label.Font = Enum.Font.Arimo
+                Label.TextColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.TextColor
+                Label.TextScaled = true
+                Label.TextSize = 14.000
+                Label.TextWrapped = true
+            elseif Data["Type"] == "Slider" then
+                local Slider = Instance.new("Frame")
+                local SliderBackground = Instance.new("Frame")
+                local UICorner = Instance.new("UICorner")
+                local SliderBar = Instance.new("Frame")
+                local UICorner_2 = Instance.new("UICorner")
+                local SliderDisplay = Instance.new("TextLabel")
+
+                Slider.Name = "Slider"
+                Slider.Parent = Settings
+                Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                Slider.BackgroundTransparency = 1.000
+                Slider.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                Slider.BorderSizePixel = 0
+                Slider.Position = UDim2.new(0, 0, 0.319999993, 0)
+                Slider.Size = UDim2.new(1, 0, 0.02678832, 0)
+
+                SliderBackground.Name = "SliderBackground"
+                SliderBackground.Parent = Slider
+                SliderBackground.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+                SliderBackground.BackgroundTransparency = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.SliderBackgroundTransparency
+                SliderBackground.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                SliderBackground.BorderSizePixel = 0
+                SliderBackground.Position = UDim2.new(0.100000001, 0, 0.200000003, 0)
+                SliderBackground.Size = UDim2.new(0.800000012, 0, 0.615384638, 0)
+
+                UICorner.Parent = SliderBackground
+
+                SliderBar.Name = "SliderBar"
+                SliderBar.Parent = Slider
+                SliderBar.BackgroundColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.SliderBarColor
+                SliderBar.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                SliderBar.BorderSizePixel = 0
+                SliderBar.Position = UDim2.new(0.100000001, 0, 0.200000003, 0)
+                SliderBar.Size = UDim2.new(0.800000012, 0, 0.615384638, 0)
+
+                UICorner_2.Parent = SliderBar
+
+                SliderDisplay.Name = "SliderDisplay"
+                SliderDisplay.Parent = Slider
+                SliderDisplay.BackgroundTransparency = 1
+                SliderDisplay.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                SliderDisplay.BorderSizePixel = 0
+                SliderDisplay.Position = UDim2.new(0.100000001, 0, 0.192307696, 0)
+                SliderDisplay.Size = UDim2.new(0.800000012, 0, 0.615384638, 0)
+                SliderDisplay.Font = Enum.Font.Arimo
+                SliderDisplay.TextColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.SliderBarColor
+                SliderDisplay.TextScaled = true
+                SliderDisplay.TextSize = 14.000
+                SliderDisplay.TextTransparency = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.SliderBarTextTransparency
+                SliderDisplay.TextWrapped = true
+
+                local SliderDragging = false
+                local UserInputService = game:GetService("UserInputService")
+                
+                local NormalizedInitialValue = (Data["CurrentValue"] - Data["MinValue"]) / (Data["MaxValue"] - Data["MinValue"])
+                SliderBar.Size = UDim2.new(NormalizedInitialValue, 0, SliderBar.Size.Y.Scale, 0)
+                Data["Value"] = Data["CurrentValue"]
+                SliderDisplay.Text = Data["DisplayText"] .. tostring(Data["CurrentValue"]) .. "/" .. tostring(Data["MaxValue"])
+                
+                SliderBackground.InputBegan:Connect(function(Input)
+                    if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+                        SliderDragging = true
+                    end
+                end)
+                
+                UserInputService.InputEnded:Connect(function(Input)
+                    if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+                        SliderDragging = false
+                    end
+                end)
+                
+                UserInputService.InputChanged:Connect(function(Input)
+                    if SliderDragging and Input.UserInputType == Enum.UserInputType.MouseMovement then
+                        local RelativeX = math.clamp((Input.Position.X - SliderBackground.AbsolutePosition.X) / SliderBackground.AbsoluteSize.X, 0, 1)
+                        local CurrentValue = math.floor((RelativeX * (Data["MaxValue"] - Data["MinValue"])) + Data["MinValue"])
+                        local NormalizedX = (CurrentValue - Data["MinValue"]) / (Data["MaxValue"] - Data["MinValue"])
+                        SliderBar.Size = UDim2.new(NormalizedX, 0, SliderBar.Size.Y.Scale, 0)
+                        Data["Value"] = CurrentValue
+                        SliderDisplay.Text = Data["DisplayText"] .. tostring(CurrentValue) .. "/" .. tostring(Data["MaxValue"])
+                    end
+                end)            
+            end
+        end
+    end)
+
+    if not s then 
+        warn(e)
+    end
+
+    return Settings
+end
+
 function UILib:InitItem(ItemData, Container) 
     local Item = Instance.new("TextButton")
     local DropdownDots = Instance.new("ImageButton")
@@ -66,6 +304,7 @@ function UILib:InitItem(ItemData, Container)
     DropdownDots.AutoButtonColor = false
     DropdownDots.Image = _G.VisionGlobals.Assets["threedots.png"]
     DropdownDots.ZIndex = 3
+    DropdownDots.Rotation = 180
 
     Bar.Name = "Bar"
     Bar.Parent = Item
@@ -75,40 +314,33 @@ function UILib:InitItem(ItemData, Container)
     Bar.Size = UDim2.new(0, 0, 1, 0)
     Bar.ZIndex = 2
 
-    local BarTweenFull = game:GetService("TweenService"):Create(Bar, TweenInfo.new(0.3), {Size = UDim2.new(1, 0, 1, 0)})
-    local BarTweenEmpty = game:GetService("TweenService"):Create(Bar, TweenInfo.new(0.3), {Size = UDim2.new(0, 0, 1, 0)})
-
     local TweenButtonTextColorBlack = game:GetService("TweenService"):Create(Item, TweenInfo.new(0.3), {TextColor3 = Color3.fromRGB(0, 0, 0)})
     local TweenButtonTextColorNormal = game:GetService("TweenService"):Create(Item, TweenInfo.new(0.3), {TextColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.TextColor})
 
     local Enabled = false
     
     Item.MouseButton1Click:Connect(function()
-        if Bar.Size.X.Offset <= 0 then
+        if Bar.Size.X.Scale <= 0 then
+            Enabled = true
+            ItemData["Callback"](true)
+
             Bar.BackgroundColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.ButtonToggledColor
-            BarTweenFull:Play()
+            Bar:TweenSize(UDim2.new(1, 0, 1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Sine, 0.3, true)
             TweenButtonTextColorBlack:Play()
-
-            BarTweenFull.Completed:Connect(function()
-                ItemData["Callback"](true)
-                Enabled = true
-            end)
         else
-            Bar.BackgroundColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.ButtonToggledColor
-            BarTweenEmpty:Play()
-            TweenButtonTextColorNormal:Play()
+            Enabled = false
+            ItemData["Callback"](false)
 
-            BarTweenEmpty.Completed:Connect(function()
-                ItemData["Callback"](false)
-                Enabled = false
-            end)
+            Bar.BackgroundColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.ButtonToggledColor
+            Bar:TweenSize(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Sine, 0.3, true)
+            TweenButtonTextColorNormal:Play()
         end
     end)
 
     Item.MouseEnter:Connect(function()
         if not Enabled then
             Bar.BackgroundColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.ButtonHoverColor
-            BarTweenFull:Play()
+            Bar:TweenSize(UDim2.new(1, 0, 1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Sine, 0.3, true)
             TweenButtonTextColorBlack:Play()
         end
     end)
@@ -116,8 +348,32 @@ function UILib:InitItem(ItemData, Container)
     Item.MouseLeave:Connect(function()
         if not Enabled then
             Bar.BackgroundColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.ButtonHoverColor
-            BarTweenEmpty:Play()
+            Bar:TweenSize(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Sine, 0.3, true)
             TweenButtonTextColorNormal:Play()
+        end
+    end)
+
+    local Settings = UILib:InitSettings(Container, ItemData["Settings"])
+    local SettingsFullY = 0.258490562
+
+    local SettingsTweenFull = game:GetService("TweenService"):Create(Settings, TweenInfo.new(0.3), {Size = UDim2.new(1, 0, SettingsFullY, 0)})
+    local SettingsTweenEmpty = game:GetService("TweenService"):Create(Settings, TweenInfo.new(0.3), {Size = UDim2.new(1, 0, 0, 0)})
+
+    local DropdownDotsRotated = game:GetService("TweenService"):Create(DropdownDots, TweenInfo.new(0.3), {Rotation = -180})
+    local DropdownDotsNotRotated = game:GetService("TweenService"):Create(DropdownDots, TweenInfo.new(0.3), {Rotation = 180})
+
+    DropdownDots.MouseButton1Click:Connect(function()
+        if DropdownDots.Rotation == 180 then
+            DropdownDotsRotated:Play()
+            SettingsTweenFull:Play()
+
+            SettingsTweenFull.Completed:Connect(function()
+                Settings.ScrollBarImageTransparency = 1
+            end)
+        else
+            DropdownDotsNotRotated:Play()
+            SettingsTweenEmpty:Play()
+            Settings.ScrollBarImageTransparency = 1
         end
     end)
 end
@@ -199,6 +455,7 @@ function UILib:InitTab(TabData,TabPosition)
     Dropdown.BorderSizePixel = 0
     Dropdown.Position = UDim2.new(0, 0, 1, 0)
     Dropdown.Size = UDim2.new(1, 0, 13.25, 0)
+    Dropdown.ScrollBarImageColor3 = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.ScrollBarColor
     Dropdown.ScrollBarThickness = _G.VisionGlobals.Configs.GlobalConfig.ThemeData.ScrollBarThickness
 
     UIListLayout.Parent = Dropdown

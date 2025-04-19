@@ -15,4 +15,9 @@ return {
     ButtonHoverColor = Color3.fromRGB(170, 85, 255),
     ButtonToggledTextColor = Color3.fromRGB(0,0,0),
     ButtonBackgroundTransparency = 1,
+
+    SliderBackgroundTransparency = 0.8,
+    SliderBarColor = Color3.fromRGB(170, 85, 255),
+    SliderBarTextTransparency = 1,
+    SliderBarTextColor = Color3.fromRGB(0,0,0),
 }

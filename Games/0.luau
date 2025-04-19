@@ -1,3 +1,7 @@
 local UILIB = _G.VisionGlobals.Modules.UILib
 
-UILIB:Init()
+UIDATA = {
+    
+}
+
+UILIB:Init(UIDATA)
